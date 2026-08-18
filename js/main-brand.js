@@ -5,8 +5,8 @@
    Every counter on the page reads its value from the
    data-count attribute in index.html. Search index.html for
    `data-count` to swap them all in one pass before launch.
-   Current placeholders: 640 waitlist · 100 investor seats ·
-   50 startup seats · 24 partners · 18 cities · stat-card %s.
+   Current placeholders: 640 waitlist · 50 startup seats ·
+   12 sectors · 18 cities · stat-card %s.
    ========================================================= */
 
 (function () {
@@ -149,13 +149,18 @@
     const p = Math.max(0, Math.min(1, -r.top / scrollable));
     const n = stackCards.length;
     const enterFrom = stackCardsWrap.offsetWidth + 48;
+    const cardWidth = stackCards[0].offsetWidth;
+    const maxOffset = Math.max(stackCardsWrap.offsetWidth - cardWidth, 0);
+    const step = n > 1 ? Math.min(cardWidth * 0.7, maxOffset / (n - 1)) : 0;
 
     stackCards.forEach((card, i) => {
       card.style.zIndex = i + 1;
+      const landedX = i * step;
 
-      // Card 1 stays put; each next card slides in from the right and stacks at x=0.
+      // Card 1 stays put; each next card slides in from the right and settles
+      // about 70% across the previous card while still fitting in the wrapper.
       if (i === 0) {
-        card.style.transform = 'translate3d(0,0,0)';
+        card.style.transform = 'translate3d(0,-50%,0)';
         return;
       }
 
@@ -163,13 +168,14 @@
       const segEnd = i / (n - 1);
 
       if (p >= segEnd) {
-        card.style.transform = 'translate3d(0,0,0)';
+        card.style.transform = `translate3d(${landedX}px,-50%,0)`;
       } else if (p <= segStart) {
-        card.style.transform = `translate3d(${enterFrom}px,0,0)`;
+        card.style.transform = `translate3d(${enterFrom}px,-50%,0)`;
       } else {
         const t = (p - segStart) / (segEnd - segStart);
         const eased = 1 - Math.pow(1 - t, 3);
-        card.style.transform = `translate3d(${enterFrom * (1 - eased)}px,0,0)`;
+        const x = landedX + (enterFrom - landedX) * (1 - eased);
+        card.style.transform = `translate3d(${x}px,-50%,0)`;
       }
     });
   }
@@ -245,7 +251,6 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const email = emailEl.value.trim();
-      const role = ($('input[name="role"]:checked', form) || {}).value || 'investor';
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
         if (msgEl) {
@@ -259,7 +264,7 @@
         return;
       }
 
-      const payload = { email, role, ts: new Date().toISOString() };
+      const payload = { email, role: 'startup', ts: new Date().toISOString() };
       console.log('[WeFundCo] waitlist submission →', payload); // TODO: POST to your endpoint
 
       if (msgEl) {
