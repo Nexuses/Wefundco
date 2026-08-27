@@ -147,9 +147,9 @@
 
 <!-- ============ 02 · CHOOSE YOUR PATH ============ -->
 <section class="section paths" id="paths">
-  <div class="container">
-    <p class="eyebrow reveal">Choose your path</p>
-    <h2 class="display display--lg reveal" data-delay="80">Which side of the<br>table are you on?</h2>
+  <div class="container paths--center">
+    <p class="eyebrow eyebrow--center reveal">Choose your path</p>
+    <h2 class="display display--lg display--center reveal" data-delay="80"><span class="display__accent">Which side</span> of the<br>table are you on?</h2>
 
     <div class="paths__grid paths__grid--3">
 
@@ -324,7 +324,7 @@
   <div class="stack-sticky">
     <div class="container stack__head">
       <p class="eyebrow">Why WeFundCo</p>
-      <h2 class="stack__title">Built differently from everything else in this market. Most platforms give you a list. We give you a match.</h2>
+      <h2 class="stack__title">Built differently from everything else in this market. Most platforms give you a list. <span class="display__accent">We give you a match.</span></h2>
       <a href="waitlist.html" class="btn btn--dark stack__cta">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
     </div>
 
@@ -368,40 +368,51 @@
 
 
 <!-- ============ 06 · WEFUNDCO VERIFIED ============ -->
-<section class="section partners" id="verified">
-  <div class="container">
-    <p class="eyebrow reveal">WeFundCo Verified</p>
-    <h2 class="display display--lg reveal" data-delay="80">Every profile<br><span class="display__accent">earns its place.</span></h2>
-    <p class="lede lede--left reveal" data-delay="140">Joining the waitlist is open. Being on the platform is not. Every startup, investor and partner is reviewed before becoming visible to anyone else. Entity verified. Team verified. Claims verified. This is not a badge. It is a standard.</p>
+<section class="section partners partners--verified" id="verified">
+  <div class="container partners--verified__inner">
+    <p class="eyebrow eyebrow--center reveal">WeFundCo Verified</p>
+    <h2 class="display display--lg display--center reveal" data-delay="80">Every profile<br><span class="display__accent">earns its place.</span></h2>
+    <p class="lede lede--center reveal" data-delay="140">Joining the waitlist is open. Being on the platform is not. Every startup, investor and partner is reviewed before becoming visible to anyone else. Entity verified. Team verified. Claims verified. This is not a badge. It is a standard.</p>
 
-    <div class="partners__grid">
-      <div class="partner-tile reveal" data-delay="60">
-        <img class="partner-tile__icon" src="Assets/dark-icons/Profile.png" alt="" />
-        <span>Level 01 &middot; Identity verification</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="100">
-        <img class="partner-tile__icon" src="Assets/dark-icons/verify.png" alt="" />
-        <span>Level 02 &middot; Business verification</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="140">
-        <img class="partner-tile__icon" src="Assets/dark-icons/doumentation.png" alt="" />
-        <span>Level 03 &middot; Documentation review</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="180">
-        <img class="partner-tile__icon" src="Assets/dark-icons/Legal.png" alt="" />
-        <span>Level 04 &middot; Legal and compliance</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="220">
-        <img class="partner-tile__icon" src="Assets/dark-icons/Compliance.png" alt="" />
-        <span>Level 05 &middot; Investor readiness</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="260">
-        <img class="partner-tile__icon" src="Assets/dark-icons/Brand.png" alt="" />
-        <span>Verified badge, trust score, readiness index</span>
-      </div>
+    <div class="verify-process reveal" data-delay="160">
+      <div class="verify-process__line" aria-hidden="true"></div>
+      <ol class="verify-process__steps">
+        <li class="verify-process__step reveal" data-delay="60">
+          <div class="verify-process__circle">
+            <img src="Assets/dark-icons/Profile.png" alt="" />
+          </div>
+          <p class="verify-process__label">Level 01 &middot; Identity verification</p>
+        </li>
+        <li class="verify-process__step reveal" data-delay="100">
+          <div class="verify-process__circle">
+            <img src="Assets/dark-icons/verify.png" alt="" />
+          </div>
+          <p class="verify-process__label">Level 02 &middot; Business verification</p>
+        </li>
+        <li class="verify-process__step reveal" data-delay="140">
+          <div class="verify-process__circle">
+            <img src="Assets/dark-icons/doumentation.png" alt="" />
+          </div>
+          <p class="verify-process__label">Level 03 &middot; Documentation review</p>
+        </li>
+        <li class="verify-process__step reveal" data-delay="180">
+          <div class="verify-process__circle">
+            <img src="Assets/dark-icons/Legal.png" alt="" />
+          </div>
+          <p class="verify-process__label">Level 04 &middot; Legal and compliance</p>
+        </li>
+        <li class="verify-process__step reveal" data-delay="220">
+          <div class="verify-process__circle">
+            <img src="Assets/dark-icons/Compliance.png" alt="" />
+          </div>
+          <p class="verify-process__label">Level 05 &middot; Investor readiness</p>
+        </li>
+      </ol>
     </div>
 
-    <a href="waitlist.html" class="btn btn--dark reveal" data-delay="300">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+    <div class="partners--verified__cta reveal" data-delay="260">
+      <a href="waitlist.html" class="btn btn--dark">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+    </div>
   </div>
 
   <div class="marquee">
@@ -466,11 +477,11 @@
 
 
 <!-- ============ 08 · STRATEGIC PARTNERS ============ -->
-<section class="section partners" id="partners">
+<section class="section partners partners--growth" id="partners">
   <div class="container">
-    <p class="eyebrow reveal">Strategic Partners</p>
-    <h2 class="display display--lg reveal" data-delay="80">The people founders<br>need between rounds</h2>
-    <p class="lede lede--left reveal" data-delay="140">A funding conversation needs more than two people in it. Legal, financial, banking, compliance and technology partners join WeFundCo as the Growth Network, supporting founders through the parts of the journey that are easy to get wrong.</p>
+    <p class="eyebrow eyebrow--center reveal">Strategic Partners</p>
+    <h2 class="display display--lg display--center reveal" data-delay="80">The people founders<br>need <span class="display__accent">between rounds</span></h2>
+    <p class="lede lede--center reveal" data-delay="140">A funding conversation needs more than two people in it. Legal, financial, banking, compliance and technology partners join WeFundCo as the Growth Network, supporting founders through the parts of the journey that are easy to get wrong.</p>
 
     <div class="partners__grid">
       <div class="partner-tile reveal" data-delay="60">
@@ -499,7 +510,9 @@
       </div>
     </div>
 
-    <a href="waitlist.html" class="btn btn--dark reveal" data-delay="300">Become a strategic partner <span class="btn__arrow">&rarr;</span></a>
+    <div class="partners--growth__cta">
+      <a href="waitlist.html" class="btn btn--dark reveal" data-delay="300">Become a strategic partner <span class="btn__arrow">&rarr;</span></a>
+    </div>
   </div>
 </section>
 
