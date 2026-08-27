@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WeFundCo: India has great startups and great investors. They just never find each other.</title>
+<meta name="description" content="WeFundCo connects verified founders and investors in India by thesis, sector, stage and ticket size. No warm intro required. Both sides are verified before they meet. Join the waitlist." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles-brand.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Does joining the waitlist guarantee access?","acceptedAnswer":{"@type":"Answer","text":"No. It is the first step. After joining, you will be invited to complete a verified profile. Access is granted only after review. Not everyone who applies will be onboarded."}},
+    {"@type":"Question","name":"What does verification involve?","acceptedAnswer":{"@type":"Answer","text":"For startups: an incorporated entity, a real team, and claims supported by documentation. For investors: verified identity and active deployment. Most reviews are completed within a few business days."}},
+    {"@type":"Question","name":"Will my pitch deck get shared without my knowledge?","acceptedAnswer":{"@type":"Answer","text":"Never. Nothing is shared without your approval. You decide whether to connect, when, and with whom."}},
+    {"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"Free for the founding cohort of startups. Free for the first 100 verified investors. Pricing for subsequent members will be announced at launch."}},
+    {"@type":"Question","name":"Is WeFundCo only for metro startups?","acceptedAnswer":{"@type":"Answer","text":"Definitely not. If you are building in Coimbatore, Indore, Lucknow or anywhere else in India and your business is strong, you belong here. Sector, stage and traction are what matter. Not your postcode."}},
+    {"@type":"Question","name":"Is the platform live yet?","acceptedAnswer":{"@type":"Answer","text":"Not yet. We are in pre-launch. When we go live, everyone on the waitlist is notified first. Founding cohort members get first access and first visibility."}},
+    {"@type":"Question","name":"Is WeFundCo a broker or an adviser?","acceptedAnswer":{"@type":"Answer","text":"No. WeFundCo is a discovery and introduction platform. It does not raise capital, execute transactions or give investment advice. Every decision stays with you."}}
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- ============ ANNOUNCEMENT BAR ============ -->
+<div class="announce" id="announce">
+  <div class="announce__inner">
+    <span class="announce__dot"></span>
+    <span>Founding Cohort now forming</span>
+    <span class="announce__sep">&rarr;</span>
+    <a href="waitlist.html" class="announce__link">Join the Waitlist</a>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo" aria-label="WeFundCo home">
+      <img src="Assets/WeFundCo-color.png" alt="WeFundCo" class="nav__logo-img" />
+    </a>
+
+    <nav class="nav__links" id="navLinks">
+      <a href="#paths">For Investors</a>
+      <a href="#paths">For Startups</a>
+      <a href="#why">Why WeFundCo</a>
+      <a href="#verified">Verification</a>
+      <a href="#events">Events</a>
+      <a href="#resources">Resources</a>
+    </nav>
+
+    <a href="waitlist.html" class="btn btn--pill"><span>Join<span class="btn__long"> the Waitlist</span></span><span class="btn__arrow">&rarr;</span></a>
+
+    <button class="nav__burger" id="navBurger" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ 01 · HERO ============ -->
+<section class="hero">
+  <div class="container hero__head">
+    <p class="eyebrow reveal">Verified startup discovery, India</p>
+
+    <h1 class="display display--xl hero__title">
+      <span class="line"><span>India has great startups</span></span>
+      <span class="line"><span>and great investors.</span></span>
+      <span class="line"><span>They just never find each other.</span></span>
+    </h1>
+
+    <p class="lede reveal" data-delay="120">
+      WeFundCo connects verified founders and investors by thesis, sector, stage and ticket size.
+      No warm intro required. Both sides are verified before they meet.
+    </p>
+
+    <div class="hero__cta reveal" data-delay="200">
+      <form class="hero-form" id="heroWaitlistForm" novalidate>
+        <div class="hero-form__row">
+          <input type="email" id="heroEmail" placeholder="you@company.com" required />
+          <button type="submit" class="btn btn--dark">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
+        </div>
+      </form>
+      <div class="hero__proof">
+        <div class="avatars">
+          <img src="Assets/demo-images/img (1).png" alt="" />
+          <img src="Assets/demo-images/img (2).png" alt="" />
+          <img src="Assets/demo-images/img (3).png" alt="" />
+          <img src="Assets/demo-images/img (4).png" alt="" />
+        </div>
+        <p><strong data-count="640" data-suffix="+">0</strong> founders and investors already signed up</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- horizontal drifting image strip -->
+  <div class="strip" id="strip">
+    <div class="strip__track" id="stripTrack">
+
+      <figure class="strip__card">
+        <img src="Assets/demo-images/img (1).png" alt="Founding team in a working session" />
+        <img class="strip__overlay strip__overlay--br" src="Assets/dashboard (2).png" alt="" />
+        <figcaption class="chip chip--white">
+          <strong>Seed &middot; SaaS</strong>
+          <span>Profile verified</span>
+        </figcaption>
+      </figure>
+
+      <figure class="strip__card strip__card--tint">
+        <img class="strip__dash" src="Assets/dashboard (1).png" alt="Calendar widget" />
+      </figure>
+
+      <figure class="strip__card">
+        <img src="Assets/demo-images/img (2).png" alt="Startup team in a working session" />
+        <img class="strip__overlay strip__overlay--tr" src="Assets/dashboard (4).png" alt="" />
+      </figure>
+
+      <figure class="strip__card strip__card--tint2">
+        <img class="strip__dash" src="Assets/dashboard (3).png" alt="Trending events" />
+      </figure>
+
+      <figure class="strip__card">
+        <img src="Assets/demo-images/img (3).png" alt="Startup team collaborating" />
+        <img class="strip__overlay strip__overlay--br" src="Assets/dashboard (5).png" alt="" />
+        <figcaption class="chip chip--white">
+          <strong>Series A &middot; Climate</strong>
+          <span>Raising</span>
+        </figcaption>
+      </figure>
+
+      <figure class="strip__card">
+        <img src="Assets/demo-images/img (4).png" alt="Roundtable discussion" />
+        <img class="strip__overlay strip__overlay--tl" src="Assets/dashboard (1).png" alt="" />
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 02 · CHOOSE YOUR PATH ============ -->
+<section class="section paths" id="paths">
+  <div class="container">
+    <p class="eyebrow reveal">Choose your path</p>
+    <h2 class="display display--lg reveal" data-delay="80">Which side of the<br>table are you on?</h2>
+
+    <div class="paths__grid paths__grid--3">
+
+      <article class="path-card reveal" data-delay="140">
+        <div class="path-card__media">
+          <img src="Assets/demo-images/img (5).png" alt="Founders reviewing traction" />
+          <span class="badge badge--white">01 / For Startups</span>
+        </div>
+        <div class="path-card__body">
+          <h3>Get found by investors already looking for what you build.</h3>
+          <p>Build one verified profile. Get discovered on sector, stage and ticket size. Not on who you happen to know.</p>
+          <ul class="ticks">
+            <li>Your business does the talking</li>
+            <li>Reach beyond your existing network</li>
+            <li>Introductions made by our team, never cold</li>
+          </ul>
+          <a href="waitlist.html" class="btn btn--dark">Join the Founding Cohort <span class="btn__arrow">&rarr;</span></a>
+          <p class="path-card__note">Founding Cohort open</p>
+        </div>
+      </article>
+
+      <article class="path-card reveal" data-delay="220">
+        <div class="path-card__media">
+          <img src="Assets/demo-images/img (6).png" alt="Investor reviewing opportunities" />
+          <span class="badge badge--white">02 / For Investors</span>
+        </div>
+        <div class="path-card__body">
+          <h3>See verified startups that match your thesis.</h3>
+          <p>Curated deal flow, filtered to what you actually invest in. Every startup is verified before you see it. No cold decks, no noise.</p>
+          <ul class="ticks">
+            <li>Matched on sector, stage and ticket size</li>
+            <li>Structured information before the first call</li>
+            <li>You control every next step</li>
+          </ul>
+          <a href="waitlist.html" class="btn btn--dark">Get Early Investor Access <span class="btn__arrow">&rarr;</span></a>
+          <p class="path-card__note">Free for the first <strong data-count="100">0</strong></p>
+        </div>
+      </article>
+
+      <article class="path-card reveal" data-delay="300">
+        <div class="path-card__media">
+          <img src="Assets/demo-images/img (7).png" alt="Advisers supporting a founding team" />
+          <span class="badge badge--white">03 / For Strategic Partners</span>
+        </div>
+        <div class="path-card__body">
+          <h3>Reach founders at the moment they need your expertise.</h3>
+          <p>Legal, financial, compliance and technology specialists join as the Growth Network. Not advertising. Discovery.</p>
+          <ul class="ticks">
+            <li>Found while founders build their profile</li>
+            <li>Verified alongside everyone else</li>
+            <li>Support startups through the whole journey</li>
+          </ul>
+          <a href="waitlist.html" class="btn btn--dark">Become a Strategic Partner <span class="btn__arrow">&rarr;</span></a>
+          <p class="path-card__note">Applications open</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 03 · THE PROBLEM ============ -->
+<section class="section problem" id="about">
+  <div class="container problem__inner">
+    <p class="eyebrow reveal">The problem</p>
+
+    <h2 class="statement reveal-words">
+      <span class="statement__part">Fundraising in India runs on warm intros.</span>
+      <span class="statement__part statement__part--accent">That is the problem.</span>
+    </h2>
+
+    <div class="problem__cols">
+      <div class="reveal" data-delay="80">
+        <p class="problem__sub">Merit over network.</p>
+        <p>The right accelerator cohort. The right college network. The right WhatsApp group. If you are inside those circles, fundraising is hard but doable. If you are outside them, the right investor never gets to see your startup.</p><br>
+        <p>Investors have the same problem from the other side. Hours reviewing inbound that does not match their thesis, while the deals they actually want are being built by founders without the right mutual connection.</p><br>
+        <p>This is not a capital problem. It is a discovery problem. WeFundCo fixes that.</p>
+        <a href="#why" class="link-arrow">Read our story <span>&rarr;</span></a>
+      </div>
+      <div class="problem__faces reveal" data-delay="160">
+        <span class="face-pill face-pill--mint">Founders</span>
+        <img src="Assets/demo-images/img (5).png" alt="" class="face face--1" />
+        <img src="Assets/demo-images/img (6).png" alt="" class="face face--2" />
+        <span class="face-pill face-pill--lilac">Investors</span>
+        <img src="Assets/demo-images/img (7).png" alt="" class="face face--3" />
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 04 · HOW IT WORKS (carousel) ============ -->
+<section class="section how" id="how">
+  <div class="container how__head">
+    <div>
+      <p class="eyebrow reveal">How it works</p>
+      <h2 class="display display--lg reveal" data-delay="80">Verify. Curate.<br><span class="display__accent">Connect.</span></h2>
+    </div>
+    <div class="how__nav">
+      <button class="circle-btn" id="howPrev" aria-label="Previous">&larr;</button>
+      <button class="circle-btn" id="howNext" aria-label="Next">&rarr;</button>
+    </div>
+  </div>
+
+  <div class="how__rail" id="howRail">
+    <article class="how-card how-card--lilac">
+      <span class="badge badge--white">01 / Join the Waitlist</span>
+      <div class="how-card__fill">
+        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
+        <img class="how-card__icon" src="Assets/Profile.png" alt="" />
+      </div>
+      <div class="how-card__body">
+        <h3>Free. Thirty seconds.</h3>
+        <p>Joining is open to everyone. It is the first step, not a guarantee of access.</p>
+      </div>
+    </article>
+
+    <article class="how-card how-card--mint">
+      <span class="badge badge--white">02 / Build your profile</span>
+      <div class="how-card__fill">
+        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
+        <img class="how-card__icon" src="Assets/build.png" alt="" />
+      </div>
+      <div class="how-card__body">
+        <h3>This is what replaces the warm intro</h3>
+        <p>Sector, stage, ticket size, traction, team and documentation. Structured, so it can actually be matched.</p>
+      </div>
+    </article>
+
+    <article class="how-card how-card--blush">
+      <span class="badge badge--white">03 / Get verified</span>
+      <div class="how-card__fill">
+        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
+        <img class="how-card__icon" src="Assets/verify.png" alt="" />
+      </div>
+      <div class="how-card__body">
+        <h3>A verified network, not scraped data</h3>
+        <p>Every profile is reviewed before anyone sees it. Not everything submitted gets through. That is the point.</p>
+      </div>
+    </article>
+
+    <article class="how-card how-card--sky">
+      <span class="badge badge--white">04 / Get matched</span>
+      <div class="how-card__fill">
+        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
+        <img class="how-card__icon" src="Assets/match.png" alt="" />
+      </div>
+      <div class="how-card__body">
+        <h3>Matched to your sector, stage and ticket size</h3>
+        <p>A pre-seed fintech investor sees pre-seed fintech. Not everything. You appear to the right people on the other side.</p>
+      </div>
+    </article>
+
+    <article class="how-card how-card--lilac">
+      <span class="badge badge--white">05 / Get introduced</span>
+      <div class="how-card__fill">
+        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
+        <img class="how-card__icon" src="Assets/connect.png" alt="" />
+      </div>
+      <div class="how-card__body">
+        <h3>Introductions made by our team, never cold</h3>
+        <p>When both sides fit, you request an introduction and we make it. No unsolicited decks. Nobody is contacted without agreeing to it.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<!-- ============ 05 · WHY WEFUNDCO ============ -->
+<section class="stack-section stack-section--reasons" id="why">
+  <div class="stack-sticky">
+    <div class="container stack__head">
+      <p class="eyebrow">Why WeFundCo</p>
+      <h2 class="stack__title">Built differently from everything else in this market. Most platforms give you a list. We give you a match.</h2>
+      <a href="waitlist.html" class="btn btn--dark stack__cta">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+    </div>
+
+    <div class="container">
+      <div class="stack__cards" id="stackCards">
+
+        <article class="stat-card stat-card--ink">
+          <span class="stat-card__idx">01</span>
+          <h3>Both sides are verified, not just one</h3>
+          <p>Every startup and every investor is reviewed before they appear. Entity, team, core claims. Most platforms verify investors but not startups.</p>
+        </article>
+
+        <article class="stat-card stat-card--paper">
+          <span class="stat-card__idx">02</span>
+          <h3>Matched on thesis, not on popularity</h3>
+          <p>Sector, stage, geography and ticket size. Most platforms sort by recency, or by whoever paid for a featured slot.</p>
+        </article>
+
+        <article class="stat-card stat-card--blush">
+          <span class="stat-card__idx">03</span>
+          <h3>Your deck stays yours</h3>
+          <p>Nothing is shared without your knowledge. You decide whether to connect, and when. Most platforms send your materials to anyone who clicks.</p>
+        </article>
+
+        <article class="stat-card stat-card--mint">
+          <span class="stat-card__idx">04</span>
+          <h3>Merit over network, wherever you build</h3>
+          <p>A strong business in Jaipur or Kochi gets the same visibility as one in Koramangala. Traction and thesis fit matter here. Not your postcode.</p>
+        </article>
+
+        <article class="stat-card stat-card--ink">
+          <span class="stat-card__idx">05</span>
+          <h3>Built for India, not adapted for it</h3>
+          <p>SAFE notes, CCPS, bridge rounds, DPIIT recognition. Native context, not a Western platform translated into rupees.</p>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 06 · WEFUNDCO VERIFIED ============ -->
+<section class="section partners" id="verified">
+  <div class="container">
+    <p class="eyebrow reveal">WeFundCo Verified</p>
+    <h2 class="display display--lg reveal" data-delay="80">Every profile<br><span class="display__accent">earns its place.</span></h2>
+    <p class="lede lede--left reveal" data-delay="140">Joining the waitlist is open. Being on the platform is not. Every startup, investor and partner is reviewed before becoming visible to anyone else. Entity verified. Team verified. Claims verified. This is not a badge. It is a standard.</p>
+
+    <div class="partners__grid">
+      <div class="partner-tile reveal" data-delay="60">
+        <img class="partner-tile__icon" src="Assets/dark-icons/Profile.png" alt="" />
+        <span>Level 01 &middot; Identity verification</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="100">
+        <img class="partner-tile__icon" src="Assets/dark-icons/verify.png" alt="" />
+        <span>Level 02 &middot; Business verification</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="140">
+        <img class="partner-tile__icon" src="Assets/dark-icons/doumentation.png" alt="" />
+        <span>Level 03 &middot; Documentation review</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="180">
+        <img class="partner-tile__icon" src="Assets/dark-icons/Legal.png" alt="" />
+        <span>Level 04 &middot; Legal and compliance</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="220">
+        <img class="partner-tile__icon" src="Assets/dark-icons/Compliance.png" alt="" />
+        <span>Level 05 &middot; Investor readiness</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="260">
+        <img class="partner-tile__icon" src="Assets/dark-icons/Brand.png" alt="" />
+        <span>Verified badge, trust score, readiness index</span>
+      </div>
+    </div>
+
+    <a href="waitlist.html" class="btn btn--dark reveal" data-delay="300">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+  </div>
+
+  <div class="marquee">
+    <div class="marquee__track">
+      <span>Merit over network</span><i></i>
+      <span>Verified profiles</span><i></i>
+      <span>Thesis level matching</span><i></i>
+      <span>Founder privacy first</span><i></i>
+      <span>Built for India</span><i></i>
+      <span>Merit over network</span><i></i>
+      <span>Verified profiles</span><i></i>
+      <span>Thesis level matching</span><i></i>
+      <span>Founder privacy first</span><i></i>
+      <span>Built for India</span><i></i>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 07 · EVENTS ============ -->
+<section class="section events" id="events">
+  <div class="container events__head">
+    <div>
+      <p class="eyebrow reveal">Events</p>
+      <h2 class="display display--lg reveal" data-delay="80">Where the ecosystem<br><span class="display__accent">actually meets</span></h2>
+    </div>
+    <a href="waitlist.html" class="btn btn--ghost reveal" data-delay="140">Join the Waitlist <span class="btn__circle">&rarr;</span></a>
+  </div>
+
+  <div class="container">
+    <article class="event-card">
+      <img src="Assets/demo-images/img (7).png" alt="Startup roundtable" />
+      <div class="event-card__panel">
+        <span class="badge badge--mint">Roundtable</span>
+        <h3>Closed door sessions on what actually gets funded</h3>
+        <p>Investors on WeFundCo host their own sessions or join ones run by others. Founders get a room they did not have to be introduced into.</p>
+        <a href="waitlist.html" class="btn btn--lilac">Register interest <span class="btn__arrow">&rarr;</span></a>
+      </div>
+    </article>
+
+    <article class="event-card">
+      <img src="Assets/demo-images/img (8).png" alt="Pitch event" />
+      <div class="event-card__panel">
+        <span class="badge badge--mint">Pitch day</span>
+        <h3>Sector specific pitch days</h3>
+        <p>Startups pitch to a room already aligned with their stage and sector. For verified members only.</p>
+        <a href="waitlist.html" class="btn btn--lilac">Register interest <span class="btn__arrow">&rarr;</span></a>
+      </div>
+    </article>
+
+    <article class="event-card">
+      <img src="Assets/demo-images/img (1).png" alt="Ecosystem meetup" />
+      <div class="event-card__panel">
+        <span class="badge badge--mint">Coming soon</span>
+        <h3>The first events are being scheduled</h3>
+        <p>Nothing is on the calendar yet. Join the waitlist and we will tell you when the first sessions open, before they are announced publicly.</p>
+        <a href="waitlist.html" class="btn btn--lilac">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<!-- ============ 08 · STRATEGIC PARTNERS ============ -->
+<section class="section partners" id="partners">
+  <div class="container">
+    <p class="eyebrow reveal">Strategic Partners</p>
+    <h2 class="display display--lg reveal" data-delay="80">The people founders<br>need between rounds</h2>
+    <p class="lede lede--left reveal" data-delay="140">A funding conversation needs more than two people in it. Legal, financial, banking, compliance and technology partners join WeFundCo as the Growth Network, supporting founders through the parts of the journey that are easy to get wrong.</p>
+
+    <div class="partners__grid">
+      <div class="partner-tile reveal" data-delay="60">
+        <img class="partner-tile__icon" src="Assets/Legal.png" alt="" />
+        <span>Legal &amp; company secretarial</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="100">
+        <img class="partner-tile__icon" src="Assets/Accounting.png" alt="" />
+        <span>Accounting &amp; CFO services</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="140">
+        <img class="partner-tile__icon" src="Assets/Product.png" alt="" />
+        <span>Product &amp; engineering</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="180">
+        <img class="partner-tile__icon" src="Assets/Talent.png" alt="" />
+        <span>Talent &amp; recruitment</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="220">
+        <img class="partner-tile__icon" src="Assets/Compliance.png" alt="" />
+        <span>Compliance &amp; taxation</span>
+      </div>
+      <div class="partner-tile reveal" data-delay="260">
+        <img class="partner-tile__icon" src="Assets/Brand.png" alt="" />
+        <span>Brand, GTM &amp; growth</span>
+      </div>
+    </div>
+
+    <a href="waitlist.html" class="btn btn--dark reveal" data-delay="300">Become a strategic partner <span class="btn__arrow">&rarr;</span></a>
+  </div>
+</section>
+
+
+<!-- ============ 09 · WAITLIST MOMENTUM ============ -->
+<section class="section momentum">
+  <div class="container momentum__grid">
+    <div>
+      <p class="momentum__big"><span data-count="640" data-suffix="+">0</span></p>
+      <p class="eyebrow reveal">Waitlist momentum</p>
+      <h2 class="display display--lg reveal" data-delay="80">The founding network<br>is coming together</h2>
+      <a href="waitlist.html" class="btn btn--dark reveal" data-delay="140">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+    </div>
+
+    <div class="meters reveal" data-delay="120">
+      <div class="meter">
+        <div class="meter__row"><span>Founders and investors signed up</span><span><b data-count="640">0</b>+ on the waitlist</span></div>
+        <div class="bar"><i style="--w:100%" class="bar--lilac"></i></div>
+      </div>
+      <div class="meter">
+        <div class="meter__row"><span>Levels of verification</span><span><b data-count="5">0</b> levels</span></div>
+        <div class="bar"><i style="--w:72%" class="bar--sky"></i></div>
+      </div>
+      <div class="meter">
+        <div class="meter__row"><span>Communities in the network</span><span><b data-count="3">0</b> communities</span></div>
+        <div class="bar"><i style="--w:58%" class="bar--grey"></i></div>
+      </div>
+      <div class="meter">
+        <div class="meter__row"><span>Sectors covered</span><span><b data-count="12">0</b> sectors</span></div>
+        <div class="bar"><i style="--w:64%" class="bar--mint"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 10 · FAQ ============ -->
+<section class="section faq" id="faq">
+  <div class="container container--narrow">
+    <p class="eyebrow eyebrow--center reveal">FAQ</p>
+    <h2 class="display display--lg display--center reveal" data-delay="80">Straight answers to the<br><span class="display__accent">questions worth asking</span></h2>
+
+    <div class="faq__list">
+      <details class="faq__item" open>
+        <summary>Does joining the waitlist guarantee access?</summary>
+        <p>No. It is the first step. After joining, you will be invited to complete a verified profile. Access is granted only after review. Not everyone who applies will be onboarded.</p>
+      </details>
+      <details class="faq__item" open>
+        <summary>What does verification involve?</summary>
+        <p>For startups: an incorporated entity, a real team, and claims supported by documentation. For investors: verified identity and active deployment. Most reviews are completed within a few business days.</p>
+      </details>
+      <details class="faq__item" open>
+        <summary>Will my pitch deck get shared without my knowledge?</summary>
+        <p>Never. Nothing is shared without your approval. You decide whether to connect, when, and with whom.</p>
+      </details>
+      <details class="faq__item" open>
+        <summary>What does it cost?</summary>
+        <p>Free for the founding cohort of startups. Free for the first 100 verified investors. Pricing for subsequent members will be announced at launch.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Is WeFundCo only for metro startups?</summary>
+        <p>Definitely not. If you are building in Coimbatore, Indore, Lucknow or anywhere else in India and your business is strong, you belong here. Sector, stage and traction are what matter. Not your postcode.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Is the platform live yet?</summary>
+        <p>Not yet. We are in pre-launch. When we go live, everyone on the waitlist is notified first. Founding cohort members get first access and first visibility.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Is WeFundCo a broker or an adviser?</summary>
+        <p>No. WeFundCo is a discovery and introduction platform. It does not raise capital, execute transactions or give investment advice. Every decision stays with you.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 11 · RESOURCES ============ -->
+<section class="section resources" id="resources">
+  <div class="container events__head">
+    <div>
+      <p class="eyebrow reveal">Resources</p>
+      <h2 class="display display--lg reveal" data-delay="80">Guides for founders<br>and investors</h2>
+    </div>
+    <a href="waitlist.html" class="btn btn--ghost reveal" data-delay="140">All resources <span class="btn__circle">&rarr;</span></a>
+  </div>
+
+  <div class="container res__grid">
+    <article class="res-card reveal" data-delay="60">
+      <img src="Assets/demo-images/img (2).png" alt="" />
+      <div class="res-card__meta"><span>/ Founder guide</span><span>Fundraising</span></div>
+      <h3>The pre-seed readiness checklist for Indian startups</h3>
+      <p>What typically gets checked before the first call, and what you can fix in a week.</p>
+    </article>
+    <article class="res-card reveal" data-delay="120">
+      <img src="Assets/demo-images/img (3).png" alt="" />
+      <div class="res-card__meta"><span>/ Investor guide</span><span>Diligence</span></div>
+      <h3>What to expect when someone looks under the hood</h3>
+      <p>A practical walkthrough of early stage diligence so you can prepare once, not scramble every time.</p>
+    </article>
+    <article class="res-card reveal" data-delay="180">
+      <img src="Assets/demo-images/img (4).png" alt="" />
+      <div class="res-card__meta"><span>/ Glossary</span><span>Ecosystem</span></div>
+      <h3>SAFE, CCPS, bridge: startup funding terms in plain English</h3>
+      <p>The instruments and terms you will meet in an Indian early stage round, defined clearly.</p>
+    </article>
+  </div>
+</section>
+
+
+<!-- ============ 12 · FINAL CTA ============ -->
+<section class="cta" id="waitlist">
+  <img src="Assets/demo-images/img (5).png" alt="" class="cta__bg" />
+  <div class="cta__inner">
+    <p class="cta__eyebrow">Merit over network</p>
+    <h2 class="display display--xl">Get in before the network<br>effects belong to someone else</h2>
+    <p class="cta__sub">Founding startups get first visibility as investors join. The first 100 investors get first access to verified deal flow. Early members shape how the platform develops.</p>
+
+    <form class="waitlist-form" id="waitlistForm" novalidate>
+      <div class="waitlist-form__row">
+        <input type="email" id="wlEmail" placeholder="you@company.com" required />
+        <button type="submit" class="btn btn--mint btn--lg">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
+      </div>
+      <p class="waitlist-form__msg" id="wlMsg"></p>
+    </form>
+
+    <p class="cta__fine">Free to join. Platform access requires verification. Only incorporated companies with valid legal documentation are eligible.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__brand">
+      <p class="footer__logo">
+        <img src="Assets/Wefundco-white.png" alt="WeFundCo" class="footer__logo-img" />
+      </p>
+      <p class="footer__tag">A verification led private capital platform connecting founders, investors and strategic partners across India.</p>
+
+      <p class="footer__label">Contact</p>
+      <p class="footer__addr">hello@wefundco.in</p>
+
+      <div class="footer__social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="X">x</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="Facebook">fb</a>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      <div>
+        <p class="footer__label">Company</p>
+        <a href="#about">About Us</a>
+        <a href="#about">Mission</a>
+        <a href="#about">Vision</a>
+        <a href="#about">Team</a>
+        <a href="waitlist.html">Contact</a>
+      </div>
+      <div>
+        <p class="footer__label">Site</p>
+        <a href="#paths">For Investors</a>
+        <a href="#paths">For Startups</a>
+        <a href="#partners">For Partners</a>
+        <a href="#verified">Verification</a>
+        <a href="#events">Events</a>
+      </div>
+      <div>
+        <p class="footer__label">Resources</p>
+        <a href="#resources">Founder Guides</a>
+        <a href="#resources">Investor Guides</a>
+        <a href="#resources">Glossary</a>
+        <a href="#resources">Reports and Data</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <p class="footer__label">Legal</p>
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Disclaimer</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">Grievance and Support</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <p>&copy; 2026 CapitalPrime Technologies Private Limited. All rights reserved.</p>
+    <p>Pre-launch, waitlist open</p>
+  </div>
+
+  <div class="container">
+    <p class="footer__disclaimer">
+      WeFundCo is a discovery and introduction platform operated by CapitalPrime Technologies Private Limited. It is not an investment adviser, a fundraising broker or a crowdfunding platform. It does not solicit investment and does not offer securities. Nothing on this site constitutes investment advice. Verification establishes a baseline of credibility and is not an endorsement. All investment decisions, diligence and documentation remain entirely the responsibility of the parties involved.
+    </p>
+  </div>
+</footer>
+
+<script src="js/main-brand.js"></script>
+</body>
+</html>
