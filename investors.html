@@ -31,11 +31,11 @@
     </a>
 
     <nav class="nav__links" id="navLinks">
-      <a href="investors.html" aria-current="page">For Investors</a>
-      <a href="index.html#paths">For Startups</a>
+      <a href="investors.html">For Investors</a>
+      <a href="startups.html">For Startups</a>
       <a href="index.html#why">Why WeFundCo</a>
       <a href="index.html#verified">Verification</a>
-      <a href="index.html#events">Events</a>
+      <a href="events.html">Events</a>
       <a href="index.html#resources">Resources</a>
     </nav>
 
@@ -55,7 +55,7 @@
     <p class="eyebrow eyebrow--center reveal">For Investors</p>
 
     <h1 class="display display--lg display--center reveal" data-delay="80">
-      Stop sorting through deal flow<br>that does not <span class="display__accent">fit.</span>
+      Stop sorting through deal flow<br><span class="display__accent">that does not fit.</span>
     </h1>
 
     <p class="lede lede--center reveal" data-delay="120">
@@ -128,35 +128,65 @@
 
 
 <!-- ============ 03 · WHAT YOU GET ============ -->
-<section class="section inv-benefits" id="benefits">
-  <div class="container">
+<section class="section inv-benefits-stack" id="benefits">
+  <div class="container inv-benefits-stack__head">
     <p class="eyebrow eyebrow--center reveal">What WeFundCo gives you</p>
     <h2 class="display display--lg display--center reveal" data-delay="80">
       The infrastructure for<br><span class="display__accent">intentional deal flow.</span>
     </h2>
+  </div>
 
-    <div class="inv-benefits__list">
-      <article class="inv-benefit reveal" data-delay="100">
+  <div class="container inv-benefits-stack__cards">
+    <article class="inv-benefit-card reveal" style="--stack:0" data-delay="100">
+      <img src="Assets/demo-images/img (6).png" alt="Investor reviewing matched startups" />
+      <div class="inv-benefit-card__panel">
+        <div class="inv-benefit-card__icon">
+          <img src="Assets/dark-icons/match.png" alt="" />
+        </div>
         <h3>Thesis-filtered startup discovery</h3>
         <p>Set your investment parameters once. Sector. Stage. Geography. Ticket size. Every startup that appears in your feed has been matched to those parameters before you see it. A pre-seed deep-tech investor does not see growth-stage consumer startups. The feed is filtered, not curated by committee.</p>
-      </article>
-      <article class="inv-benefit reveal" data-delay="140">
+      </div>
+    </article>
+    <article class="inv-benefit-card reveal" style="--stack:1" data-delay="140">
+      <img src="Assets/demo-images/img (5).png" alt="Structured startup profile review" />
+      <div class="inv-benefit-card__panel">
+        <div class="inv-benefit-card__icon">
+          <img src="Assets/dark-icons/Profile.png" alt="" />
+        </div>
         <h3>Structured profiles before the first call</h3>
         <p>Every startup on WeFundCo completes a structured profile covering entity registration, founding team, business model, traction indicators, and documentation status. You see this before you decide to connect. No slide decks landing cold in your inbox.</p>
-      </article>
-      <article class="inv-benefit reveal" data-delay="180">
+      </div>
+    </article>
+    <article class="inv-benefit-card reveal" style="--stack:2" data-delay="180">
+      <img src="Assets/demo-images/img (7).png" alt="Verification review process" />
+      <div class="inv-benefit-card__panel">
+        <div class="inv-benefit-card__icon">
+          <img src="Assets/dark-icons/verify.png" alt="" />
+        </div>
         <h3>Five-level verification on every startup</h3>
         <p>The WeFundCo Verified system reviews startups across five progressive levels. Identity. Business. Documentation. Legal and compliance. Investor readiness. Every startup displays its verified level on its profile. You know the baseline before the conversation begins.</p>
-      </article>
-      <article class="inv-benefit reveal" data-delay="220">
+      </div>
+    </article>
+    <article class="inv-benefit-card reveal" style="--stack:3" data-delay="220">
+      <img src="Assets/demo-images/img (8).png" alt="Investor roundtable session" />
+      <div class="inv-benefit-card__panel">
+        <div class="inv-benefit-card__icon">
+          <img src="Assets/dark-icons/connect.png" alt="" />
+        </div>
         <h3>Events built for investors, not networking</h3>
         <p>Host your own sector roundtable or pitch session on the platform, or join events run by other investors. Attendees are verified platform members. The format is structured. The conversations are worth having.</p>
-      </article>
-      <article class="inv-benefit reveal" data-delay="260">
+      </div>
+    </article>
+    <article class="inv-benefit-card reveal" style="--stack:4" data-delay="260">
+      <img src="Assets/demo-images/img (4).png" alt="Ecosystem partners and co-investors" />
+      <div class="inv-benefit-card__panel">
+        <div class="inv-benefit-card__icon">
+          <img src="Assets/dark-icons/build.png" alt="" />
+        </div>
         <h3>One platform for deals, co-investors and expert partners</h3>
         <p>Beyond startups, discover other investors for co-investment and syndication, and connect with verified legal, finance and compliance partners for portfolio support.</p>
-      </article>
-    </div>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -222,18 +252,30 @@
 
     <div class="inv-trust__grid">
       <article class="inv-trust-card reveal" data-delay="100">
+        <div class="inv-trust-card__icon">
+          <img src="Assets/dark-icons/match.png" alt="" />
+        </div>
         <h3>You set the thesis.</h3>
         <p>The platform filters to it, nothing more. A fintech-focused pre-seed investor only sees fintech startups at pre-seed. Matching never overrides your parameters or pushes deals outside them.</p>
       </article>
       <article class="inv-trust-card reveal" data-delay="140">
+        <div class="inv-trust-card__icon">
+          <img src="Assets/dark-icons/connect.png" alt="" />
+        </div>
         <h3>You are never pushed toward a connection.</h3>
         <p>Matching surfaces an opportunity; connecting is always your decision. WeFundCo does not introduce you to a founder without your explicit action.</p>
       </article>
       <article class="inv-trust-card reveal" data-delay="180">
+        <div class="inv-trust-card__icon">
+          <img src="Assets/dark-icons/Profile.png" alt="" />
+        </div>
         <h3>Your information stays private until you say otherwise.</h3>
         <p>Startups can see that you exist and that you invest in their category. They do not see your contact details until you initiate a connection.</p>
       </article>
       <article class="inv-trust-card reveal" data-delay="220">
+        <div class="inv-trust-card__icon">
+          <img src="Assets/dark-icons/verify.png" alt="" />
+        </div>
         <h3>Verification is a baseline, not an endorsement.</h3>
         <p>The WeFundCo Verified system confirms a startup is what it says it is, nothing more. It does not make investment recommendations. All diligence and investment decisions remain entirely with you.</p>
       </article>
@@ -243,27 +285,35 @@
 
 
 <!-- ============ 06 · FOUNDING COHORT ============ -->
-<section class="section inv-cohort" id="cohort">
+<section class="section inv-cohort inv-cohort--split" id="cohort">
   <div class="container inv-cohort__inner">
     <p class="eyebrow eyebrow--center reveal">Founding investor cohort</p>
     <h2 class="display display--lg display--center reveal" data-delay="80">
       First access. No platform fee.<br><span class="display__accent">Shape what gets built.</span>
     </h2>
     <p class="lede lede--center reveal" data-delay="120">
-      The founding 100 investors on WeFundCo are not just early adopters. They set the standard for how the platform works.
+      The founding 100 investors on WeFundCo are not just early adopters.<br>
+      They set the standard for how the platform works.
     </p>
 
-    <ul class="inv-cohort__perks reveal" data-delay="160">
-      <li>First access to verified startups as they complete onboarding</li>
-      <li>Input into the sectors and stages WeFundCo prioritises at launch</li>
-      <li>Founding Investor designation on your platform profile</li>
-      <li>Preferential access to roundtable and pitch day events</li>
-      <li>No platform fee during the founding cohort period</li>
-    </ul>
+    <div class="inv-cohort__grid reveal" data-delay="160">
+      <div class="inv-cohort__media">
+        <img src="Assets/demo-images/img (6).png" alt="Founding investor cohort" />
+      </div>
+      <div class="inv-cohort__content">
+        <ul class="inv-cohort__perks">
+          <li>First access to verified startups as they complete onboarding</li>
+          <li>Input into the sectors and stages WeFundCo prioritises at launch</li>
+          <li>Founding Investor designation on your platform profile</li>
+          <li>Preferential access to roundtable and pitch day events</li>
+          <li>No platform fee during the founding cohort period</li>
+        </ul>
 
-    <div class="inv-cohort__cta reveal" data-delay="200">
-      <a href="waitlist.html" class="btn btn--dark">Get Early Investor Access <span class="btn__arrow">&rarr;</span></a>
-      <p class="inv-cohort__fine">Free for the founding 100 investors. Applications reviewed on a rolling basis.</p>
+        <div class="inv-cohort__cta">
+          <a href="waitlist.html" class="btn btn--dark">Get Early Investor Access <span class="btn__arrow">&rarr;</span></a>
+          <p class="inv-cohort__fine">Free for the founding 100 investors. Applications reviewed on a rolling basis.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -293,19 +343,19 @@
     <div class="footer__cols">
       <div>
         <p class="footer__label">Company</p>
-        <a href="index.html#about">About Us</a>
-        <a href="index.html#about">Mission</a>
-        <a href="index.html#about">Vision</a>
-        <a href="index.html#about">Team</a>
+        <a href="about.html">About Us</a>
+        <a href="about.html#mission">Mission</a>
+        <a href="about.html#mission">Vision</a>
+        <a href="about.html#company">Team</a>
         <a href="waitlist.html">Contact</a>
       </div>
       <div>
         <p class="footer__label">Site</p>
         <a href="investors.html">For Investors</a>
-        <a href="index.html#paths">For Startups</a>
+        <a href="startups.html">For Startups</a>
         <a href="index.html#partners">For Partners</a>
         <a href="index.html#verified">Verification</a>
-        <a href="index.html#events">Events</a>
+        <a href="events.html">Events</a>
       </div>
       <div>
         <p class="footer__label">Resources</p>
