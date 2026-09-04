@@ -894,6 +894,7 @@ ul{margin:0;padding:0;list-style:none}
 .inv-hero{padding-top:clamp(48px,8vw,96px)}
 .inv-hero__inner{text-align:center}
 .inv-hero__inner .lede{max-width:62ch;margin-inline:auto}
+.page-investors .inv-hero__inner .lede{max-width:min(88ch,100%)}
 .inv-hero__cta{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:36px}
 .inv-hero__fine{margin:0;font-size:14px;color:var(--muted)}
 .inv-proof{
