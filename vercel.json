@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/waitlist-new",
+      "destination": "/waitlist",
+      "permanent": true
+    }
+  ]
+}

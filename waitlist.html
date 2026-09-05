@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Join the Waitlist | WeFundCo</title>
-<meta name="description" content="Join the WeFundCo founding cohort. One verified profile, matched to Indian investors who already fund your sector and stage. Free to join, thirty seconds, no deck required." />
+<meta name="description" content="Be ready for capital, not just visible to it. Join the WeFundCo waitlist for early access to investment readiness, intelligence and structured investor matching." />
 <meta name="robots" content="index,follow" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,255 +12,256 @@
 <link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles-brand.css" />
 </head>
-<body class="page-waitlist">
+<body class="page-waitlist-new">
 
-<!-- ============ MINIMAL HEADER ============ -->
 <header class="wl-head">
   <div class="container wl-head__inner">
     <a href="index.html" class="nav__logo" aria-label="WeFundCo home">
       <img src="Assets/WeFundCo-color.png" alt="WeFundCo" class="nav__logo-img" />
     </a>
-    <a href="index.html" class="wl-head__back">&larr; Back to site</a>
+    <a href="startups.html" class="wl-head__back">&larr; For Startups</a>
   </div>
 </header>
 
 <main>
 
-<!-- ============ 01 · THE ASK ============ -->
-<section class="wl-hero">
-  <div class="container wl-grid">
-
-    <div class="wl-copy">
-      <p class="eyebrow">Founding Cohort &middot; Now forming</p>
-
-      <h1 class="display display--lg wl-title">Thirty seconds now.<br>The right room later.</h1>
-
-      <p class="lede lede--left">
-        You have spent months building something real. You should not have to spend
-        the next six finding someone who will look at it.
+<!-- ============ HERO ============ -->
+<section class="wln-hero" id="apply">
+  <div class="container wln-hero__inner">
+    <div class="wln-hero__copy reveal">
+      <p class="eyebrow">WeFundCo for startups</p>
+      <h1 class="display display--lg wln-hero__title">
+        Be ready for capital,<br><span class="display__accent">not just visible to it.</span>
+      </h1>
+      <p class="lede lede--left wln-hero__lede">
+        Understand how investors will see your business, before the conversation starts.
+      </p>
+      <p class="wln-hero__waitlist">
+        Join the waitlist to get early access when WeFundCo launches.
       </p>
 
-      <p class="wl-body">
-        Join the founding cohort of Indian startups on WeFundCo. One verified profile,
-        matched to investors who already fund your sector, your stage and your cheque size.
-        The introduction gets made by our team. You never send another cold email.
-      </p>
-
-      <ul class="wl-marks">
-        <li>Free to join</li>
-        <li>No deck required</li>
-        <li>No sales call</li>
-      </ul>
-
-      <div class="wl-proof">
-        <div class="avatars">
-          <img src="Assets/demo-images/compressed/image (1) (1).png" alt="" />
-          <img src="Assets/demo-images/compressed/image (2).png" alt="" />
-          <img src="Assets/demo-images/compressed/image (3).png" alt="" />
-          <img src="Assets/demo-images/compressed/image (4) (1).png" alt="" />
-        </div>
-        <p><strong data-count="640" data-suffix="+">0</strong> founders and investors already signed up</p>
-      </div>
-    </div>
-
-    <div class="wl-panel" id="join">
-      <form class="wl-form" id="waitlistForm" novalidate>
-        <p class="wl-form__title">Claim your place</p>
-
+      <form class="wln-hero__form wl-form" id="waitlistForm" novalidate>
         <div class="wl-field">
-          <label for="wlRole">I am joining as</label>
-          <div class="wl-roles" role="radiogroup" aria-label="I am joining as">
-            <label class="wl-role"><input type="radio" name="role" value="startup" checked /><span>A startup</span></label>
-            <label class="wl-role"><input type="radio" name="role" value="investor" /><span>An investor</span></label>
-            <label class="wl-role"><input type="radio" name="role" value="partner" /><span>A partner</span></label>
-          </div>
+          <input type="email" id="wlEmail" name="email" placeholder="Enter your work email" autocomplete="email" aria-label="Work email" required />
         </div>
-
-        <div class="wl-field">
-          <label for="wlEmail">Work email</label>
-          <input type="email" id="wlEmail" name="email" placeholder="you@company.com" autocomplete="email" required />
-        </div>
-
-        <div class="wl-field">
-          <label for="wlCompany">Company</label>
-          <input type="text" id="wlCompany" name="company" placeholder="Registered company name" autocomplete="organization" required />
-        </div>
-
-        <div class="wl-field wl-field--split">
-          <div>
-            <label for="wlStage">Stage</label>
-            <select id="wlStage" name="stage">
-              <option value="">Select</option>
-              <option>Pre-seed</option>
-              <option>Seed</option>
-              <option>Pre-Series A</option>
-              <option>Series A</option>
-              <option>Series B and beyond</option>
-              <option>Not raising yet</option>
-            </select>
-          </div>
-          <div>
-            <label for="wlCity">City</label>
-            <input type="text" id="wlCity" name="city" placeholder="Coimbatore" autocomplete="address-level2" />
-          </div>
-        </div>
-
         <button type="submit" class="btn btn--dark btn--lg wl-submit">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
         <p class="waitlist-form__msg" id="wlMsg"></p>
-
-        <p class="wl-form__fine">
-          We email you when there is something to say. Not before.
-          Sector, traction and documentation come later, on the profile.
-        </p>
       </form>
     </div>
 
+    <div class="wln-hero__media reveal" data-delay="120">
+      <img src="Assets/demo-images/compressed/Structured profiles before the first call(1).jpg" alt="Founder reviewing investment readiness on WeFundCo" />
+    </div>
   </div>
 </section>
 
 
-<!-- ============ 02 · THE HONEST BIT ============ -->
-<section class="wl-honest">
-  <div class="container">
-    <p class="eyebrow">Read this before you sign up</p>
-    <h2 class="wl-honest__title">Joining the waitlist is not the same as getting on the platform.</h2>
-    <p>
-      Anyone can join. Not everyone gets on. After you join we invite you to build a verified
-      profile, and access is granted only after review. We would rather tell you that here
-      than after you have filled in fourteen fields. It is also the reason the list is worth
-      being on: every profile an investor sees has been through the same door you are about to walk through.
-    </p>
+<!-- ============ BENEFITS ============ -->
+<section class="section wln-benefits">
+  <div class="container wln-benefits__grid">
+    <div class="wln-benefits__copy reveal">
+      <p class="eyebrow">Benefits</p>
+      <h2 class="display display--lg">What&rsquo;s in it<br><span class="display__accent">for you?</span></h2>
+      <ul class="wln-benefits__bullets">
+        <li>Understand how investment ready your business really is.</li>
+        <li>Spot financial, valuation and compliance gaps before investors do.</li>
+        <li>Build a structured investment profile that goes beyond a pitch deck.</li>
+        <li>See how your valuation and ownership may be viewed by investors.</li>
+        <li>Prepare for the questions investors are likely to ask.</li>
+        <li>Meet investors better prepared and with more confidence.</li>
+      </ul>
+    </div>
+    <div class="wln-benefits__media reveal" data-delay="120">
+      <img src="Assets/demo-images/compressed/Matched to investors who are actually looking for you(1).jpg" alt="Startup team preparing for investor conversations" />
+    </div>
   </div>
 </section>
 
 
-<!-- ============ 03 · WHAT HAPPENS NEXT ============ -->
-<section class="section wl-next">
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section wln-journey">
   <div class="container">
-    <p class="eyebrow reveal">What happens next</p>
-    <h2 class="display display--lg reveal" data-delay="80">No mystery.<br>Here is the whole thing.</h2>
+    <p class="eyebrow eyebrow--center reveal">The WeFundCo journey</p>
+    <h2 class="display display--lg display--center reveal" data-delay="80">
+      A clearer path from<br><span class="display__accent">idea to investment.</span>
+    </h2>
 
-    <ol class="wl-steps">
-      <li class="reveal" data-delay="60">
-        <span class="wl-steps__when">Today</span>
-        <h3>You join</h3>
-        <p>Four fields, thirty seconds. You are on the list and you get a confirmation you can actually read.</p>
+    <ol class="wln-journey__grid">
+      <li class="wln-journey__step reveal" data-delay="100">
+        <h3>Discover</h3>
+        <p>Get matched with relevant investors through structured profiles, not cold outreach.</p>
       </li>
-      <li class="reveal" data-delay="120">
-        <span class="wl-steps__when">Within the week</span>
-        <h3>We send your profile invite</h3>
-        <p>Sector, stage, ticket size, traction, team, documentation. Fourteen fields, about five minutes. This is what replaces the warm intro.</p>
+      <li class="wln-journey__step reveal" data-delay="130">
+        <h3>Evaluate</h3>
+        <p>Your company information is organised into a clear, investor ready view.</p>
       </li>
-      <li class="reveal" data-delay="180">
-        <span class="wl-steps__when">Before launch</span>
-        <h3>Your profile is reviewed</h3>
-        <p>Entity, team and the claims you have made. Most reviews take a few business days. Not everything submitted gets through.</p>
+      <li class="wln-journey__step reveal" data-delay="160">
+        <h3>Prepare</h3>
+        <p>Identify readiness gaps before serious investor conversations begin.</p>
       </li>
-      <li class="reveal" data-delay="240">
-        <span class="wl-steps__when">At launch</span>
-        <h3>You get found, and introduced</h3>
-        <p>Investors filter for what you are. You appear. When both sides fit, you request an introduction and our team makes it. Never cold, never without your go ahead.</p>
+      <li class="wln-journey__step reveal" data-delay="190">
+        <h3>De-risk</h3>
+        <p>Valuation, financial analysis and AI assisted diligence highlight what needs attention.</p>
+      </li>
+      <li class="wln-journey__step reveal" data-delay="220">
+        <h3>Connect</h3>
+        <p>Engage with investors who already understand your business and its readiness.</p>
+      </li>
+      <li class="wln-journey__step reveal" data-delay="250">
+        <h3>Transact</h3>
+        <p>Move forward with human led discussions, specialist support and deal execution.</p>
       </li>
     </ol>
   </div>
 </section>
 
 
-<!-- ============ 04 · FIT CHECK ============ -->
-<section class="section wl-fit">
+<!-- ============ TESTIMONIAL ============ -->
+<section class="section wln-stories">
   <div class="container">
-    <p class="eyebrow reveal">Fit check</p>
-    <h2 class="display display--lg reveal" data-delay="80">Worth thirty seconds<br>of your time if...</h2>
+    <p class="eyebrow eyebrow--center reveal">Founder stories</p>
 
-    <div class="wl-fit__grid">
-      <div class="wl-fit__col wl-fit__col--yes reveal" data-delay="120">
-        <p class="wl-fit__label">This is for you</p>
-        <ul>
-          <li>You are incorporated in India and raising, or will be within six months</li>
-          <li>Your traction is real, even if it is early</li>
-          <li>Someone has said "send me your deck" and never opened it</li>
-          <li>You are building outside the accelerator and metro network pipeline</li>
-          <li>You would rather be judged on the business than on your contact list</li>
-        </ul>
-      </div>
-      <div class="wl-fit__col wl-fit__col--no reveal" data-delay="180">
-        <p class="wl-fit__label">This is not for you</p>
-        <ul>
-          <li>You want a downloadable list of investor email addresses</li>
-          <li>You are pre-incorporation. Come back when you are registered</li>
-          <li>You want someone to raise the round for you. We do not do that</li>
-          <li>You are looking for a guarantee. Nobody honest can give you one</li>
-        </ul>
-      </div>
+    <figure class="wln-story-feature reveal" data-delay="80">
+      <blockquote>
+        &ldquo;WeFundCo helped us understand our business the way an investor would, months before we started raising. We walked into every conversation already knowing what to fix.&rdquo;
+      </blockquote>
+      <figcaption>
+        <p class="wln-story-feature__name">[Founder Name]</p>
+        <p class="wln-story-feature__role">[Founder Title, Company Name]</p>
+      </figcaption>
+      <p class="wln-story-feature__note">Dummy copy for layout only. Replace with a real founder quote before launch.</p>
+    </figure>
+  </div>
+</section>
+
+
+<!-- ============ ABOUT THE PLATFORM ============ -->
+<section class="section wln-spotlight">
+  <div class="container wln-spotlight__grid">
+    <div class="wln-spotlight__copy reveal">
+      <p class="eyebrow">More than matching</p>
+      <h2 class="display display--lg">Built to be your<br><span class="display__accent">investment intelligence layer.</span></h2>
+      <p class="lede lede--left">
+        From readiness to risk visibility, WeFundCo brings structure to every stage of your fundraising journey.
+      </p>
+      <a href="about.html" class="btn btn--ghost">Learn More <span class="btn__circle">&rarr;</span></a>
+    </div>
+    <div class="wln-spotlight__media reveal" data-delay="120">
+      <img src="Assets/demo-images/compressed/Five-level verification on every startup.jpg" alt="WeFundCo investment readiness platform" />
     </div>
   </div>
 </section>
 
 
-<!-- ============ 05 · FOUNDING COHORT ============ -->
-<section class="section wl-perks">
-  <div class="container">
-    <p class="eyebrow reveal">Why join now and not later</p>
-    <h2 class="display display--lg reveal" data-delay="80">The founding cohort<br>sets the standard.</h2>
-    <p class="lede lede--left reveal" data-delay="120">
-      A verified network is only worth joining if the first members are worth matching.
-      That is why the first cohort is small, and why the people in it get more than the people after them.
-    </p>
-
-    <div class="partners__grid">
-      <div class="partner-tile reveal" data-delay="60"><span>First visibility when matching goes live</span></div>
-      <div class="partner-tile reveal" data-delay="100"><span>Free for the founding cohort of startups</span></div>
-      <div class="partner-tile reveal" data-delay="140"><span>Free for the first 100 verified investors</span></div>
-      <div class="partner-tile reveal" data-delay="180"><span>A direct line to the team, not a support form</span></div>
-      <div class="partner-tile reveal" data-delay="220"><span>A say in what gets built next</span></div>
-      <div class="partner-tile reveal" data-delay="260"><span>A founding member mark that never expires</span></div>
-    </div>
-
-    <a href="#join" class="btn btn--dark reveal" data-delay="300">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
-  </div>
-</section>
-
-
-<!-- ============ 06 · FAQ ============ -->
-<section class="section faq">
+<!-- ============ FAQ ============ -->
+<section class="section faq wln-faq">
   <div class="container container--narrow">
-    <p class="eyebrow eyebrow--center reveal">Before you ask</p>
-    <h2 class="display display--lg display--center reveal" data-delay="80">The four questions<br>everybody asks</h2>
+    <h2 class="display display--lg display--center reveal">Frequently asked questions</h2>
 
     <div class="faq__list">
-      <details class="faq__item" open>
-        <summary>Will my pitch deck get shared without my knowledge?</summary>
-        <p>Never. There is nowhere to upload a deck. Your verified profile is what an investor sees, and no introduction is made without your go ahead. Nothing leaves WeFundCo because somebody found your email address.</p>
+      <details class="faq__item reveal" data-delay="100">
+        <summary>What is WeFundCo?</summary>
+        <p>WeFundCo is an investment readiness, intelligence and transaction platform that helps businesses prepare for capital and helps investors evaluate opportunities with greater clarity.</p>
       </details>
-      <details class="faq__item" open>
-        <summary>What does it cost?</summary>
-        <p>Free for the founding cohort of startups. Free for the first 100 verified investors. Pricing for members after that is published before it applies, and waitlist members hear it first.</p>
+      <details class="faq__item reveal" data-delay="140">
+        <summary>Who is WeFundCo for?</summary>
+        <p>WeFundCo is built for founders and businesses at different stages of fundraising readiness, from early stage startups to growth stage companies.</p>
       </details>
-      <details class="faq__item" open>
-        <summary>I am not in a metro. Does that count against me?</summary>
-        <p>No. Geography is a filter investors can use, not a gate that excludes you. If you are building in Coimbatore, Indore, Lucknow or anywhere else and the business is strong, you belong here. Sector, stage and traction are what matter.</p>
+      <details class="faq__item reveal" data-delay="180">
+        <summary>How does WeFundCo help me get investment ready?</summary>
+        <p>WeFundCo evaluates your business across financials, valuation, compliance, ownership and diligence readiness, and highlights the gaps to address before investor conversations begin.</p>
       </details>
-      <details class="faq__item" open>
-        <summary>Is the platform live yet?</summary>
-        <p>Not yet. We are in pre-launch and assembling the founding cohort. Everyone on the waitlist is notified first, and founding members get first access and first visibility. We would rather launch late than introduce you into an empty room.</p>
+      <details class="faq__item reveal" data-delay="220">
+        <summary>Is this the same as pitching to investors directly?</summary>
+        <p>No. WeFundCo focuses on preparation and evaluation first, so that when you connect with investors, you walk in with a stronger and more structured case.</p>
+      </details>
+      <details class="faq__item reveal" data-delay="260">
+        <summary>What is AI assisted diligence, and does it replace professional diligence?</summary>
+        <p>AI assisted diligence surfaces key considerations early in your journey. It does not replace formal legal, financial or tax diligence, which remains the responsibility of qualified professionals.</p>
+      </details>
+      <details class="faq__item reveal" data-delay="300">
+        <summary>When can I join WeFundCo?</summary>
+        <p>WeFundCo is currently in its early access phase. Join the waitlist to be notified as soon as the platform goes live.</p>
       </details>
     </div>
+  </div>
+</section>
 
-    <div class="wl-endcta">
-      <a href="#join" class="btn btn--dark btn--lg">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
-      <p>Free to join. Platform access requires verification. Only incorporated companies with valid legal documentation are eligible.</p>
-    </div>
+
+<!-- ============ CLOSING CTA ============ -->
+<section class="section wln-join">
+  <div class="container wln-join__inner reveal">
+    <h2 class="display display--lg display--center">Get investment ready.</h2>
+    <p class="lede lede--center wln-join__lede">
+      Preparation changes how investors see your business.<br>
+      Join the waitlist and be first to know when WeFundCo launches.
+    </p>
+    <a href="#apply" class="btn btn--dark btn--lg">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
   </div>
 </section>
 
 </main>
 
-<!-- ============ FOOTER ============ -->
 <footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__brand">
+      <p class="footer__logo">
+        <img src="Assets/Wefundco-white.png" alt="WeFundCo" class="footer__logo-img" />
+      </p>
+      <p class="footer__tag">A verification led private capital platform connecting founders, investors and strategic partners across India.</p>
+
+      <p class="footer__label">Contact</p>
+      <p class="footer__addr">hello@wefundco.in</p>
+
+      <div class="footer__social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="X">x</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="Facebook">fb</a>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      <div>
+        <p class="footer__label">Company</p>
+        <a href="about.html">About Us</a>
+        <a href="about.html#mission">Mission</a>
+        <a href="about.html#mission">Vision</a>
+        <a href="about.html#company">Team</a>
+        <a href="/waitlist">Contact</a>
+      </div>
+      <div>
+        <p class="footer__label">Site</p>
+        <a href="investors.html">For Investors</a>
+        <a href="startups.html">For Startups</a>
+        <a href="index.html#partners">For Partners</a>
+        <a href="index.html#verified">Verification</a>
+        <a href="events.html">Events</a>
+      </div>
+      <div>
+        <p class="footer__label">Resources</p>
+        <a href="index.html#resources">Founder Guides</a>
+        <a href="index.html#resources">Investor Guides</a>
+        <a href="index.html#resources">Glossary</a>
+        <a href="index.html#resources">Reports and Data</a>
+        <a href="index.html#faq">FAQ</a>
+      </div>
+      <div>
+        <p class="footer__label">Legal</p>
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Disclaimer</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">Grievance and Support</a>
+      </div>
+    </div>
+  </div>
+
   <div class="container footer__bottom">
     <p>&copy; 2026 CapitalPrime Technologies Private Limited. All rights reserved.</p>
-    <p><a href="index.html">Back to site</a></p>
+    <p>Pre-launch, waitlist open</p>
   </div>
+
   <div class="container">
     <p class="footer__disclaimer">
       WeFundCo is a discovery and introduction platform operated by CapitalPrime Technologies Private Limited. It is not an investment adviser, a fundraising broker or a crowdfunding platform. It does not solicit investment and does not offer securities. Nothing on this site constitutes investment advice. Verification establishes a baseline of credibility and is not an endorsement. All investment decisions, diligence and documentation remain entirely the responsibility of the parties involved.
