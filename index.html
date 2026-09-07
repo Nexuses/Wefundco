@@ -3,31 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>WeFundCo: India has great startups and great investors. They just never find each other.</title>
-<meta name="description" content="WeFundCo connects verified founders and investors in India by thesis, sector, stage and ticket size. No warm intro required. Both sides are verified before they meet. Join the waitlist." />
+<title>WeFundCo | Investment readiness, intelligence and transaction infrastructure</title>
+<meta name="description" content="WeFundCo brings discovery, investment readiness, valuation, risk assessment and AI-assisted diligence into one structured journey for businesses and investors in India." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles-brand.css" />
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type":"Question","name":"Does joining the waitlist guarantee access?","acceptedAnswer":{"@type":"Answer","text":"No. It is the first step. After joining, you will be invited to complete a verified profile. Access is granted only after review. Not everyone who applies will be onboarded."}},
-    {"@type":"Question","name":"What does verification involve?","acceptedAnswer":{"@type":"Answer","text":"For startups: an incorporated entity, a real team, and claims supported by documentation. For investors: verified identity and active deployment. Most reviews are completed within a few business days."}},
-    {"@type":"Question","name":"Will my pitch deck get shared without my knowledge?","acceptedAnswer":{"@type":"Answer","text":"Never. Nothing is shared without your approval. You decide whether to connect, when, and with whom."}},
-    {"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"Free for the founding cohort of startups. Free for the first 100 verified investors. Pricing for subsequent members will be announced at launch."}},
-    {"@type":"Question","name":"Is WeFundCo only for metro startups?","acceptedAnswer":{"@type":"Answer","text":"Definitely not. If you are building in Coimbatore, Indore, Lucknow or anywhere else in India and your business is strong, you belong here. Sector, stage and traction are what matter. Not your postcode."}},
-    {"@type":"Question","name":"Is the platform live yet?","acceptedAnswer":{"@type":"Answer","text":"Not yet. We are in pre-launch. When we go live, everyone on the waitlist is notified first. Founding cohort members get first access and first visibility."}},
-    {"@type":"Question","name":"Is WeFundCo a broker or an adviser?","acceptedAnswer":{"@type":"Answer","text":"No. WeFundCo is a discovery and introduction platform. It does not raise capital, execute transactions or give investment advice. Every decision stays with you."}}
-  ]
-}
-</script>
 </head>
-<body>
+<body class="page-home">
 
 <!-- ============ ANNOUNCEMENT BAR ============ -->
 <div class="announce" id="announce">
@@ -49,13 +33,12 @@
     <nav class="nav__links" id="navLinks">
       <a href="investors.html">For Investors</a>
       <a href="startups.html">For Startups</a>
-      <a href="#why">Why WeFundCo</a>
-      <a href="index.html#verified">Verification</a>
-      <a href="events.html">Events</a>
-      <a href="#resources">Resources</a>
+      <a href="#problem">The Problem</a>
+      <a href="#journey">How It Works</a>
+      <a href="#capabilities">Capabilities</a>
     </nav>
 
-    <a href="/waitlist" class="btn btn--pill"><span>Join<span class="btn__long"> the Waitlist</span></span><span class="btn__arrow">&rarr;</span></a>
+    <a href="/waitlist" class="btn btn--dark btn--nav">Join<span class="btn__long"> the Waitlist</span> <span class="btn__arrow">&rarr;</span></a>
 
     <button class="nav__burger" id="navBurger" aria-label="Menu">
       <span></span><span></span>
@@ -66,9 +49,9 @@
 <main>
 
 <!-- ============ 01 · HERO ============ -->
-<section class="hero">
+<section class="hero home-hero" id="top">
   <div class="container hero__head">
-    <p class="eyebrow reveal">Verified startup discovery, India</p>
+    <p class="eyebrow reveal">Investment readiness and intelligence</p>
 
     <h1 class="display display--xl hero__title">
       <span class="line"><span>Where businesses become investment ready, and <span class="display__accent">capital becomes better informed.</span></span></span>
@@ -79,569 +62,216 @@
     </p>
     <p class="lede lede--tagline reveal" data-delay="140">From discovery to diligence. From readiness to transaction.</p>
 
-    <div class="hero__cta reveal" data-delay="200">
-      <form class="hero-form" id="heroWaitlistForm" novalidate>
-        <div class="hero-form__row">
-          <input type="email" id="heroEmail" placeholder="you@company.com" required />
-          <button type="submit" class="btn btn--dark">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
-        </div>
-      </form>
-      <div class="hero__proof">
-        <div class="avatars">
-          <img src="Assets/demo-images/compressed/image (1) (1).png" alt="" />
-          <img src="Assets/demo-images/compressed/image (2).png" alt="" />
-          <img src="Assets/demo-images/compressed/image (3).png" alt="" />
-          <img src="Assets/demo-images/compressed/image (4).png" alt="" />
-        </div>
-        <p><strong data-count="640" data-suffix="+">0</strong> founders and investors already signed up</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- horizontal drifting image strip -->
-  <div class="strip" id="strip">
-    <div class="strip__track" id="stripTrack">
-
-      <figure class="strip__card">
-        <img src="Assets/demo-images/compressed/image (1) (1).png" alt="Founding team in a working session" />
-        <img class="strip__overlay strip__overlay--br" src="Assets/dashboard (2).png" alt="" />
-        <figcaption class="chip chip--white">
-          <strong>Seed &middot; SaaS</strong>
-          <span>Profile verified</span>
-        </figcaption>
-      </figure>
-
-      <figure class="strip__card strip__card--tint">
-        <img class="strip__dash" src="Assets/dashboard (1).png" alt="Calendar widget" />
-      </figure>
-
-      <figure class="strip__card">
-        <img src="Assets/demo-images/compressed/image (2).png" alt="Startup team in a working session" />
-        <img class="strip__overlay strip__overlay--tr" src="Assets/dashboard (4).png" alt="" />
-      </figure>
-
-      <figure class="strip__card strip__card--tint2">
-        <img class="strip__dash" src="Assets/dashboard (3).png" alt="Trending events" />
-      </figure>
-
-      <figure class="strip__card">
-        <img src="Assets/demo-images/compressed/image (3).png" alt="Startup team collaborating" />
-        <img class="strip__overlay strip__overlay--br" src="Assets/dashboard (5).png" alt="" />
-        <figcaption class="chip chip--white">
-          <strong>Series A &middot; Climate</strong>
-          <span>Raising</span>
-        </figcaption>
-      </figure>
-
-      <figure class="strip__card">
-        <img src="Assets/demo-images/compressed/www.beatsnoop.com-3000-DYtTr2O6za.jpg" alt="Roundtable discussion" />
-        <img class="strip__overlay strip__overlay--tl" src="Assets/dashboard (1).png" alt="" />
-      </figure>
-
+    <div class="hero__cta hero__cta-row reveal" data-delay="200">
+      <a href="#journey" class="btn btn--dark">Explore How WeFundCo Works <span class="btn__arrow">&rarr;</span></a>
+      <a href="/waitlist" class="btn btn--ghost">Prepare for Investment <span class="btn__arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
 
 
-<!-- ============ 02 · CHOOSE YOUR PATH ============ -->
-<section class="section paths" id="paths">
-  <div class="container paths--center">
-    <p class="eyebrow eyebrow--center reveal">Choose your path</p>
-    <h2 class="display display--lg display--center reveal" data-delay="80"><span class="display__accent">Which side</span> of the<br>table are you on?</h2>
-
-    <div class="paths__grid paths__grid--3">
-
-      <article class="path-card reveal" data-delay="140">
-        <div class="path-card__media">
-          <img src="Assets/demo-images/compressed/Matched to investors who are actually looking for you.jpg" alt="Founders reviewing traction" />
-          <span class="badge badge--white">01 / For Startups</span>
-        </div>
-        <div class="path-card__body">
-          <h3>Get found by investors already looking for what you build.</h3>
-          <p>Build one verified profile. Get discovered on sector, stage and ticket size. Not on who you happen to know.</p>
-          <ul class="ticks">
-            <li>Your business does the talking</li>
-            <li>Reach beyond your existing network</li>
-            <li>Introductions made by our team, never cold</li>
-          </ul>
-          <a href="startups.html" class="btn btn--dark">Join the Founding Cohort <span class="btn__arrow">&rarr;</span></a>
-          <p class="path-card__note">Founding Cohort open</p>
-        </div>
-      </article>
-
-      <article class="path-card reveal" data-delay="220">
-        <div class="path-card__media">
-          <img src="Assets/demo-images/compressed/Structured profiles before the first call.jpg" alt="Investor reviewing opportunities" />
-          <span class="badge badge--white">02 / For Investors</span>
-        </div>
-        <div class="path-card__body">
-          <h3>See verified startups that match your thesis.</h3>
-          <p>Curated deal flow, filtered to what you actually invest in. Every startup is verified before you see it. No cold decks, no noise.</p>
-          <ul class="ticks">
-            <li>Matched on sector, stage and ticket size</li>
-            <li>Structured information before the first call</li>
-            <li>You control every next step</li>
-          </ul>
-          <a href="investors.html" class="btn btn--dark">Get Early Investor Access <span class="btn__arrow">&rarr;</span></a>
-          <p class="path-card__note">Free for the first <strong data-count="100">0</strong></p>
-        </div>
-      </article>
-
-      <article class="path-card reveal" data-delay="300">
-        <div class="path-card__media">
-          <img src="Assets/demo-images/compressed/www.beatsnoop.com-3000-aL81KrJW37.jpg" alt="Advisers supporting a founding team" />
-          <span class="badge badge--white">03 / For Strategic Partners</span>
-        </div>
-        <div class="path-card__body">
-          <h3>Reach founders at the moment they need your expertise.</h3>
-          <p>Legal, financial, compliance and technology specialists join as the Growth Network. Not advertising. Discovery.</p>
-          <ul class="ticks">
-            <li>Found while founders build their profile</li>
-            <li>Verified alongside everyone else</li>
-            <li>Support startups through the whole journey</li>
-          </ul>
-          <a href="/waitlist" class="btn btn--dark">Become a Strategic Partner <span class="btn__arrow">&rarr;</span></a>
-          <p class="path-card__note">Applications open</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ============ 03 · THE PROBLEM ============ -->
-<section class="section problem" id="about">
+<!-- ============ 02 · THE PROBLEM ============ -->
+<section class="section problem" id="problem">
   <div class="container problem__inner">
-    <p class="eyebrow reveal">The problem</p>
+    <p class="eyebrow eyebrow--center reveal">The problem</p>
 
-    <h2 class="statement reveal-words">
-      <span class="statement__part">Capital doesn&rsquo;t just need access.</span>
-      <span class="statement__part statement__part--accent">It needs conviction.</span>
+    <h2 class="display display--lg display--center reveal" data-delay="80">
+      Capital doesn&rsquo;t just need access.<br><span class="display__accent">It needs conviction.</span>
     </h2>
 
-    <div class="problem__cols">
-      <div class="reveal" data-delay="80">
-        <p>Finding each other is only the beginning. Businesses arrive at fundraising with very different levels of preparedness, and investors spend considerable time piecing together financials, valuations, ownership, compliance and risk before they can even decide whether an opportunity deserves a closer look.</p>
-        <p>In an increasingly uncertain investment environment, access alone creates little value without clarity.</p>
-        <p>WeFundCo brings discovery, preparedness and structured investment intelligence together, helping businesses become better prepared for capital, and helping investors evaluate opportunities with greater context from the outset.</p>
-        <p>This is not just a discovery problem. It is a readiness, evaluation and execution problem, and WeFundCo is built for the entire journey.</p>
-        <a href="#how" class="link-arrow">Explore How WeFundCo Works <span>&rarr;</span></a>
-      </div>
-      <div class="problem__faces reveal" data-delay="160">
-        <span class="face-pill face-pill--mint">Founders</span>
-        <img src="Assets/demo-images/compressed/image (5).png" alt="" class="face face--1" />
-        <img src="Assets/demo-images/compressed/image (2).png" alt="" class="face face--2" />
-        <span class="face-pill face-pill--lilac">Investors</span>
-        <img src="Assets/demo-images/compressed/image (3).png" alt="" class="face face--3" />
-      </div>
+    <div class="home-problem__copy reveal" data-delay="120">
+      <p>Finding each other is only the beginning. Businesses arrive at fundraising with very different levels of preparedness, and investors spend considerable time piecing together financials, valuations, ownership, compliance and risk before they can even decide whether an opportunity deserves a closer look.</p>
+      <p>In an increasingly uncertain investment environment, access alone creates little value without clarity.</p>
+      <p>WeFundCo brings discovery, preparedness and structured investment intelligence together, helping businesses become better prepared for capital, and helping investors evaluate opportunities with greater context from the outset.</p>
+      <p>This is not just a discovery problem. It is a readiness, evaluation and execution problem, and WeFundCo is built for the entire journey.</p>
+      <a href="#journey" class="btn btn--dark">Explore How WeFundCo Works <span class="btn__arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
 
 
-<!-- ============ 04 · HOW IT WORKS (carousel) ============ -->
-<section class="section how" id="how">
-  <div class="container how__head">
-    <div>
-      <p class="eyebrow reveal">How it works</p>
-      <h2 class="display display--lg reveal" data-delay="80">Verify. Curate.<br><span class="display__accent">Connect.</span></h2>
+<!-- ============ 03 · FOR STARTUPS ============ -->
+<section class="section home-audience" id="startups">
+  <div class="container home-audience__grid">
+    <div class="home-audience__copy reveal">
+      <p class="eyebrow">For startups and businesses</p>
+      <h2 class="display display--lg">Be ready for capital,<br><span class="display__accent">not just visible to it.</span></h2>
+      <p class="lede lede--left">Getting in front of an investor is only the first step. What matters next is whether your business is prepared to withstand investment scrutiny. WeFundCo helps you understand your business through an investor&rsquo;s lens, from valuation and financial readiness to ownership, risk, compliance and diligence preparedness, before serious conversations begin.</p>
+      <ul class="ticks">
+        <li>Understand how investment ready your business really is.</li>
+        <li>Identify financial, valuation, compliance and diligence gaps early.</li>
+        <li>Build a structured investment profile that goes beyond a pitch deck.</li>
+        <li>Meet relevant investors better prepared for the conversation.</li>
+      </ul>
+      <p class="home-audience__note">See how valuation and ownership may be viewed by investors, and prepare for the questions investors are likely to ask on the full For Startups page.</p>
+      <a href="/waitlist" class="btn btn--dark">Prepare for Investment <span class="btn__arrow">&rarr;</span></a>
     </div>
-    <div class="how__nav">
-      <button class="circle-btn" id="howPrev" aria-label="Previous">&larr;</button>
-      <button class="circle-btn" id="howNext" aria-label="Next">&rarr;</button>
-    </div>
-  </div>
-
-  <div class="how__rail" id="howRail">
-    <article class="how-card how-card--lilac">
-      <span class="badge badge--white">01 / Join the Waitlist</span>
-      <div class="how-card__fill">
-        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
-        <img class="how-card__icon" src="Assets/Profile.png" alt="" />
-      </div>
-      <div class="how-card__body">
-        <h3>Free. Thirty seconds.</h3>
-        <p>Joining is open to everyone. It is the first step, not a guarantee of access.</p>
-      </div>
-    </article>
-
-    <article class="how-card how-card--mint">
-      <span class="badge badge--white">02 / Build your profile</span>
-      <div class="how-card__fill">
-        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
-        <img class="how-card__icon" src="Assets/build.png" alt="" />
-      </div>
-      <div class="how-card__body">
-        <h3>This is what replaces the warm intro</h3>
-        <p>Sector, stage, ticket size, traction, team and documentation. Structured, so it can actually be matched.</p>
-      </div>
-    </article>
-
-    <article class="how-card how-card--blush">
-      <span class="badge badge--white">03 / Get verified</span>
-      <div class="how-card__fill">
-        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
-        <img class="how-card__icon" src="Assets/verify.png" alt="" />
-      </div>
-      <div class="how-card__body">
-        <h3>A verified network, not scraped data</h3>
-        <p>Every profile is reviewed before anyone sees it. Not everything submitted gets through. That is the point.</p>
-      </div>
-    </article>
-
-    <article class="how-card how-card--sky">
-      <span class="badge badge--white">04 / Get matched</span>
-      <div class="how-card__fill">
-        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
-        <img class="how-card__icon" src="Assets/match.png" alt="" />
-      </div>
-      <div class="how-card__body">
-        <h3>Matched to your sector, stage and ticket size</h3>
-        <p>A pre-seed fintech investor sees pre-seed fintech. Not everything. You appear to the right people on the other side.</p>
-      </div>
-    </article>
-
-    <article class="how-card how-card--lilac">
-      <span class="badge badge--white">05 / Get introduced</span>
-      <div class="how-card__fill">
-        <img class="how-card__fill-img" src="Assets/card-bg.png" alt="" />
-        <img class="how-card__icon" src="Assets/connect.png" alt="" />
-      </div>
-      <div class="how-card__body">
-        <h3>Introductions made by our team, never cold</h3>
-        <p>When both sides fit, you request an introduction and we make it. No unsolicited decks. Nobody is contacted without agreeing to it.</p>
-      </div>
-    </article>
-  </div>
-</section>
-
-
-<!-- ============ 05 · WHY WEFUNDCO ============ -->
-<section class="stack-section stack-section--reasons" id="why">
-  <div class="stack-sticky">
-    <div class="container stack__head">
-      <p class="eyebrow">Why WeFundCo</p>
-      <h2 class="stack__title">Built differently from everything else in this market. Most platforms give you a list. <span class="display__accent">We give you a match.</span></h2>
-      <a href="/waitlist" class="btn btn--dark stack__cta">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
-    </div>
-
-    <div class="container">
-      <div class="stack__cards" id="stackCards">
-
-        <article class="stat-card stat-card--ink">
-          <span class="stat-card__idx">01</span>
-          <h3>Both sides are verified, not just one</h3>
-          <p>Every startup and every investor is reviewed before they appear. Entity, team, core claims. Most platforms verify investors but not startups.</p>
-        </article>
-
-        <article class="stat-card stat-card--paper">
-          <span class="stat-card__idx">02</span>
-          <h3>Matched on thesis, not on popularity</h3>
-          <p>Sector, stage, geography and ticket size. Most platforms sort by recency, or by whoever paid for a featured slot.</p>
-        </article>
-
-        <article class="stat-card stat-card--blush">
-          <span class="stat-card__idx">03</span>
-          <h3>Your deck stays yours</h3>
-          <p>Nothing is shared without your knowledge. You decide whether to connect, and when. Most platforms send your materials to anyone who clicks.</p>
-        </article>
-
-        <article class="stat-card stat-card--mint">
-          <span class="stat-card__idx">04</span>
-          <h3>Merit over network, wherever you build</h3>
-          <p>A strong business in Jaipur or Kochi gets the same visibility as one in Koramangala. Traction and thesis fit matter here. Not your postcode.</p>
-        </article>
-
-        <article class="stat-card stat-card--ink">
-          <span class="stat-card__idx">05</span>
-          <h3>Built for India, not adapted for it</h3>
-          <p>SAFE notes, CCPS, bridge rounds, DPIIT recognition. Native context, not a Western platform translated into rupees.</p>
-        </article>
-
-      </div>
+    <div class="home-audience__media reveal" data-delay="120">
+      <img src="Assets/demo-images/compressed/Matched to investors who are actually looking for you(1).jpg" alt="Startup team preparing for investor conversations" />
     </div>
   </div>
 </section>
 
 
-<!-- ============ 06 · WEFUNDCO VERIFIED ============ -->
-<section class="section partners partners--verified" id="verified">
-  <div class="container partners--verified__inner">
-    <p class="eyebrow eyebrow--center reveal">WeFundCo Verified</p>
-    <h2 class="display display--lg display--center reveal" data-delay="80">Every profile<br><span class="display__accent">earns its place.</span></h2>
-    <p class="lede lede--center reveal" data-delay="140">Joining the waitlist is open. Being on the platform is not. Every startup, investor and partner is reviewed before becoming visible to anyone else. Entity verified. Team verified. Claims verified. This is not a badge. It is a standard.</p>
-
-    <div class="verify-process reveal" data-delay="160">
-      <div class="verify-process__line" aria-hidden="true"></div>
-      <ol class="verify-process__steps">
-        <li class="verify-process__step reveal" data-delay="60">
-          <p class="verify-process__level">Level 01</p>
-          <div class="verify-process__circle">
-            <img src="Assets/dark-icons/Profile.png" alt="" />
-          </div>
-          <p class="verify-process__desc">Identity verification</p>
-        </li>
-        <li class="verify-process__step reveal" data-delay="100">
-          <p class="verify-process__level">Level 02</p>
-          <div class="verify-process__circle">
-            <img src="Assets/dark-icons/verify.png" alt="" />
-          </div>
-          <p class="verify-process__desc">Business verification</p>
-        </li>
-        <li class="verify-process__step reveal" data-delay="140">
-          <p class="verify-process__level">Level 03</p>
-          <div class="verify-process__circle">
-            <img src="Assets/dark-icons/doumentation.png" alt="" />
-          </div>
-          <p class="verify-process__desc">Documentation review</p>
-        </li>
-        <li class="verify-process__step reveal" data-delay="180">
-          <p class="verify-process__level">Level 04</p>
-          <div class="verify-process__circle">
-            <img src="Assets/dark-icons/Legal.png" alt="" />
-          </div>
-          <p class="verify-process__desc">Legal and compliance</p>
-        </li>
-        <li class="verify-process__step reveal" data-delay="220">
-          <p class="verify-process__level">Level 05</p>
-          <div class="verify-process__circle">
-            <img src="Assets/dark-icons/Compliance.png" alt="" />
-          </div>
-          <p class="verify-process__desc">Investor readiness</p>
-        </li>
-      </ol>
+<!-- ============ 04 · FOR INVESTORS ============ -->
+<section class="section home-audience home-audience--alt" id="investors">
+  <div class="container home-audience__grid home-audience__grid--flip">
+    <div class="home-audience__media reveal">
+      <img src="Assets/demo-images/compressed/Structured profiles before the first call(1).jpg" alt="Investor reviewing structured company information" />
     </div>
-
-    <div class="partners--verified__cta reveal" data-delay="260">
-      <a href="/waitlist" class="btn btn--dark">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
-    </div>
-  </div>
-
-  <div class="marquee">
-    <div class="marquee__track">
-      <span>Merit over network</span><i></i>
-      <span>Verified profiles</span><i></i>
-      <span>Thesis level matching</span><i></i>
-      <span>Founder privacy first</span><i></i>
-      <span>Built for India</span><i></i>
-      <span>Merit over network</span><i></i>
-      <span>Verified profiles</span><i></i>
-      <span>Thesis level matching</span><i></i>
-      <span>Founder privacy first</span><i></i>
-      <span>Built for India</span><i></i>
+    <div class="home-audience__copy reveal" data-delay="120">
+      <p class="eyebrow">For investors</p>
+      <h2 class="display display--lg">Go beyond deal flow.<br><span class="display__accent">See the investment case.</span></h2>
+      <p class="lede lede--left">Relevant opportunities matter, but so does understanding what sits behind them. WeFundCo brings together structured company information, valuation, financial analysis, investment readiness, risk indicators and AI-assisted diligence insights, helping investors move from discovery to informed evaluation more efficiently.</p>
+      <ul class="ticks">
+        <li>Opportunities aligned to your investment thesis.</li>
+        <li>Structured company and investment information before deeper engagement.</li>
+        <li>Indicative valuation context and key financial indicators.</li>
+        <li>A clearer starting point for deciding which opportunities merit further discussion.</li>
+      </ul>
+      <p class="home-audience__note">Visibility into investment readiness, document preparedness, and financial, tax, legal and compliance risk indicators are covered in depth on the For Investors page.</p>
+      <a href="investors.html" class="btn btn--dark">Explore Investment Opportunities <span class="btn__arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
 
 
-<!-- ============ 07 · EVENTS ============ -->
-<section class="section events" id="events">
-  <div class="container events__head">
-    <div>
-      <p class="eyebrow reveal">Events</p>
-      <h2 class="display display--lg reveal" data-delay="80">Where the ecosystem<br><span class="display__accent">actually meets</span></h2>
+<!-- ============ 05 · FOR PARTNERS ============ -->
+<section class="section home-audience" id="partners">
+  <div class="container home-audience__grid">
+    <div class="home-audience__copy reveal">
+      <p class="eyebrow">For strategic partners</p>
+      <h2 class="display display--lg">Become part of the infrastructure<br><span class="display__accent">behind better deals.</span></h2>
+      <p class="lede lede--left">Investment readiness and transaction execution require specialist expertise at the right stage, not simply another directory of service providers. WeFundCo brings legal, financial, tax, compliance, technology and transaction specialists into the journey where their expertise is relevant, helping businesses close gaps and helping transactions progress more efficiently.</p>
+      <ul class="ticks">
+        <li>Engage where specialist intervention is genuinely required.</li>
+        <li>Support businesses across readiness, diligence and transaction stages.</li>
+        <li>Become part of an integrated investment and transaction ecosystem.</li>
+      </ul>
+      <a href="/waitlist" class="btn btn--dark">Join the WeFundCo Partner Network <span class="btn__arrow">&rarr;</span></a>
     </div>
-    <a href="events.html" class="btn btn--ghost reveal" data-delay="140">Join the Waitlist <span class="btn__circle">&rarr;</span></a>
+    <div class="home-audience__media reveal" data-delay="120">
+      <img src="Assets/demo-images/compressed/www.beatsnoop.com-3000-aL81KrJW37.jpg" alt="Strategic partners supporting a transaction" />
+    </div>
   </div>
+</section>
 
+
+<!-- ============ 06 · JOURNEY ============ -->
+<section class="section home-journey" id="journey">
   <div class="container">
-    <article class="event-card">
-      <img src="Assets/demo-images/compressed/www.beatsnoop.com-3000-DYtTr2O6za.jpg" alt="Startup roundtable" />
-      <div class="event-card__panel">
-        <span class="badge badge--mint">Roundtable</span>
-        <h3>Closed door sessions on what actually gets funded</h3>
-        <p>Investors on WeFundCo host their own sessions or join ones run by others. Founders get a room they did not have to be introduced into.</p>
-        <a href="/waitlist" class="btn btn--lilac">Register interest <span class="btn__arrow">&rarr;</span></a>
-      </div>
-    </article>
+    <p class="eyebrow eyebrow--center reveal">The WeFundCo journey</p>
+    <h2 class="display display--lg display--center reveal" data-delay="80">
+      A more intelligent path from<br><span class="display__accent">opportunity to transaction.</span>
+    </h2>
 
-    <article class="event-card">
-      <img src="Assets/demo-images/compressed/Introductions that begin with context, not a cold ask.jpg" alt="Pitch event" />
-      <div class="event-card__panel">
-        <span class="badge badge--mint">Pitch day</span>
-        <h3>Sector specific pitch days</h3>
-        <p>Startups pitch to a room already aligned with their stage and sector. For verified members only.</p>
-        <a href="/waitlist" class="btn btn--lilac">Register interest <span class="btn__arrow">&rarr;</span></a>
-      </div>
-    </article>
-
-    <article class="event-card">
-      <img src="Assets/demo-images/compressed/first-in-first-seen.jpg" alt="Ecosystem meetup" />
-      <div class="event-card__panel">
-        <span class="badge badge--mint">Coming soon</span>
-        <h3>The first events are being scheduled</h3>
-        <p>Nothing is on the calendar yet. Join the waitlist and we will tell you when the first sessions open, before they are announced publicly.</p>
-        <a href="/waitlist" class="btn btn--lilac">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
-      </div>
-    </article>
+    <ol class="home-journey__grid">
+      <li class="home-journey__step reveal" data-delay="100">
+        <span class="home-journey__number" aria-hidden="true">01</span>
+        <h3>Discover</h3>
+        <p>Relevant businesses and investors discover each other through structured profiles and matching.</p>
+      </li>
+      <li class="home-journey__step reveal" data-delay="130">
+        <span class="home-journey__number" aria-hidden="true">02</span>
+        <h3>Evaluate</h3>
+        <p>Company information is organised into a clearer investment view.</p>
+      </li>
+      <li class="home-journey__step reveal" data-delay="160">
+        <span class="home-journey__number" aria-hidden="true">03</span>
+        <h3>Prepare</h3>
+        <p>Businesses identify readiness gaps before serious investor conversations.</p>
+      </li>
+      <li class="home-journey__step reveal" data-delay="190">
+        <span class="home-journey__number" aria-hidden="true">04</span>
+        <h3>De-risk</h3>
+        <p>Valuation, financial analysis, risk indicators and AI-assisted diligence surface areas requiring attention.</p>
+      </li>
+      <li class="home-journey__step reveal" data-delay="220">
+        <span class="home-journey__number" aria-hidden="true">05</span>
+        <h3>Connect</h3>
+        <p>Relevant parties engage with better information and better preparation.</p>
+      </li>
+      <li class="home-journey__step reveal" data-delay="250">
+        <span class="home-journey__number" aria-hidden="true">06</span>
+        <h3>Transact</h3>
+        <p>Qualified opportunities progress through human-led discussions, specialist review, negotiation and deal execution.</p>
+      </li>
+    </ol>
   </div>
 </section>
 
 
-<!-- ============ 08 · STRATEGIC PARTNERS ============ -->
-<section class="section partners partners--growth" id="partners">
+<!-- ============ 07 · SECTOR INTELLIGENCE ============ -->
+<section class="section home-sectors" id="sectors">
+  <div class="container home-sectors__inner reveal">
+    <p class="eyebrow eyebrow--center">Sector intelligence</p>
+    <h2 class="display display--lg display--center">Built around sectors,<br><span class="display__accent">not just profiles.</span></h2>
+    <p class="lede lede--center">Every sector has a different investment lens. What matters in SaaS is different from what matters in healthcare, consumer, manufacturing or climate technology. WeFundCo is designed to progressively build sector-specific evaluation frameworks, benchmarks, metrics and investment intelligence, so businesses can be understood in the context in which they actually operate.</p>
+    <p class="home-sectors__tagline">Deeper sector understanding. Better prepared businesses. More informed capital.</p>
+  </div>
+</section>
+
+
+<!-- ============ 08 · CAPABILITIES ============ -->
+<section class="section home-capabilities" id="capabilities">
   <div class="container">
-    <p class="eyebrow eyebrow--center reveal">Strategic Partners</p>
-    <h2 class="display display--lg display--center reveal" data-delay="80">The people founders<br>need <span class="display__accent">between rounds</span></h2>
-    <p class="lede lede--center reveal" data-delay="140">A funding conversation needs more than two people in it. Legal, financial, banking, compliance and technology partners join WeFundCo as the Growth Network, supporting founders through the parts of the journey that are easy to get wrong.</p>
+    <p class="eyebrow eyebrow--center reveal">Investment intelligence capabilities</p>
+    <h2 class="display display--lg display--center reveal" data-delay="80">
+      Structured intelligence across<br><span class="display__accent">the investment journey.</span>
+    </h2>
 
-    <div class="partners__grid">
-      <div class="partner-tile reveal" data-delay="60">
-        <img class="partner-tile__icon" src="Assets/Legal.png" alt="" />
-        <span>Legal &amp; company secretarial</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="100">
-        <img class="partner-tile__icon" src="Assets/Accounting.png" alt="" />
-        <span>Accounting &amp; CFO services</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="140">
-        <img class="partner-tile__icon" src="Assets/Product.png" alt="" />
-        <span>Product &amp; engineering</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="180">
-        <img class="partner-tile__icon" src="Assets/Talent.png" alt="" />
-        <span>Talent &amp; recruitment</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="220">
-        <img class="partner-tile__icon" src="Assets/Compliance.png" alt="" />
-        <span>Compliance &amp; taxation</span>
-      </div>
-      <div class="partner-tile reveal" data-delay="260">
-        <img class="partner-tile__icon" src="Assets/Brand.png" alt="" />
-        <span>Brand, GTM &amp; growth</span>
-      </div>
+    <div class="home-capabilities__grid">
+      <article class="home-cap-card reveal" data-delay="100">
+        <div class="home-cap-card__icon"><img src="Assets/demo-images/prepare.png" alt="" /></div>
+        <h3>Investment Readiness</h3>
+        <p>Understand how prepared a business is for investor conversations, and where improvement is required.</p>
+      </article>
+      <article class="home-cap-card reveal" data-delay="130">
+        <div class="home-cap-card__icon"><img src="Assets/demo-images/evaluate.png" alt="" /></div>
+        <h3>AI-Assisted Due Diligence</h3>
+        <p>Surface key business, financial and diligence considerations before deeper review.</p>
+      </article>
+      <article class="home-cap-card reveal" data-delay="160">
+        <div class="home-cap-card__icon"><img src="Assets/demo-images/de-risk.png" alt="" /></div>
+        <h3>Risk Intelligence</h3>
+        <p>Highlight financial, tax, legal and compliance areas that may require attention.</p>
+      </article>
+      <article class="home-cap-card reveal" data-delay="190">
+        <div class="home-cap-card__icon"><img src="Assets/demo-images/compressed/money.png" alt="" /></div>
+        <h3>Valuation Analysis</h3>
+        <p>Provide indicative valuation context and highlight the factors influencing valuation.</p>
+      </article>
+      <article class="home-cap-card reveal" data-delay="220">
+        <div class="home-cap-card__icon"><img src="Assets/demo-images/compressed/type.png" alt="" /></div>
+        <h3>Cap Table Analysis</h3>
+        <p>Make ownership, dilution and proposed-round impact easier to understand.</p>
+      </article>
+      <article class="home-cap-card reveal" data-delay="250">
+        <div class="home-cap-card__icon"><img src="Assets/dark-icons/Structured profiles before the first call.png" alt="" /></div>
+        <h3>Investor Memo</h3>
+        <p>Give investors a concise investment snapshot before deciding whether to engage further.</p>
+      </article>
     </div>
 
-    <div class="partners--growth__cta">
-      <a href="/waitlist" class="btn btn--dark reveal" data-delay="300">Become a strategic partner <span class="btn__arrow">&rarr;</span></a>
-    </div>
+    <p class="home-capabilities__disclaimer reveal" data-delay="280">AI-assisted tools surface areas for review and structure the information available. They support, and do not replace, independent legal, financial, tax or transaction diligence.</p>
+    <p class="home-capabilities__note reveal" data-delay="300">The full capability set also includes Cap Table Analysis extensions, Financial and Traction Analysis, Startup Preparedness scoring, and Investor Question Preparedness.</p>
   </div>
 </section>
 
 
-<!-- ============ 09 · WAITLIST MOMENTUM ============ -->
-<section class="section momentum">
-  <div class="container momentum__grid">
-    <div>
-      <p class="momentum__big"><span data-count="640" data-suffix="+">0</span></p>
-      <p class="eyebrow reveal">Waitlist momentum</p>
-      <h2 class="display display--lg reveal" data-delay="80">The founding network<br>is coming together</h2>
-      <a href="/waitlist" class="btn btn--dark reveal" data-delay="140">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+<!-- ============ 09 · CLOSING CTA ============ -->
+<section class="section home-close" id="closing">
+  <div class="container home-close__inner reveal">
+    <h2 class="display display--lg display--center">Technology creates structure.<br>Intelligence creates clarity.<br><span class="display__accent">People close deals.</span></h2>
+    <p class="lede lede--center home-close__lede">WeFundCo uses technology and AI to bring structure and efficiency to discovery, readiness and evaluation. Specialist and human expertise remains central where it matters most: in transaction judgement, negotiation and execution.</p>
+
+    <h3 class="home-close__cta-title">Ready to become investment ready?</h3>
+
+    <div class="home-close__ctas">
+      <a href="/waitlist" class="btn btn--ghost">Prepare for Investment <span class="btn__arrow">&rarr;</span></a>
+      <a href="investors.html" class="btn btn--ghost">Explore Investment Opportunities <span class="btn__arrow">&rarr;</span></a>
+      <a href="/waitlist" class="btn btn--ghost">Join the WeFundCo Partner Network <span class="btn__arrow">&rarr;</span></a>
     </div>
-
-    <div class="meters reveal" data-delay="120">
-      <div class="meter">
-        <div class="meter__row"><span>Founders and investors signed up</span><span><b data-count="640">0</b>+ on the waitlist</span></div>
-        <div class="bar"><i style="--w:100%" class="bar--lilac"></i></div>
-      </div>
-      <div class="meter">
-        <div class="meter__row"><span>Levels of verification</span><span><b data-count="5">0</b> levels</span></div>
-        <div class="bar"><i style="--w:72%" class="bar--sky"></i></div>
-      </div>
-      <div class="meter">
-        <div class="meter__row"><span>Communities in the network</span><span><b data-count="3">0</b> communities</span></div>
-        <div class="bar"><i style="--w:58%" class="bar--grey"></i></div>
-      </div>
-      <div class="meter">
-        <div class="meter__row"><span>Sectors covered</span><span><b data-count="12">0</b> sectors</span></div>
-        <div class="bar"><i style="--w:64%" class="bar--mint"></i></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ============ 10 · FAQ ============ -->
-<section class="section faq" id="faq">
-  <div class="container container--narrow">
-    <p class="eyebrow eyebrow--center reveal">FAQ</p>
-    <h2 class="display display--lg display--center reveal" data-delay="80">Straight answers to the<br><span class="display__accent">questions worth asking</span></h2>
-
-    <div class="faq__list">
-      <details class="faq__item">
-        <summary>Does joining the waitlist guarantee access?</summary>
-        <p>No. It is the first step. After joining, you will be invited to complete a verified profile. Access is granted only after review. Not everyone who applies will be onboarded.</p>
-      </details>
-      <details class="faq__item">
-        <summary>What does verification involve?</summary>
-        <p>For startups: an incorporated entity, a real team, and claims supported by documentation. For investors: verified identity and active deployment. Most reviews are completed within a few business days.</p>
-      </details>
-      <details class="faq__item">
-        <summary>Will my pitch deck get shared without my knowledge?</summary>
-        <p>Never. Nothing is shared without your approval. You decide whether to connect, when, and with whom.</p>
-      </details>
-      <details class="faq__item">
-        <summary>What does it cost?</summary>
-        <p>Free for the founding cohort of startups. Free for the first 100 verified investors. Pricing for subsequent members will be announced at launch.</p>
-      </details>
-      <details class="faq__item">
-        <summary>Is WeFundCo only for metro startups?</summary>
-        <p>Definitely not. If you are building in Coimbatore, Indore, Lucknow or anywhere else in India and your business is strong, you belong here. Sector, stage and traction are what matter. Not your postcode.</p>
-      </details>
-      <details class="faq__item">
-        <summary>Is the platform live yet?</summary>
-        <p>Not yet. We are in pre-launch. When we go live, everyone on the waitlist is notified first. Founding cohort members get first access and first visibility.</p>
-      </details>
-      <details class="faq__item">
-        <summary>Is WeFundCo a broker or an adviser?</summary>
-        <p>No. WeFundCo is a discovery and introduction platform. It does not raise capital, execute transactions or give investment advice. Every decision stays with you.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-
-<!-- ============ 11 · RESOURCES ============ -->
-<section class="section resources" id="resources">
-  <div class="container events__head">
-    <div>
-      <p class="eyebrow reveal">Resources</p>
-      <h2 class="display display--lg reveal" data-delay="80">Guides for founders<br>and investors</h2>
-    </div>
-    <a href="/waitlist" class="btn btn--ghost reveal" data-delay="140">All resources <span class="btn__circle">&rarr;</span></a>
-  </div>
-
-  <div class="container res__grid">
-    <article class="res-card reveal" data-delay="60">
-      <img src="Assets/demo-images/compressed/toolxox.com-free-ai-tools-3k-R4N7ubz9Mr.jpg" alt="" />
-      <div class="res-card__meta"><span>/ Founder guide</span><span>Fundraising</span></div>
-      <h3>The pre-seed readiness checklist for Indian startups</h3>
-      <p>What typically gets checked before the first call, and what you can fix in a week.</p>
-    </article>
-    <article class="res-card reveal" data-delay="120">
-      <img src="Assets/demo-images/compressed/toolxox.com-free-ai-tools-3k-t23ENRhb6M.jpg" alt="" />
-      <div class="res-card__meta"><span>/ Investor guide</span><span>Diligence</span></div>
-      <h3>What to expect when someone looks under the hood</h3>
-      <p>A practical walkthrough of early stage diligence so you can prepare once, not scramble every time.</p>
-    </article>
-    <article class="res-card reveal" data-delay="180">
-      <img src="Assets/demo-images/compressed/toolxox.com-free-ai-tools-3k-uTV6Gw9Ae2.jpg" alt="" />
-      <div class="res-card__meta"><span>/ Glossary</span><span>Ecosystem</span></div>
-      <h3>SAFE, CCPS, bridge: startup funding terms in plain English</h3>
-      <p>The instruments and terms you will meet in an Indian early stage round, defined clearly.</p>
-    </article>
-  </div>
-</section>
-
-
-<!-- ============ 12 · FINAL CTA ============ -->
-<section class="cta" id="waitlist">
-  <img src="Assets/demo-images/compressed/www.beatsnoop.com-3000-p0fNsaHCLW.jpg" alt="" class="cta__bg" />
-  <div class="cta__inner">
-    <p class="cta__eyebrow">Merit over network</p>
-    <h2 class="display display--xl">Get in before the network<br>effects belong to someone else</h2>
-    <p class="cta__sub">Founding startups get first visibility as investors join. The first 100 investors get first access to verified deal flow. Early members shape how the platform develops.</p>
-
-    <form class="waitlist-form" id="waitlistForm" novalidate>
-      <div class="waitlist-form__row">
-        <input type="email" id="wlEmail" placeholder="you@company.com" required />
-        <button type="submit" class="btn btn--mint btn--lg">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
-      </div>
-      <p class="waitlist-form__msg" id="wlMsg"></p>
-    </form>
-
-    <p class="cta__fine">Free to join. Platform access requires verification. Only incorporated companies with valid legal documentation are eligible.</p>
   </div>
 </section>
 
@@ -681,16 +311,15 @@
         <a href="investors.html">For Investors</a>
         <a href="startups.html">For Startups</a>
         <a href="#partners">For Partners</a>
-        <a href="#verified">Verification</a>
+        <a href="#capabilities">Capabilities</a>
         <a href="events.html">Events</a>
       </div>
       <div>
-        <p class="footer__label">Resources</p>
-        <a href="#resources">Founder Guides</a>
-        <a href="#resources">Investor Guides</a>
-        <a href="#resources">Glossary</a>
-        <a href="#resources">Reports and Data</a>
-        <a href="#faq">FAQ</a>
+        <p class="footer__label">Platform</p>
+        <a href="#journey">How It Works</a>
+        <a href="#sectors">Sector Intelligence</a>
+        <a href="#startups">For Startups</a>
+        <a href="#investors">For Investors</a>
       </div>
       <div>
         <p class="footer__label">Legal</p>
