@@ -4,7 +4,12 @@
   "redirects": [
     {
       "source": "/waitlist-new",
-      "destination": "/waitlist",
+      "destination": "/startups",
+      "permanent": true
+    },
+    {
+      "source": "/waitlist",
+      "destination": "/startups",
       "permanent": true
     }
   ]
