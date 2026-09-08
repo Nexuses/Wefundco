@@ -250,6 +250,36 @@
   /* ---------------------------------------------------------
      10. Waitlist form → POST /api/waitlist
      --------------------------------------------------------- */
+  const waitlistSuccessModal = $('#waitlistSuccessModal');
+
+  function openWaitlistSuccessModal() {
+    if (!waitlistSuccessModal) return false;
+    waitlistSuccessModal.classList.add('is-open');
+    waitlistSuccessModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    const closeBtn = $('.wfc-modal__close', waitlistSuccessModal);
+    if (closeBtn) closeBtn.focus();
+    return true;
+  }
+
+  function closeWaitlistSuccessModal() {
+    if (!waitlistSuccessModal) return;
+    waitlistSuccessModal.classList.remove('is-open');
+    waitlistSuccessModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  if (waitlistSuccessModal) {
+    $$('[data-modal-close]', waitlistSuccessModal).forEach((el) => {
+      el.addEventListener('click', closeWaitlistSuccessModal);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && waitlistSuccessModal.classList.contains('is-open')) {
+        closeWaitlistSuccessModal();
+      }
+    });
+  }
+
   function inferRole(form) {
     const checked = ($('input[name="role"]:checked', form) || {}).value;
     if (checked) return checked;
@@ -300,7 +330,9 @@
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.error || 'Could not join the waitlist.');
-        if (msgEl) {
+        if (openWaitlistSuccessModal()) {
+          if (msgEl) msgEl.textContent = '';
+        } else if (msgEl) {
           msgEl.textContent = data.message || "You're on the list. We'll be in touch before launch.";
           msgEl.style.color = colors.ok;
         }

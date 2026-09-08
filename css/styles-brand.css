@@ -662,7 +662,7 @@ ul{margin:0;padding:0;list-style:none}
 .footer__aside .footer__social{justify-content:flex-start}
 .footer__logo{margin-bottom:18px}
 .footer__logo-img{height:clamp(44px,5.5vw,80px);width:auto;display:block}
-.footer__tag{color:rgba(255,255,255,.6);max-width:42ch;margin-bottom:34px}
+.footer__tag{color:rgba(255,255,255,.6);max-width:56ch;margin-bottom:34px}
 .footer__label{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:-.16px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:16px}
 .footer__addr{margin-bottom:28px}
 .footer__social{display:flex;gap:10px}
@@ -684,6 +684,59 @@ ul{margin:0;padding:0;list-style:none}
   font-size:14px;color:rgba(255,255,255,.6);
 }
 .footer__disclaimer{margin-top:22px;font-size:12px;line-height:1.65;color:rgba(255,255,255,.38);max-width:110ch}
+.footer__legal .footer__disclaimer{margin-top:0}
+.footer__legal .footer__disclaimer + .footer__disclaimer{margin-top:14px}
+
+/* =========================================================
+   WAITLIST SUCCESS MODAL
+   ========================================================= */
+.wfc-modal{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  opacity:0;visibility:hidden;
+  transition:opacity .3s ease,visibility .3s ease;
+}
+.wfc-modal.is-open{opacity:1;visibility:visible}
+body.modal-open{overflow:hidden}
+.wfc-modal__backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,20,56,.55);
+  backdrop-filter:blur(4px);
+}
+.wfc-modal__card{
+  position:relative;z-index:1;
+  width:min(480px,100%);
+  background:var(--white);
+  border-radius:var(--r-xl);
+  padding:clamp(32px,5vw,48px);
+  text-align:center;
+  box-shadow:
+    0 24px 64px rgba(0,20,56,.18),
+    0 8px 24px rgba(1,39,159,.12);
+  transform:translateY(12px) scale(.98);
+  transition:transform .35s var(--ease);
+}
+.wfc-modal.is-open .wfc-modal__card{transform:none}
+.wfc-modal__title{
+  margin:0 0 14px;
+  font-family:var(--serif);
+  font-size:clamp(24px,4vw,30px);
+  font-weight:400;
+  line-height:1.2;
+  letter-spacing:-.03em;
+  color:var(--ink);
+}
+.wfc-modal__text{
+  margin:0 0 28px;
+  font-size:16px;
+  line-height:1.65;
+  color:var(--muted);
+}
+.wfc-modal__close{
+  min-width:min(100%,220px);
+  border-radius:var(--r-btn);
+}
 
 /* =========================================================
    REVEAL UTILITY
