@@ -289,6 +289,10 @@
     error: '#B42318',
     ok: '#0AAFC8'
   });
+  bindWaitlist($('#closeWaitlistForm'), $('#closeEmail'), $('#closeMsg'), {
+    error: '#FFB4B4',
+    ok: '#D4F4F8'
+  });
 
   /* ---------------------------------------------------------
      11. Image fallback — if a stock photo fails to load,
