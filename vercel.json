@@ -17,6 +17,7 @@
     { "source": "/package-lock.json", "destination": "/", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/", "destination": "/startups" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/admin/login", "destination": "/admin/login.html" },
     { "source": "/admin/signup", "destination": "/admin/signup.html" }
