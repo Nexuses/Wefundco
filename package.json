@@ -1,0 +1,18 @@
+{
+  "name": "wefundco",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WeFundCo waitlist, SMTP and admin",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.19.0",
+    "nodemailer": "^7.0.6"
+  }
+}

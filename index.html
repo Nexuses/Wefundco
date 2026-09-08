@@ -42,11 +42,12 @@
     <p class="lede lede--tagline reveal" data-delay="140">From discovery to diligence. From readiness to transaction.</p>
 
     <div class="hero__cta reveal" data-delay="200">
-      <form class="hero-form" id="heroWaitlistForm" novalidate>
+      <form class="hero-form" id="heroWaitlistForm" data-source="home-hero" data-role="general" novalidate>
         <div class="hero-form__row">
           <input type="email" id="heroEmail" placeholder="you@company.com" required />
           <button type="submit" class="btn btn--dark">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
         </div>
+        <p class="waitlist-form__msg" id="heroMsg"></p>
       </form>
       <div class="hero__proof">
         <div class="avatars">
@@ -424,7 +425,7 @@
 
     <h3 class="home-close__cta-title">Ready to become investment ready?</h3>
 
-    <form class="waitlist-form home-close__form" id="closeWaitlistForm" novalidate>
+    <form class="waitlist-form home-close__form" id="closeWaitlistForm" data-source="home-close" data-role="general" novalidate>
       <div class="waitlist-form__row">
         <input type="email" id="closeEmail" placeholder="you@company.com" required />
         <button type="submit" class="btn btn--ghost">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>

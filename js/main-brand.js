@@ -248,15 +248,23 @@
   );
 
   /* ---------------------------------------------------------
-     10. Waitlist form
-         ⚠️ Front-end only. Wire `payload` to your CRM /
-         email tool (HubSpot, Mailchimp, Sheets, API) here.
+     10. Waitlist form → POST /api/waitlist
      --------------------------------------------------------- */
+  function inferRole(form) {
+    const checked = ($('input[name="role"]:checked', form) || {}).value;
+    if (checked) return checked;
+    if (form.dataset.role) return form.dataset.role;
+    if (/startup/i.test(location.pathname)) return 'startup';
+    if (/investor/i.test(location.pathname)) return 'investor';
+    return 'general';
+  }
+
   function bindWaitlist(form, emailEl, msgEl, colors) {
     if (!form || !emailEl) return;
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = emailEl.value.trim();
+      const btn = form.querySelector('button[type="submit"]');
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
         if (msgEl) {
@@ -270,14 +278,48 @@
         return;
       }
 
-      const payload = { email, role: 'startup', ts: new Date().toISOString() };
-      console.log('[WeFundCo] waitlist submission →', payload); // TODO: POST to your endpoint
+      const payload = {
+        email,
+        role: inferRole(form),
+        source: form.dataset.source || form.id || 'waitlist',
+        page: location.pathname
+      };
 
-      if (msgEl) {
-        msgEl.textContent = "You're on the list. We'll be in touch before launch.";
-        msgEl.style.color = colors.ok;
+      if (btn) {
+        btn.disabled = true;
+        btn.dataset.label = btn.innerHTML;
+        btn.textContent = 'Joining…';
       }
-      form.reset();
+      if (msgEl) msgEl.textContent = '';
+
+      try {
+        const res = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Could not join the waitlist.');
+        if (msgEl) {
+          msgEl.textContent = data.message || "You're on the list. We'll be in touch before launch.";
+          msgEl.style.color = colors.ok;
+        }
+        form.reset();
+      } catch (err) {
+        if (msgEl) {
+          msgEl.textContent = err.message || 'Could not join the waitlist just now.';
+          msgEl.style.color = colors.error;
+        } else {
+          emailEl.setCustomValidity(err.message || 'Could not join the waitlist just now.');
+          emailEl.reportValidity();
+          emailEl.setCustomValidity('');
+        }
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = btn.dataset.label || btn.innerHTML;
+        }
+      }
     });
   }
 
@@ -285,7 +327,7 @@
     error: '#FFB4B4',
     ok: '#D4F4F8'
   });
-  bindWaitlist($('#heroWaitlistForm'), $('#heroEmail'), null, {
+  bindWaitlist($('#heroWaitlistForm'), $('#heroEmail'), $('#heroMsg'), {
     error: '#B42318',
     ok: '#0AAFC8'
   });

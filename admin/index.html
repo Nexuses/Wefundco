@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Waitlist admin | WeFundCo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="topbar__brand" href="/admin">WeFundCo Admin</a>
+    <div class="topbar__right">
+      <span class="topbar__email" id="adminEmail"></span>
+      <button class="btn btn--sm" type="button" id="logoutBtn">Log out</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="stats">
+      <article class="stat"><p class="stat__label">Total waitlist</p><p class="stat__value" id="statTotal">—</p></article>
+      <article class="stat"><p class="stat__label">This week</p><p class="stat__value" id="statWeek">—</p></article>
+      <article class="stat"><p class="stat__label">Startups</p><p class="stat__value" id="statStartup">—</p></article>
+      <article class="stat"><p class="stat__label">Investors</p><p class="stat__value" id="statInvestor">—</p></article>
+    </div>
+
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search email" />
+      <select id="roleFilter">
+        <option value="all">All roles</option>
+        <option value="startup">Startup</option>
+        <option value="investor">Investor</option>
+        <option value="partner">Partner</option>
+        <option value="general">General</option>
+      </select>
+      <button class="btn btn--ghost" type="button" id="exportBtn">Export CSV</button>
+    </div>
+
+    <section class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Source</th>
+            <th>Page</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody id="rows">
+          <tr><td class="empty" colspan="5">Loading waitlist…</td></tr>
+        </tbody>
+      </table>
+      <div class="pager">
+        <span id="pageInfo"></span>
+        <div>
+          <button class="btn btn--ghost btn--sm" type="button" id="prevBtn">Previous</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="nextBtn">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

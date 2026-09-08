@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin signup | WeFundCo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+  <div class="auth">
+    <section class="auth__panel">
+      <a class="auth__brand" href="/">WeFundCo</a>
+      <div>
+        <p class="auth__kicker">Bootstrap access</p>
+        <h2 class="auth__headline">Create the <em>first admin.</em></h2>
+      </div>
+      <p class="auth__foot">After the first account, new admins are added from the dashboard.</p>
+    </section>
+    <section class="auth__form-wrap">
+      <form class="auth__card" id="signupForm">
+        <h1>Create admin</h1>
+        <p class="lede">This page is open only until the first admin exists.</p>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <button class="btn btn--block" type="submit">Create account →</button>
+        <p class="msg" id="msg"></p>
+        <p class="auth__switch">Already have an account? <a href="/admin/login">Log in</a></p>
+      </form>
+    </section>
+  </div>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
