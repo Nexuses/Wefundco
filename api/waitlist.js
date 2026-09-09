@@ -20,6 +20,14 @@ module.exports = async function handler(req, res) {
 
     const db = await getDb();
     const col = db.collection('waitlist');
+    const existing = await col.findOne({ email });
+    if (existing) {
+      return res.status(409).json({
+        error: 'This email is already on the waitlist.',
+        alreadyJoined: true
+      });
+    }
+
     const now = new Date();
 
     const doc = {
@@ -31,29 +39,22 @@ module.exports = async function handler(req, res) {
       createdAt: now
     };
 
-    let alreadyJoined = false;
     try {
       await col.insertOne(doc);
     } catch (err) {
       if (err && err.code === 11000) {
-        alreadyJoined = true;
-      } else {
-        throw err;
+        return res.status(409).json({
+          error: 'This email is already on the waitlist.',
+          alreadyJoined: true
+        });
       }
+      throw err;
     }
 
     try {
       await sendWaitlistEmails(doc);
     } catch (err) {
       console.error('[WeFundCo] waitlist email failed:', err);
-    }
-
-    if (alreadyJoined) {
-      return res.status(200).json({
-        ok: true,
-        alreadyJoined: true,
-        message: "You're already on the list. We'll be in touch before launch."
-      });
     }
 
     return res.status(200).json({
