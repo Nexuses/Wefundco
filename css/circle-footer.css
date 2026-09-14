@@ -2,7 +2,7 @@
    Loaded after styles-brand.css on the four live pages. */
 
 .footer__social{flex-wrap:wrap}
-.footer__social a{color:#fff}
+.footer__social a{color:#fff;font-size:0}
 .footer__social a svg{width:16px;height:16px;display:block;fill:currentColor}
 .footer__social a:focus-visible{outline:2px solid #fff;outline-offset:3px}
 
