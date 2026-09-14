@@ -8,10 +8,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/admin/admin.css" />
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
   <header class="topbar">
-    <a class="topbar__brand" href="/admin">WeFundCo Admin</a>
+    <a class="topbar__brand" href="/admin" aria-label="WeFundCo Admin">
+      <img src="/Assets/WeFundCo-color.png" alt="WeFundCo" class="topbar__logo" />
+      <span class="topbar__label">Admin</span>
+    </a>
     <div class="topbar__right">
       <span class="topbar__email" id="adminEmail"></span>
       <button class="btn btn--sm" type="button" id="logoutBtn">Log out</button>
@@ -48,10 +55,11 @@
             <th>Source</th>
             <th>Page</th>
             <th>Joined</th>
+            <th class="col-actions">Delete</th>
           </tr>
         </thead>
         <tbody id="rows">
-          <tr><td class="empty" colspan="6">Loading waitlist…</td></tr>
+          <tr><td class="empty" colspan="7">Loading waitlist…</td></tr>
         </tbody>
       </table>
       <div class="pager">
