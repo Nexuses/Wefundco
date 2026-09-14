@@ -8,12 +8,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/admin/admin.css" />
+<style>body.auth-pending{visibility:hidden}</style>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body>
+<body class="auth-pending">
   <header class="topbar">
     <a class="topbar__brand" href="/admin" aria-label="WeFundCo Admin">
       <img src="/Assets/WeFundCo-color.png" alt="WeFundCo" class="topbar__logo" />

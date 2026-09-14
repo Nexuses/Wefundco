@@ -161,9 +161,10 @@
     try {
       const me = await api('/api/admin/me');
       $('#adminEmail').textContent = me.email;
+      document.body.classList.remove('auth-pending');
       await load();
     } catch (_) {
-      window.location.href = '/admin/login';
+      window.location.replace('/admin/login');
     }
   })();
 
