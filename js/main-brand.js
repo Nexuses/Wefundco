@@ -251,14 +251,38 @@
      10. Waitlist form → POST /api/waitlist
      --------------------------------------------------------- */
   const waitlistSuccessModal = $('#waitlistSuccessModal');
+  const WAITLIST_COPY = {
+    joined: {
+      title: "You're on the waitlist.",
+      text: "We'll be in touch shortly with a few questions to evaluate your profile and take things forward. While you wait, join WeFundCo Circle — our WhatsApp community for founders, operators and investors — and start the conversation early."
+    },
+    already: {
+      title: "You're already on the waitlist.",
+      text: "You're already on our list, so we won't send another confirmation. While you wait, join WeFundCo Circle — our WhatsApp community for founders, operators and investors — and start the conversation early."
+    }
+  };
 
-  function openWaitlistSuccessModal() {
+  function openWaitlistSuccessModal(opts) {
     if (!waitlistSuccessModal) return false;
+    const alreadyJoined = !!(opts && opts.alreadyJoined);
+    const copy = alreadyJoined ? WAITLIST_COPY.already : WAITLIST_COPY.joined;
+    const titleEl = $('#waitlistSuccessTitle', waitlistSuccessModal);
+    const textEl = $('#waitlistSuccessText', waitlistSuccessModal);
+    if (titleEl) titleEl.textContent = copy.title;
+    if (textEl) textEl.textContent = copy.text;
+
+    const tick = $('.wfc-modal__tick', waitlistSuccessModal);
+    if (tick) {
+      tick.classList.remove('is-animating');
+      void tick.offsetWidth;
+      tick.classList.add('is-animating');
+    }
+
     waitlistSuccessModal.classList.add('is-open');
     waitlistSuccessModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
-    const closeBtn = $('.wfc-modal__close', waitlistSuccessModal);
-    if (closeBtn) closeBtn.focus();
+    const cta = $('.wfc-modal__whatsapp', waitlistSuccessModal);
+    if (cta) cta.focus();
     return true;
   }
 
@@ -296,6 +320,18 @@
       const email = emailEl.value.trim();
       const btn = form.querySelector('button[type="submit"]');
 
+      if (!/[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        if (msgEl) {
+          msgEl.textContent = 'Please enter a valid work email address.';
+          msgEl.style.color = colors.error;
+        } else {
+          emailEl.setCustomValidity('Please enter a valid work email address.');
+          emailEl.reportValidity();
+          emailEl.setCustomValidity('');
+        }
+        return;
+      }
+
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
         if (msgEl) {
           msgEl.textContent = 'Please enter a valid work email address.';
@@ -329,11 +365,16 @@
           body: JSON.stringify(payload)
         });
         const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error || 'Could not join the waitlist.');
-        if (openWaitlistSuccessModal()) {
+        const alreadyJoined = res.status === 409 && data.alreadyJoined === true;
+        if (!res.ok && !alreadyJoined) {
+          throw new Error(data.error || 'Could not join the waitlist.');
+        }
+        if (openWaitlistSuccessModal({ alreadyJoined })) {
           if (msgEl) msgEl.textContent = '';
         } else if (msgEl) {
-          msgEl.textContent = data.message || "You're on the list. We'll be in touch before launch.";
+          msgEl.textContent = alreadyJoined
+            ? (data.error || 'This email is already on the waitlist.')
+            : (data.message || "You're on the list. We'll be in touch before launch.");
           msgEl.style.color = colors.ok;
         }
         form.reset();
