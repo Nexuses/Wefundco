@@ -99,12 +99,13 @@
 
   function renderRows(items) {
     if (!items.length) {
-      rowsEl.innerHTML = '<tr><td class="empty" colspan="5">No waitlist entries yet.</td></tr>';
+      rowsEl.innerHTML = '<tr><td class="empty" colspan="6">No waitlist entries yet.</td></tr>';
       return;
     }
     rowsEl.innerHTML = items.map((item) => `
       <tr>
         <td class="email" title="${escapeHtml(item.userAgent || '')}">${escapeHtml(item.email)}</td>
+        <td class="muted">${escapeHtml(item.phone || '—')}</td>
         <td><span class="pill">${escapeHtml(item.role || 'general')}</span></td>
         <td>${escapeHtml(item.source || '—')}</td>
         <td class="muted">${escapeHtml(item.page || '—')}</td>
@@ -158,7 +159,7 @@
     timer = setTimeout(() => {
       state.q = e.target.value.trim();
       state.page = 1;
-      load().catch((err) => { rowsEl.innerHTML = `<tr><td class="empty" colspan="5">${escapeHtml(err.message)}</td></tr>`; });
+      load().catch((err) => { rowsEl.innerHTML = `<tr><td class="empty" colspan="6">${escapeHtml(err.message)}</td></tr>`; });
     }, 250);
   });
 
@@ -194,7 +195,7 @@
       role: state.role
     });
     const data = await api('/api/admin/waitlist?' + params.toString());
-    const header = ['email', 'role', 'source', 'page', 'createdAt', 'userAgent'];
+    const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt', 'userAgent'];
     const lines = [header.join(',')].concat(
       data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
     );

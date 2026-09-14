@@ -30,6 +30,19 @@ app.get('/admin', (_req, res) => res.sendFile(path.join(root, 'admin', 'index.ht
 app.get('/admin/login', (_req, res) => res.sendFile(path.join(root, 'admin', 'login.html')));
 app.get('/admin/signup', (_req, res) => res.sendFile(path.join(root, 'admin', 'signup.html')));
 
+// Match Vercel: homepage serves startups; clean URLs map /page → page.html
+app.get('/', (_req, res) => res.sendFile(path.join(root, 'startups.html')));
+app.get('/:page', (req, res, next) => {
+  const page = req.params.page;
+  if (!page || page.includes('.') || page.includes('/') || page === 'api' || page === 'admin' || page === 'lib') {
+    return next();
+  }
+  const file = path.join(root, `${page}.html`);
+  res.sendFile(file, (err) => {
+    if (err) next();
+  });
+});
+
 app.use(['/server.js', '/package.json', '/package-lock.json', '/.env'], (_req, res) => {
   res.status(404).end();
 });

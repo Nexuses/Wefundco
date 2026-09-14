@@ -40,6 +40,7 @@ module.exports = async function handler(req, res) {
       items: items.map((item) => ({
         id: String(item._id),
         email: item.email,
+        phone: item.phone || '',
         role: item.role,
         source: item.source,
         page: item.page,
