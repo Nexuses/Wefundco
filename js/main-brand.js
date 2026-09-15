@@ -28,6 +28,10 @@
     const icon = SOCIAL_ICONS[a.getAttribute('aria-label')];
     if (icon) a.innerHTML = icon;
   });
+  $$('.wfc-modal__follow-social a').forEach((a) => {
+    const icon = SOCIAL_ICONS[a.getAttribute('aria-label')];
+    if (icon) a.innerHTML = icon;
+  });
   if ($('.footer__social')) {
     const iconStyle = document.createElement('style');
     iconStyle.textContent = '.footer__social{flex-wrap:wrap}.footer__social a{color:#fff;font-size:0}.footer__social a svg{width:16px;height:16px;display:block;fill:currentColor}.footer__social a:focus-visible{outline:2px solid #fff;outline-offset:3px}';
@@ -269,9 +273,61 @@
      10. Waitlist form → POST /api/waitlist
      --------------------------------------------------------- */
   const waitlistSuccessModal = $('#waitlistSuccessModal');
+  let lastWaitlistEmail = '';
+  const WAITLIST_COPY = {
+    joined: {
+      title: "You're on the waitlist.",
+      text: "We'll be in touch shortly with a few questions to evaluate your profile and take things forward. While you wait, join WeFundCo Circle, our WhatsApp community for founders, operators and investors, and start the conversation early."
+    },
+    already: {
+      title: "You're already registered.",
+      text: "You're already on our waitlist, so we won't send another confirmation. You can add your phone number below for updates, or join WeFundCo Circle, our WhatsApp community for founders, operators and investors."
+    },
+    alreadyWithPhone: {
+      title: "You're already registered.",
+      text: "You're already on our waitlist and we have your number on file. Join WeFundCo Circle below, and follow us to stay close while we get ready."
+    }
+  };
 
-  function openWaitlistSuccessModal() {
+  function resetPhoneForm() {
+    const form = $('#waitlistPhoneForm', waitlistSuccessModal);
+    const phoneEl = $('#waitlistPhone', waitlistSuccessModal);
+    const msgEl = $('#waitlistPhoneMsg', waitlistSuccessModal);
+    if (form) form.classList.remove('is-saved');
+    if (phoneEl) {
+      phoneEl.value = '';
+      phoneEl.disabled = false;
+    }
+    if (msgEl) {
+      msgEl.textContent = '';
+      msgEl.classList.remove('is-ok', 'is-error');
+    }
+    const submit = form && form.querySelector('button[type="submit"]');
+    if (submit) {
+      submit.disabled = false;
+      submit.textContent = 'Save number';
+    }
+  }
+
+  function openWaitlistSuccessModal(opts) {
     if (!waitlistSuccessModal) return false;
+    const alreadyJoined = !!(opts && opts.alreadyJoined);
+    const hasPhone = !!(opts && opts.hasPhone);
+    const copy = alreadyJoined
+      ? (hasPhone ? WAITLIST_COPY.alreadyWithPhone : WAITLIST_COPY.already)
+      : WAITLIST_COPY.joined;
+    const titleEl = $('#waitlistSuccessTitle', waitlistSuccessModal);
+    const textEl = $('#waitlistSuccessText', waitlistSuccessModal);
+    if (titleEl) titleEl.textContent = copy.title;
+    if (textEl) textEl.textContent = copy.text;
+    lastWaitlistEmail = (opts && opts.email) || '';
+    resetPhoneForm();
+
+    const phoneForm = $('#waitlistPhoneForm', waitlistSuccessModal);
+    const followEl = $('#waitlistFollow', waitlistSuccessModal);
+    const showFollow = alreadyJoined && hasPhone;
+    if (phoneForm) phoneForm.hidden = showFollow;
+    if (followEl) followEl.hidden = !showFollow;
 
     const tick = $('.wfc-modal__tick', waitlistSuccessModal);
     if (tick) {
@@ -283,8 +339,21 @@
     waitlistSuccessModal.classList.add('is-open');
     waitlistSuccessModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
-    const cta = $('.wfc-modal__whatsapp', waitlistSuccessModal);
-    if (cta) cta.focus();
+    if (showFollow) {
+      const firstSocial = $('.wfc-modal__follow-social a', waitlistSuccessModal);
+      if (firstSocial) firstSocial.focus();
+      else {
+        const cta = $('.wfc-modal__whatsapp', waitlistSuccessModal);
+        if (cta) cta.focus();
+      }
+    } else {
+      const phoneEl = $('#waitlistPhone', waitlistSuccessModal);
+      if (phoneEl) phoneEl.focus();
+      else {
+        const cta = $('.wfc-modal__whatsapp', waitlistSuccessModal);
+        if (cta) cta.focus();
+      }
+    }
     return true;
   }
 
@@ -304,6 +373,66 @@
         closeWaitlistSuccessModal();
       }
     });
+
+    const phoneForm = $('#waitlistPhoneForm', waitlistSuccessModal);
+    if (phoneForm) {
+      phoneForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const phoneEl = $('#waitlistPhone', waitlistSuccessModal);
+        const msgEl = $('#waitlistPhoneMsg', waitlistSuccessModal);
+        const submit = phoneForm.querySelector('button[type="submit"]');
+        const phone = (phoneEl && phoneEl.value || '').trim();
+        const digits = phone.replace(/\D/g, '');
+
+        if (!lastWaitlistEmail) {
+          if (msgEl) {
+            msgEl.textContent = 'Please join the waitlist with your email first.';
+            msgEl.classList.remove('is-ok');
+            msgEl.classList.add('is-error');
+          }
+          return;
+        }
+        if (digits.length < 8 || digits.length > 15) {
+          if (msgEl) {
+            msgEl.textContent = 'Enter a valid phone number so we can send updates.';
+            msgEl.classList.remove('is-ok');
+            msgEl.classList.add('is-error');
+          }
+          return;
+        }
+
+        if (submit) {
+          submit.disabled = true;
+          submit.textContent = 'Saving…';
+        }
+        if (msgEl) {
+          msgEl.textContent = '';
+          msgEl.classList.remove('is-ok', 'is-error');
+        }
+
+        try {
+          const res = await fetch('/api/waitlist', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: lastWaitlistEmail, phone })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(data.error || 'Could not save your number.');
+          closeWaitlistSuccessModal();
+          return;
+        } catch (err) {
+          if (submit) {
+            submit.disabled = false;
+            submit.textContent = 'Save number';
+          }
+          if (msgEl) {
+            msgEl.textContent = err.message || 'Could not save your number just now.';
+            msgEl.classList.remove('is-ok');
+            msgEl.classList.add('is-error');
+          }
+        }
+      });
+    }
   }
 
   function isWorkEmail(value) {
@@ -365,12 +494,21 @@
         });
         const data = await res.json().catch(() => ({}));
         if (res.status === 409 || data.alreadyJoined === true) {
+          if (openWaitlistSuccessModal({
+            alreadyJoined: true,
+            hasPhone: !!data.hasPhone,
+            email
+          })) {
+            if (msgEl) msgEl.textContent = '';
+            form.reset();
+            return;
+          }
           throw new Error(data.error || 'This email is already on the waitlist.');
         }
         if (!res.ok) {
           throw new Error(data.error || 'Could not join the waitlist.');
         }
-        if (openWaitlistSuccessModal()) {
+        if (openWaitlistSuccessModal({ alreadyJoined: false, email })) {
           if (msgEl) msgEl.textContent = '';
         } else if (msgEl) {
           msgEl.textContent = data.message || "You're on the list. We'll be in touch before launch.";

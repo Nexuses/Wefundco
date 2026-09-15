@@ -273,6 +273,36 @@
         <small>Open our WhatsApp community</small>
       </span>
     </a>
+
+    <form class="wfc-modal__phone" id="waitlistPhoneForm" novalidate>
+      <label class="wfc-modal__phone-label" for="waitlistPhone">Get updates on your phone</label>
+      <p class="wfc-modal__phone-hint">Leave your number and we’ll send key waitlist updates by SMS or WhatsApp.</p>
+      <div class="wfc-modal__phone-row">
+        <input
+          type="tel"
+          id="waitlistPhone"
+          name="phone"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="+91 98765 43210"
+          aria-label="Phone number for updates"
+        />
+        <button type="submit" class="btn btn--dark wfc-modal__phone-submit">Save number</button>
+      </div>
+      <p class="wfc-modal__phone-msg" id="waitlistPhoneMsg" aria-live="polite"></p>
+    </form>
+
+    <div class="wfc-modal__follow" id="waitlistFollow" hidden>
+      <p class="wfc-modal__follow-label">Follow WeFundCo</p>
+      <p class="wfc-modal__follow-hint">Stay close while we get ready. Find us on the channels below.</p>
+      <div class="wfc-modal__follow-social">
+        <a href="https://www.linkedin.com/company/wefundco/?viewAsMember=true" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">in</a>
+        <a href="https://x.com/wefundco?s=11" aria-label="X" target="_blank" rel="noopener noreferrer">x</a>
+        <a href="https://www.youtube.com/@Wefundco" aria-label="YouTube" target="_blank" rel="noopener noreferrer">yt</a>
+        <a href="https://www.instagram.com/wefundco" aria-label="Instagram" target="_blank" rel="noopener noreferrer">ig</a>
+        <a href="https://www.facebook.com/profile.php?id=61586702965400" aria-label="Facebook" target="_blank" rel="noopener noreferrer">fb</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -287,7 +317,7 @@
 
     <div class="footer__aside">
       <p class="footer__label">Contact</p>
-      <a href="mailto:connect@wefundco.com" class="footer__email">connect@wefundco.com</a>
+      <a href="mailto:investments@wefundco.com" class="footer__email">investments@wefundco.com</a>
       <div class="footer__social">
         <a href="https://www.linkedin.com/company/wefundco/?viewAsMember=true" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">in</a>
         <a href="https://x.com/wefundco?s=11" aria-label="X" target="_blank" rel="noopener noreferrer">x</a>
