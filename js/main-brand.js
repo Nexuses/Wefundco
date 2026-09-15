@@ -269,48 +269,9 @@
      10. Waitlist form → POST /api/waitlist
      --------------------------------------------------------- */
   const waitlistSuccessModal = $('#waitlistSuccessModal');
-  let lastWaitlistEmail = '';
-  const WAITLIST_COPY = {
-    joined: {
-      title: "You're on the waitlist.",
-      text: "We'll be in touch shortly with a few questions to evaluate your profile and take things forward. While you wait, join WeFundCo Circle, our WhatsApp community for founders, operators and investors, and start the conversation early."
-    },
-    already: {
-      title: "You're already on the waitlist.",
-      text: "You're already on our list, so we won't send another confirmation. While you wait, join WeFundCo Circle, our WhatsApp community for founders, operators and investors, and start the conversation early."
-    }
-  };
 
-  function resetPhoneForm() {
-    const form = $('#waitlistPhoneForm', waitlistSuccessModal);
-    const phoneEl = $('#waitlistPhone', waitlistSuccessModal);
-    const msgEl = $('#waitlistPhoneMsg', waitlistSuccessModal);
-    if (form) form.classList.remove('is-saved');
-    if (phoneEl) {
-      phoneEl.value = '';
-      phoneEl.disabled = false;
-    }
-    if (msgEl) {
-      msgEl.textContent = '';
-      msgEl.classList.remove('is-ok', 'is-error');
-    }
-    const submit = form && form.querySelector('button[type="submit"]');
-    if (submit) {
-      submit.disabled = false;
-      submit.textContent = 'Save number';
-    }
-  }
-
-  function openWaitlistSuccessModal(opts) {
+  function openWaitlistSuccessModal() {
     if (!waitlistSuccessModal) return false;
-    const alreadyJoined = !!(opts && opts.alreadyJoined);
-    const copy = alreadyJoined ? WAITLIST_COPY.already : WAITLIST_COPY.joined;
-    const titleEl = $('#waitlistSuccessTitle', waitlistSuccessModal);
-    const textEl = $('#waitlistSuccessText', waitlistSuccessModal);
-    if (titleEl) titleEl.textContent = copy.title;
-    if (textEl) textEl.textContent = copy.text;
-    lastWaitlistEmail = (opts && opts.email) || '';
-    resetPhoneForm();
 
     const tick = $('.wfc-modal__tick', waitlistSuccessModal);
     if (tick) {
@@ -322,12 +283,8 @@
     waitlistSuccessModal.classList.add('is-open');
     waitlistSuccessModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
-    const phoneEl = $('#waitlistPhone', waitlistSuccessModal);
-    if (phoneEl) phoneEl.focus();
-    else {
-      const cta = $('.wfc-modal__whatsapp', waitlistSuccessModal);
-      if (cta) cta.focus();
-    }
+    const cta = $('.wfc-modal__whatsapp', waitlistSuccessModal);
+    if (cta) cta.focus();
     return true;
   }
 
@@ -347,66 +304,6 @@
         closeWaitlistSuccessModal();
       }
     });
-
-    const phoneForm = $('#waitlistPhoneForm', waitlistSuccessModal);
-    if (phoneForm) {
-      phoneForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const phoneEl = $('#waitlistPhone', waitlistSuccessModal);
-        const msgEl = $('#waitlistPhoneMsg', waitlistSuccessModal);
-        const submit = phoneForm.querySelector('button[type="submit"]');
-        const phone = (phoneEl && phoneEl.value || '').trim();
-        const digits = phone.replace(/\D/g, '');
-
-        if (!lastWaitlistEmail) {
-          if (msgEl) {
-            msgEl.textContent = 'Please join the waitlist with your email first.';
-            msgEl.classList.remove('is-ok');
-            msgEl.classList.add('is-error');
-          }
-          return;
-        }
-        if (digits.length < 8 || digits.length > 15) {
-          if (msgEl) {
-            msgEl.textContent = 'Enter a valid phone number so we can send updates.';
-            msgEl.classList.remove('is-ok');
-            msgEl.classList.add('is-error');
-          }
-          return;
-        }
-
-        if (submit) {
-          submit.disabled = true;
-          submit.textContent = 'Saving…';
-        }
-        if (msgEl) {
-          msgEl.textContent = '';
-          msgEl.classList.remove('is-ok', 'is-error');
-        }
-
-        try {
-          const res = await fetch('/api/waitlist', {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: lastWaitlistEmail, phone })
-          });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok) throw new Error(data.error || 'Could not save your number.');
-          closeWaitlistSuccessModal();
-          return;
-        } catch (err) {
-          if (submit) {
-            submit.disabled = false;
-            submit.textContent = 'Save number';
-          }
-          if (msgEl) {
-            msgEl.textContent = err.message || 'Could not save your number just now.';
-            msgEl.classList.remove('is-ok');
-            msgEl.classList.add('is-error');
-          }
-        }
-      });
-    }
   }
 
   function isWorkEmail(value) {
@@ -473,7 +370,7 @@
         if (!res.ok) {
           throw new Error(data.error || 'Could not join the waitlist.');
         }
-        if (openWaitlistSuccessModal({ alreadyJoined: false, email })) {
+        if (openWaitlistSuccessModal()) {
           if (msgEl) msgEl.textContent = '';
         } else if (msgEl) {
           msgEl.textContent = data.message || "You're on the list. We'll be in touch before launch.";
