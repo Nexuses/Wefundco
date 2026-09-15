@@ -153,12 +153,17 @@ input:focus,select:focus{border-color:var(--royal);box-shadow:0 0 0 4px rgba(1,3
   cursor:pointer;
   transition:transform .2s var(--ease), background .2s var(--ease);
 }
-.btn:hover{background:#001d7a}
+.btn:hover{background:#001d7a;color:#fff}
 .btn:disabled{opacity:.6;cursor:not-allowed}
 .btn--ghost{
   background:#fff;
   color:var(--oxford);
   border:1px solid var(--line);
+}
+.btn--ghost:hover{
+  background:#F4F6F9;
+  color:var(--oxford);
+  border-color:#B8B8B8;
 }
 .btn--block{width:100%}
 .btn--sm{height:40px;font-size:12px;padding:0 14px}
@@ -181,10 +186,23 @@ input:focus,select:focus{border-color:var(--royal);box-shadow:0 0 0 4px rgba(1,3
   z-index:20;
 }
 .topbar__brand{
-  font-family:var(--serif);
-  font-size:22px;
-  letter-spacing:-.03em;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
   color:var(--oxford);
+}
+.topbar__logo{
+  display:block;
+  height:46px;
+  width:auto;
+}
+.topbar__label{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gray);
 }
 .topbar__right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .topbar__email{font-size:13px;color:var(--gray)}
@@ -254,6 +272,42 @@ th{
   color:var(--royal);
   font-size:12px;
   text-transform:capitalize;
+}
+.col-actions{
+  width:72px;
+  text-align:center;
+}
+.btn-delete{
+  width:36px;
+  height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #F0D0D0;
+  border-radius:10px;
+  background:#FFF5F5;
+  color:#B42318;
+  cursor:pointer;
+  transition:background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.btn-delete svg{
+  width:16px;
+  height:16px;
+  fill:currentColor;
+}
+.btn-delete:hover{
+  background:#FFE8E8;
+  border-color:#E8A0A0;
+  transform:translateY(-1px);
+}
+.btn-delete:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+.btn-delete:focus-visible{
+  outline:2px solid #B42318;
+  outline-offset:2px;
 }
 .muted{color:var(--gray);font-size:13px}
 .empty{padding:48px 20px;text-align:center;color:var(--gray)}

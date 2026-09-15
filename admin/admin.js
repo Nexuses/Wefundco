@@ -99,16 +99,31 @@
 
   function renderRows(items) {
     if (!items.length) {
-      rowsEl.innerHTML = '<tr><td class="empty" colspan="5">No waitlist entries yet.</td></tr>';
+      rowsEl.innerHTML = '<tr><td class="empty" colspan="7">No waitlist entries yet.</td></tr>';
       return;
     }
     rowsEl.innerHTML = items.map((item) => `
-      <tr>
+      <tr data-id="${escapeHtml(item.id)}">
         <td class="email" title="${escapeHtml(item.userAgent || '')}">${escapeHtml(item.email)}</td>
+        <td class="muted">${escapeHtml(item.phone || '—')}</td>
         <td><span class="pill">${escapeHtml(item.role || 'general')}</span></td>
         <td>${escapeHtml(item.source || '—')}</td>
         <td class="muted">${escapeHtml(item.page || '—')}</td>
         <td>${escapeHtml(fmtDate(item.createdAt))}</td>
+        <td class="col-actions">
+          <button
+            type="button"
+            class="btn-delete"
+            data-delete-id="${escapeHtml(item.id)}"
+            data-delete-email="${escapeHtml(item.email)}"
+            aria-label="Delete ${escapeHtml(item.email)}"
+            title="Delete"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9zm-1 12h12l1-12H5l1 12z"/>
+            </svg>
+          </button>
+        </td>
       </tr>
     `).join('');
   }
@@ -146,9 +161,10 @@
     try {
       const me = await api('/api/admin/me');
       $('#adminEmail').textContent = me.email;
+      document.body.classList.remove('auth-pending');
       await load();
     } catch (_) {
-      window.location.href = '/admin/login';
+      window.location.replace('/admin/login');
     }
   })();
 
@@ -158,7 +174,7 @@
     timer = setTimeout(() => {
       state.q = e.target.value.trim();
       state.page = 1;
-      load().catch((err) => { rowsEl.innerHTML = `<tr><td class="empty" colspan="5">${escapeHtml(err.message)}</td></tr>`; });
+      load().catch((err) => { rowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message)}</td></tr>`; });
     }, 250);
   });
 
@@ -194,7 +210,7 @@
       role: state.role
     });
     const data = await api('/api/admin/waitlist?' + params.toString());
-    const header = ['email', 'role', 'source', 'page', 'createdAt', 'userAgent'];
+    const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt', 'userAgent'];
     const lines = [header.join(',')].concat(
       data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
     );
@@ -205,5 +221,23 @@
     a.download = 'wefundco-waitlist.csv';
     a.click();
     URL.revokeObjectURL(url);
+  });
+
+  rowsEl.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-delete-id]');
+    if (!btn) return;
+    const id = btn.getAttribute('data-delete-id');
+    const email = btn.getAttribute('data-delete-email') || 'this entry';
+    if (!id) return;
+    if (!window.confirm(`Delete ${email} from the waitlist?`)) return;
+
+    btn.disabled = true;
+    try {
+      await api('/api/admin/waitlist?id=' + encodeURIComponent(id), { method: 'DELETE' });
+      await load();
+    } catch (err) {
+      btn.disabled = false;
+      window.alert(err.message || 'Could not delete that entry.');
+    }
   });
 })();
