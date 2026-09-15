@@ -210,7 +210,7 @@
       role: state.role
     });
     const data = await api('/api/admin/waitlist?' + params.toString());
-    const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt', 'userAgent'];
+    const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt'];
     const lines = [header.join(',')].concat(
       data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
     );
