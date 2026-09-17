@@ -9,6 +9,7 @@ const adminLogin = require('./api/admin/login');
 const adminLogout = require('./api/admin/logout');
 const adminMe = require('./api/admin/me');
 const adminWaitlist = require('./api/admin/waitlist');
+const trackClick = require('./api/r');
 
 const app = express();
 const root = __dirname;
@@ -23,6 +24,8 @@ app.all('/api/admin/login', adminLogin);
 app.all('/api/admin/logout', adminLogout);
 app.all('/api/admin/me', adminMe);
 app.all('/api/admin/waitlist', adminWaitlist);
+app.get('/r/:token', trackClick);
+app.all('/api/r', trackClick);
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found' }));
 app.use('/lib', (_req, res) => res.status(404).end());
 

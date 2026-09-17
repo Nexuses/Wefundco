@@ -46,7 +46,8 @@ async function handleJoin(req, res) {
   };
 
   try {
-    await col.insertOne(doc);
+    const inserted = await col.insertOne(doc);
+    doc._id = inserted.insertedId;
   } catch (err) {
     if (err && err.code === 11000) {
       const dup = await col.findOne({ email });
@@ -60,7 +61,7 @@ async function handleJoin(req, res) {
   }
 
   try {
-    await sendWaitlistEmails(doc);
+    await sendWaitlistEmails(db, { ...doc, _id: doc._id });
   } catch (err) {
     console.error('[WeFundCo] waitlist email failed:', err);
   }
