@@ -97,9 +97,19 @@
     });
   }
 
+  function renderConfirmation(view) {
+    if (!view || view.status === 'none' || !view.lines || !view.lines.length) {
+      return '<div class="confirm"><p class="confirm__empty">No confirmation yet</p></div>';
+    }
+    const lines = view.lines.map((line) => (
+      `<p class="confirm__${escapeHtml(line.kind)}">${escapeHtml(line.text)}</p>`
+    )).join('');
+    return `<div class="confirm confirm--${escapeHtml(view.status)}">${lines}</div>`;
+  }
+
   function renderRows(items) {
     if (!items.length) {
-      rowsEl.innerHTML = '<tr><td class="empty" colspan="7">No waitlist entries yet.</td></tr>';
+      rowsEl.innerHTML = '<tr><td class="empty" colspan="8">No waitlist entries yet.</td></tr>';
       return;
     }
     rowsEl.innerHTML = items.map((item) => `
@@ -110,7 +120,16 @@
         <td>${escapeHtml(item.source || '—')}</td>
         <td class="muted">${escapeHtml(item.page || '—')}</td>
         <td>${escapeHtml(fmtDate(item.createdAt))}</td>
+        <td class="col-confirm">${renderConfirmation(item.confirmation)}</td>
         <td class="col-actions">
+          <button
+            type="button"
+            class="btn-send"
+            data-send-id="${escapeHtml(item.id)}"
+            data-send-email="${escapeHtml(item.email)}"
+            aria-label="Send attendance email to ${escapeHtml(item.email)}"
+            title="Send attendance email"
+          >RSVP</button>
           <button
             type="button"
             class="btn-delete"
@@ -174,7 +193,7 @@
     timer = setTimeout(() => {
       state.q = e.target.value.trim();
       state.page = 1;
-      load().catch((err) => { rowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message)}</td></tr>`; });
+      load().catch((err) => { rowsEl.innerHTML = `<tr><td class="empty" colspan="8">${escapeHtml(err.message)}</td></tr>`; });
     }, 250);
   });
 
@@ -210,9 +229,14 @@
       role: state.role
     });
     const data = await api('/api/admin/waitlist?' + params.toString());
-    const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt'];
+    const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt', 'confirmation'];
     const lines = [header.join(',')].concat(
-      data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
+      data.items.map((item) => header.map((key) => {
+        const value = key === 'confirmation'
+          ? ((item.confirmation && item.confirmation.lines) || []).map((line) => line.text).join(' | ')
+          : item[key];
+        return `"${String(value || '').replace(/"/g, '""')}"`;
+      }).join(','))
     );
     const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -224,6 +248,26 @@
   });
 
   rowsEl.addEventListener('click', async (e) => {
+    const sendBtn = e.target.closest('[data-send-id]');
+    if (sendBtn) {
+      const id = sendBtn.getAttribute('data-send-id');
+      const email = sendBtn.getAttribute('data-send-email') || 'this person';
+      if (!id) return;
+      if (!window.confirm(`Send a unique attendance email to ${email}?`)) return;
+      sendBtn.disabled = true;
+      try {
+        await api('/api/admin/waitlist', {
+          method: 'POST',
+          body: JSON.stringify({ id, kind: 'event_rsvp' })
+        });
+        await load();
+      } catch (err) {
+        sendBtn.disabled = false;
+        window.alert(err.message || 'Could not send that email.');
+      }
+      return;
+    }
+
     const btn = e.target.closest('[data-delete-id]');
     if (!btn) return;
     const id = btn.getAttribute('data-delete-id');
