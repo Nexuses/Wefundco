@@ -267,6 +267,45 @@
     );
   });
 
+  /* Investor participant cards — drag to scroll only */
+  $$('[data-inv-drag-scroll]').forEach((rail) => {
+    let pointerDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+
+    const endDrag = () => {
+      pointerDown = false;
+      rail.classList.remove('is-dragging');
+    };
+
+    rail.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      pointerDown = true;
+      startX = e.pageX;
+      scrollStart = rail.scrollLeft;
+      rail.classList.add('is-dragging');
+    });
+    window.addEventListener('mouseup', endDrag);
+    rail.addEventListener('mouseleave', endDrag);
+    rail.addEventListener('mousemove', (e) => {
+      if (!pointerDown) return;
+      e.preventDefault();
+      rail.scrollLeft = scrollStart - (e.pageX - startX);
+    });
+
+    let touchStartX = 0;
+    let touchScrollStart = 0;
+    rail.addEventListener('touchstart', (e) => {
+      if (!e.touches.length) return;
+      touchStartX = e.touches[0].pageX;
+      touchScrollStart = rail.scrollLeft;
+    }, { passive: true });
+    rail.addEventListener('touchmove', (e) => {
+      if (!e.touches.length) return;
+      rail.scrollLeft = touchScrollStart - (e.touches[0].pageX - touchStartX);
+    }, { passive: true });
+  });
+
   /* ---------------------------------------------------------
      9. FAQ — one open at a time
      --------------------------------------------------------- */

@@ -97,10 +97,10 @@ ul{margin:0;padding:0;list-style:none}
 .section{padding:var(--sect) 0}
 
 /* ---------- type helpers (measured scale) ---------- */
-/* H1 76/76 ls -.04em · H2 64/70.4 · stat 54/59.4 — all Cambo 400 */
+/* H1 76 max · H2 52 max (display--lg) · Cambo 400 on display */
 .display{font-family:var(--serif);font-weight:400;letter-spacing:-.04em;line-height:1}
 .display--xl{font-size:clamp(38px,5.3vw,76px)}
-.display--lg{font-size:clamp(34px,4.5vw,64px);line-height:1.1}
+.display--lg{font-size:clamp(28px,3.85vw,52px);line-height:1.12}
 .display--center{text-align:center}
 .display__accent{color:#36abf2}
 
@@ -411,8 +411,8 @@ ul{margin:0;padding:0;list-style:none}
 .problem__cols .problem__sub{color:var(--ink)}
 
 .problem__statement{
-  font-family:var(--serif);font-weight:400;letter-spacing:-.04em;line-height:1.1;
-  font-size:clamp(34px,4.5vw,64px);max-width:min(22ch,100%);
+  font-family:var(--serif);font-weight:400;letter-spacing:-.04em;line-height:1.12;
+  font-size:clamp(28px,3.85vw,52px);max-width:min(22ch,100%);
 }
 .problem__statement-accent{color:var(--picton-blue)}
 
@@ -478,7 +478,7 @@ ul{margin:0;padding:0;list-style:none}
 .how-card--blush:hover{border-color:var(--picton-blue)}
 .how-card--sky:hover{border-color:var(--picton-blue)}
 .how-card__body{padding:26px;display:flex;flex-direction:column;gap:10px}
-.how-card__body h3{font-size:20px}
+.how-card__body h3{font-size:18px}
 .how-card__body p{font-size:15px;color:var(--muted)}
 
 /* =========================================================
@@ -1738,7 +1738,7 @@ body.modal-open{overflow:hidden}
   line-height:1;letter-spacing:-.04em;color:var(--picton-blue);
 }
 .home-journey__step h3{
-  font-size:clamp(18px,1.7vw,22px);letter-spacing:-.02em;margin:0 0 8px;color:var(--ink);
+  font-size:clamp(16px,1.55vw,19px);letter-spacing:-.02em;margin:0 0 8px;color:var(--ink);
 }
 .home-journey__step p{margin:0;font-size:15px;line-height:1.55;color:var(--muted)}
 
@@ -1780,7 +1780,7 @@ body.modal-open{overflow:hidden}
 }
 .home-cap-card__icon img{width:40px;height:40px;object-fit:contain}
 .home-cap-card h3{
-  font-size:clamp(17px,1.6vw,20px);letter-spacing:-.02em;margin:0 0 8px;color:var(--ink);
+  font-size:clamp(15px,1.45vw,18px);letter-spacing:-.02em;margin:0 0 8px;color:var(--ink);
 }
 .home-cap-card p{margin:0;font-size:15px;line-height:1.55;color:var(--muted)}
 .home-capabilities__disclaimer,
@@ -1853,23 +1853,125 @@ body.modal-open{overflow:hidden}
 }
 @media (max-width:680px){
   .home-journey__grid,.home-capabilities__grid{grid-template-columns:1fr}
+  .hero__cta-row{flex-direction:column;width:100%}
+  .hero__cta-row .btn{width:100%}
+  .home-close__ctas{flex-direction:column;width:100%}
+  .home-close__ctas .btn{width:100%}
+}
 
 /* ---- investors page (layouts shared with home + startups) ---- */
 .inv-section--paper{background:var(--paper-2)}
-.inv-lenses{padding-top:0}
-.inv-lenses__grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+.inv-context .problem__inner{max-width:min(var(--container),100%)}
+.inv-context__title{
+  max-width:min(28ch,100%);margin-inline:auto;text-align:center;
 }
+.inv-context__body{
+  margin:clamp(32px,4vw,48px) 0 0;max-width:min(920px,100%);
+}
+.inv-context__copy{
+  margin:0 0 clamp(28px,4vw,40px);max-width:min(72ch,100%);
+  color:var(--muted);font-size:16px;line-height:1.65;
+}
+.inv-lenses__grid--2x2{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+}
+.inv-structured{
+  --inv-structured-width:min(1480px,calc(100vw - 32px));
+}
+.inv-structured__head{
+  text-align:center;
+  width:var(--inv-structured-width);max-width:none;
+}
+.inv-structured__head .display--lg{
+  font-size:clamp(36px,4.2vw,56px);
+  line-height:1.08;max-width:min(40ch,100%);margin-inline:auto;
+}
+.inv-structured__head .lede{max-width:min(72ch,100%)}
 .inv-pillars{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,1.15fr) minmax(0,1fr);
-  gap:clamp(16px,2.5vw,24px);align-items:stretch;margin-top:48px;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr);
+  gap:clamp(16px,2vw,24px);align-items:stretch;
+  width:var(--inv-structured-width, min(1480px,calc(100vw - 32px)));max-width:none;
+  margin:clamp(40px,5vw,56px) auto 0;padding-inline:var(--pad);
+  box-sizing:border-box;
 }
 .inv-pillars__col{display:flex;flex-direction:column;gap:16px;justify-content:center}
 .inv-pillars__media{
-  border-radius:var(--r-lg);overflow:hidden;background:var(--paper-3);
-  min-height:min(480px,52vh);
+  border-radius:var(--r-lg);overflow:visible;background:var(--paper-3);
+  min-height:min(420px,48vh);display:grid;place-items:center;padding:12px;
 }
-.inv-pillars__media img{display:block;width:100%;height:100%;object-fit:cover;min-height:inherit}
+.inv-pillars__media--dashboard{background:var(--white);border:1px solid rgba(0,20,56,.08)}
+.inv-pillars__media img{display:block;width:100%;height:auto;max-height:min(520px,52vh);object-fit:contain}
+.inv-pitch__split{
+  display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+  gap:clamp(28px,4vw,48px);align-items:start;margin-top:48px;
+}
+.inv-pitch__media{border-radius:var(--r-lg);overflow:hidden;background:var(--paper-3)}
+.inv-pitch__media img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;max-height:min(640px,72vh)}
+.inv-pitch__rows{display:flex;flex-direction:column;gap:12px}
+.inv-icon-row{
+  display:flex;flex-direction:row;align-items:flex-start;gap:16px;
+  padding:clamp(18px,2.2vw,22px);
+}
+.inv-icon-row .home-cap-card__icon{
+  flex:none;width:56px;height:56px;margin-bottom:0;
+}
+.inv-icon-row .home-cap-card__icon img{width:32px;height:32px}
+.inv-icon-row__text h3{
+  font-size:clamp(15px,1.4vw,17px);letter-spacing:-.02em;margin:0 0 6px;
+}
+.inv-icon-row__text p{margin:0;font-size:15px;line-height:1.55;color:var(--muted)}
+.inv-spotlight__head{
+  text-align:center;margin-bottom:clamp(32px,4vw,48px);
+}
+.inv-spotlight__head .lede{max-width:min(62ch,100%);margin-inline:auto}
+.inv-spotlight__split{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,32px);
+  align-items:stretch;
+}
+.inv-spotlight__media{
+  border-radius:var(--r-lg);overflow:hidden;background:var(--paper-3);
+  min-height:100%;
+}
+.inv-spotlight__media img{
+  display:block;width:100%;height:100%;object-fit:cover;min-height:min(420px,100%);
+}
+.inv-spotlight__cards{
+  display:flex;flex-direction:column;gap:12px;justify-content:center;
+}
+.inv-journey__head{
+  flex-direction:column;align-items:center;text-align:center;gap:20px;
+}
+.inv-journey__head > div{width:100%}
+.inv-journey__title{
+  line-height:1.08;max-width:min(36ch,100%);margin-inline:auto;
+}
+.inv-how-carousel.inv-journey .how__head{align-items:center}
+.inv-how-carousel.inv-journey .how__nav{margin-inline:auto}
+.inv-participants{padding-bottom:clamp(48px,6vw,72px);overflow:visible}
+.inv-participants__rail{
+  display:flex;gap:16px;overflow-x:auto;overflow-y:visible;
+  padding:clamp(28px,4vw,40px) var(--pad) clamp(8px,2vw,16px);
+  margin-top:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  cursor:grab;touch-action:pan-x;overscroll-behavior-x:contain;
+}
+.inv-participants__rail.is-dragging{cursor:grabbing;user-select:none}
+.inv-participants__rail::-webkit-scrollbar{display:none}
+.inv-participant-card{
+  position:relative;flex:0 0 clamp(280px,28vw,360px);
+  min-height:clamp(320px,38vw,420px);border-radius:var(--r-lg);overflow:hidden;
+  background-image:var(--inv-participant-bg);background-size:cover;background-position:center;
+}
+.inv-participant-card__overlay{
+  position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,.72) 100%);
+}
+.inv-participant-card__content{
+  position:relative;z-index:1;height:100%;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:clamp(22px,2.5vw,28px);color:#fff;
+}
+.inv-participant-card__content h3{
+  margin:0 0 8px;font-size:clamp(16px,1.55vw,19px);letter-spacing:-.02em;color:#fff;
+}
+.inv-participant-card__content p{margin:0;font-size:15px;line-height:1.5;color:rgba(255,255,255,.85)}
 .inv-how-carousel{background:var(--paper-2)}
 .inv-how-carousel .how__head{align-items:flex-end}
 .inv-bridge .how__head{align-items:flex-end}
@@ -1887,19 +1989,107 @@ body.modal-open{overflow:hidden}
 .page-investors-new .inv-hero-form .btn{
   padding:12px 16px;font-size:13px;white-space:nowrap;
 }
+@media (max-width:1024px){
+  .inv-pillars{grid-template-columns:1fr;padding-inline:var(--pad)}
+  .inv-pillars__media{order:-1;min-height:min(320px,40vh)}
+  .inv-pitch__split{grid-template-columns:1fr}
+  .inv-spotlight__split{grid-template-columns:1fr}
+  .inv-spotlight__media{min-height:min(320px,45vh)}
+  .inv-spotlight__media img{min-height:min(320px,45vh)}
+}
 @media (max-width:900px){
   .page-investors-new .inv-hero-form .btn{white-space:normal;text-align:center}
 }
-@media (max-width:1024px){
-  .inv-lenses__grid{grid-template-columns:repeat(2,1fr)}
-  .inv-pillars{grid-template-columns:1fr}
-  .inv-pillars__media{min-height:min(360px,45vh);order:-1}
-}
 @media (max-width:560px){
-  .inv-lenses__grid{grid-template-columns:1fr}
+  .inv-lenses__grid--2x2{grid-template-columns:1fr}
 }
-  .hero__cta-row{flex-direction:column;width:100%}
-  .hero__cta-row .btn{width:100%}
-  .home-close__ctas{flex-direction:column;width:100%}
-  .home-close__ctas .btn{width:100%}
+
+/* =========================================================
+   SITE TYPE SCALE — all pages except startups (page-waitlist-new)
+   H2 42 · H3 36 · H4 28 · H5 24 · p 18 · card h* 24 · card p 16
+   ========================================================= */
+body:not(.page-waitlist-new){
+  font-size:18px;line-height:1.5;
+}
+
+body:not(.page-waitlist-new) h2,
+body:not(.page-waitlist-new) .display.display--lg,
+body:not(.page-waitlist-new) .problem__statement{
+  font-size:42px;line-height:1.12;
+}
+
+body:not(.page-waitlist-new) h3,
+body:not(.page-waitlist-new) .home-close__cta-title{
+  font-size:36px;line-height:1.2;
+}
+
+body:not(.page-waitlist-new) h4{font-size:28px;line-height:1.25}
+body:not(.page-waitlist-new) h5{font-size:24px;line-height:1.3}
+
+body:not(.page-waitlist-new) p,
+body:not(.page-waitlist-new) .lede,
+body:not(.page-waitlist-new) .inv-context__copy,
+body:not(.page-waitlist-new) .home-audience__points li,
+body:not(.page-waitlist-new) .home-audience__specialties-grid li,
+body:not(.page-waitlist-new) .footer__disclaimer,
+body:not(.page-waitlist-new) .footer__tag{
+  font-size:18px;line-height:1.5;
+}
+
+body:not(.page-waitlist-new) .home-cap-card p,
+body:not(.page-waitlist-new) .how-card__body p,
+body:not(.page-waitlist-new) .home-journey__step p,
+body:not(.page-waitlist-new) .home-cap-card h3 + p,
+body:not(.page-waitlist-new) .inv-icon-row__text p,
+body:not(.page-waitlist-new) .inv-participant-card__content p,
+body:not(.page-waitlist-new) .inv-problem-card > p,
+body:not(.page-waitlist-new) .inv-step__body p,
+body:not(.page-waitlist-new) .inv-trust-card p,
+body:not(.page-waitlist-new) .inv-benefit-card__panel p,
+body:not(.page-waitlist-new) .faq__item p,
+body:not(.page-waitlist-new) .home-capabilities__note,
+body:not(.page-waitlist-new) .home-capabilities__disclaimer,
+body:not(.page-waitlist-new) .path-card__body p,
+body:not(.page-waitlist-new) .stat-card p,
+body:not(.page-waitlist-new) .event-card__panel p,
+body:not(.page-waitlist-new) .wln-trust-card p,
+body:not(.page-waitlist-new) .su-profile-card p,
+body:not(.page-waitlist-new) .ev-type-card p,
+body:not(.page-waitlist-new) .ab-belief p,
+body:not(.page-waitlist-new) .ticks li{
+  font-size:16px;line-height:1.55;
+}
+
+/* Card titles use H5 scale (24px), not section H3 */
+body:not(.page-waitlist-new) .home-cap-card h3,
+body:not(.page-waitlist-new) .home-cap-card h4,
+body:not(.page-waitlist-new) .home-cap-card h5,
+body:not(.page-waitlist-new) .how-card__body h3,
+body:not(.page-waitlist-new) .how-card__body h5,
+body:not(.page-waitlist-new) .home-journey__step h3,
+body:not(.page-waitlist-new) .home-journey__step h5,
+body:not(.page-waitlist-new) .inv-icon-row__text h3,
+body:not(.page-waitlist-new) .inv-icon-row__text h5,
+body:not(.page-waitlist-new) .inv-participant-card__content h3,
+body:not(.page-waitlist-new) .inv-participant-card__content h5,
+body:not(.page-waitlist-new) .inv-problem-card h3,
+body:not(.page-waitlist-new) .inv-step__body h3,
+body:not(.page-waitlist-new) .inv-trust-card h3,
+body:not(.page-waitlist-new) .inv-benefit-card__panel h3,
+body:not(.page-waitlist-new) .path-card__body h3,
+body:not(.page-waitlist-new) .stat-card h3,
+body:not(.page-waitlist-new) .event-card__panel h3,
+body:not(.page-waitlist-new) .wln-trust-card h3,
+body:not(.page-waitlist-new) .su-profile-card h3,
+body:not(.page-waitlist-new) .ev-type-card h3,
+body:not(.page-waitlist-new) .ab-belief h3,
+body:not(.page-waitlist-new) .how-card h3{
+  font-size:24px;line-height:1.3;letter-spacing:-.02em;
+}
+
+.page-investors-new .inv-structured__head .display.display--lg{
+  font-size:clamp(36px,4.2vw,56px);line-height:1.08;max-width:min(40ch,100%);
+}
+.page-investors-new .inv-journey__title{
+  font-size:clamp(38px,4.4vw,54px);line-height:1.08;
 }
