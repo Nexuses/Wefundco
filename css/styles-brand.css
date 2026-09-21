@@ -272,6 +272,46 @@ ul{margin:0;padding:0;list-style:none}
 .hero__title.is-in .line > span{transform:translateY(0)}
 .hero__title.is-in .line:nth-child(2) > span{transition-delay:.09s}
 
+/* hero headline flip (two rotating headlines, one visible slot) */
+.hero__title .hero__flip{
+  --flip-slot:clamp(6.25rem,2.5em,11rem);
+  display:block;width:100%;
+  height:var(--flip-slot);
+  overflow:hidden;
+}
+.hero__flip-track{
+  display:flex;flex-direction:column;
+  will-change:transform;
+}
+.hero__title.is-in .hero__flip-track{
+  animation:heroFlipHeadline 9s var(--ease) infinite;
+}
+.hero__flip-line{
+  flex:0 0 var(--flip-slot);
+  height:var(--flip-slot);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0.12em;
+  text-align:center;
+  line-height:1.1;
+  box-sizing:border-box;
+  padding:0 clamp(4px,2vw,20px);
+}
+.hero__flip-row{display:block;width:100%}
+@keyframes heroFlipHeadline{
+  0%, 38% { transform:translateY(0); }
+  42%, 88% { transform:translateY(calc(-1 * var(--flip-slot))); }
+  92%, 100% { transform:translateY(0); }
+}
+@media (max-width:900px){
+  .hero__title .hero__flip{--flip-slot:clamp(7.5rem,34vw,13.5rem)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero__title .hero__flip{height:auto;overflow:visible}
+  .hero__title.is-in .hero__flip-track{animation:none}
+  .hero__flip-line{height:auto;min-height:0;flex:none;gap:0;padding:0}
+  .hero__flip-line + .hero__flip-line{display:none}
+}
+
 /* image strip */
 .strip{margin-top:clamp(48px,7vw,90px);overflow:hidden}
 .strip__track{display:flex;gap:20px;padding-inline:var(--pad);will-change:transform}
@@ -363,7 +403,7 @@ ul{margin:0;padding:0;list-style:none}
 .statement{max-width:min(46ch,100%)}
 .problem__cols{
   display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,.58fr);gap:clamp(32px,4vw,56px);
-  margin-top:56px;align-items:start;
+  margin-top:56px;align-items:center;
 }
 .problem__cols > .reveal{max-width:min(78ch,100%)}
 .problem__sub{font-size:22px;font-weight:600;margin-bottom:12px}
@@ -378,9 +418,10 @@ ul{margin:0;padding:0;list-style:none}
 
 .problem__faces{
   position:relative;min-height:0;display:flex;align-items:center;justify-content:flex-end;
+  align-self:center;margin-top:0;
 }
 .problem__visual{
-  display:block;width:min(100%,320px);height:auto;
+  display:block;width:min(100%,320px);height:auto;margin:0;
 }
 
 /* word reveal */
@@ -1650,7 +1691,13 @@ body.modal-open{overflow:hidden}
 .home-audience__grid--flip .home-audience__media{order:-1}
 .home-audience__copy .lede{margin:16px 0}
 .home-audience__copy .ticks{margin:8px 0 0}
-.home-audience__copy .btn{margin-top:8px;align-self:flex-start}
+.home-audience__points{margin:4px 0 0}
+.home-audience__points p{
+  margin:0 0 12px;color:var(--muted);font-size:16px;line-height:1.55;
+}
+.home-audience__points p:last-child{margin-bottom:0}
+.home-audience__specialties{margin-top:12px;font-weight:500;color:var(--ink)}
+.home-audience__copy .btn{margin-top:20px;align-self:flex-start}
 .home-audience__note{
   margin:0;font-size:14px;line-height:1.55;color:var(--muted);font-style:italic;
 }
@@ -1778,6 +1825,51 @@ body.modal-open{overflow:hidden}
 }
 @media (max-width:680px){
   .home-journey__grid,.home-capabilities__grid{grid-template-columns:1fr}
+
+/* ---- investors page (layouts shared with home + startups) ---- */
+.inv-section--paper{background:var(--paper-2)}
+.inv-lenses{padding-top:0}
+.inv-lenses__grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+.inv-pillars{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,1.15fr) minmax(0,1fr);
+  gap:clamp(16px,2.5vw,24px);align-items:stretch;margin-top:48px;
+}
+.inv-pillars__col{display:flex;flex-direction:column;gap:16px;justify-content:center}
+.inv-pillars__media{
+  border-radius:var(--r-lg);overflow:hidden;background:var(--paper-3);
+  min-height:min(480px,52vh);
+}
+.inv-pillars__media img{display:block;width:100%;height:100%;object-fit:cover;min-height:inherit}
+.inv-how-carousel{background:var(--paper-2)}
+.inv-how-carousel .how__head{align-items:flex-end}
+.inv-bridge .how__head{align-items:flex-end}
+.inv-bridge__lede{margin:12px 0 0;max-width:min(62ch,100%);color:var(--muted)}
+.inv-bridge__tagline{
+  margin-top:clamp(28px,4vw,40px);
+  font-family:var(--serif);font-size:clamp(18px,2vw,26px);
+  font-style:normal;letter-spacing:-.02em;color:var(--ink);
+}
+.page-investors-new .wln-benefits__copy .home-audience__points strong{color:var(--ink);font-weight:600}
+.page-investors-new .hero__title .hero__flip{
+  --flip-slot:clamp(7.25rem,2.65em,12rem);
+}
+.page-investors-new .inv-hero-form{width:min(760px,100%)}
+.page-investors-new .inv-hero-form .btn{
+  padding:12px 16px;font-size:13px;white-space:nowrap;
+}
+@media (max-width:900px){
+  .page-investors-new .inv-hero-form .btn{white-space:normal;text-align:center}
+}
+@media (max-width:1024px){
+  .inv-lenses__grid{grid-template-columns:repeat(2,1fr)}
+  .inv-pillars{grid-template-columns:1fr}
+  .inv-pillars__media{min-height:min(360px,45vh);order:-1}
+}
+@media (max-width:560px){
+  .inv-lenses__grid{grid-template-columns:1fr}
+}
   .hero__cta-row{flex-direction:column;width:100%}
   .hero__cta-row .btn{width:100%}
   .home-close__ctas{flex-direction:column;width:100%}

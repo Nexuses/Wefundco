@@ -242,10 +242,8 @@
   /* ---------------------------------------------------------
      8. How-it-works carousel arrows
      --------------------------------------------------------- */
-  const rail = $('#howRail');
-  const prev = $('#howPrev');
-  const next = $('#howNext');
-  if (rail && prev && next) {
+  const wireHowCarousel = (rail, prev, next) => {
+    if (!rail || !prev || !next) return;
     const step = () => (rail.querySelector('.how-card')?.offsetWidth || 320) + 20;
     prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
     next.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
@@ -257,7 +255,17 @@
     rail.addEventListener('scroll', syncArrows, { passive: true });
     window.addEventListener('resize', syncArrows);
     syncArrows();
-  }
+  };
+
+  wireHowCarousel($('#howRail'), $('#howPrev'), $('#howNext'));
+
+  $$('[data-how-carousel]').forEach((section) => {
+    wireHowCarousel(
+      section.querySelector('[data-how-rail]'),
+      section.querySelector('[data-how-prev]'),
+      section.querySelector('[data-how-next]')
+    );
+  });
 
   /* ---------------------------------------------------------
      9. FAQ — one open at a time
