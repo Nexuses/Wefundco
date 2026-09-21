@@ -1691,12 +1691,28 @@ body.modal-open{overflow:hidden}
 .home-audience__grid--flip .home-audience__media{order:-1}
 .home-audience__copy .lede{margin:16px 0}
 .home-audience__copy .ticks{margin:8px 0 0}
-.home-audience__points{margin:4px 0 0}
-.home-audience__points p{
-  margin:0 0 12px;color:var(--muted);font-size:16px;line-height:1.55;
+.home-audience__points{
+  margin:8px 0 0;padding:0;list-style:none;
+  display:flex;flex-direction:column;gap:12px;
 }
-.home-audience__points p:last-child{margin-bottom:0}
-.home-audience__specialties{margin-top:12px;font-weight:500;color:var(--ink)}
+.home-audience__points li{
+  position:relative;padding-left:22px;color:var(--muted);font-size:16px;line-height:1.55;
+}
+.home-audience__points li::before{
+  content:"";position:absolute;left:0;top:10px;width:8px;height:8px;border-radius:100%;
+  background:var(--picton-blue);
+}
+.home-audience__specialties-grid{
+  margin:12px 0 0;padding:0;list-style:none;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px 20px;
+}
+.home-audience__specialties-grid li{
+  position:relative;padding-left:22px;font-size:16px;line-height:1.45;font-weight:500;color:var(--ink);
+}
+.home-audience__specialties-grid li::before{
+  content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:100%;
+  background:var(--picton-blue);
+}
 .home-audience__copy .btn{margin-top:20px;align-self:flex-start}
 .home-audience__note{
   margin:0;font-size:14px;line-height:1.55;color:var(--muted);font-style:italic;
@@ -1728,17 +1744,20 @@ body.modal-open{overflow:hidden}
 
 .home-sectors{
   position:relative;color:#fff;text-align:center;
-  padding:clamp(120px,16vw,180px) 0;
+  padding:clamp(72px,9vw,110px) 0;
   background:
     linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.62)),
     url('../Assets/demo-images/compressed/www.beatsnoop.com-final-eAVB2cm7EL.jpg') center/cover no-repeat;
 }
-.home-sectors .eyebrow,.home-sectors .lede{color:rgba(255,255,255,.72)}
-.home-sectors .display{color:#fff}
+.home-sectors .eyebrow{
+  margin-bottom:8px;color:rgba(255,255,255,.72);
+}
+.home-sectors .lede{color:rgba(255,255,255,.72)}
+.home-sectors .display{color:#fff;margin:0}
 .home-sectors__inner{
   position:relative;z-index:1;
   width:min(1320px,calc(100% - 40px));max-width:100%;
-  margin:0 auto;display:flex;flex-direction:column;gap:18px;
+  margin:0 auto;display:flex;flex-direction:column;gap:12px;
 }
 .home-sectors .lede{max-width:min(96ch,100%)}
 .home-sectors__tagline{
@@ -1791,25 +1810,34 @@ body.modal-open{overflow:hidden}
 .home-close__form{width:min(660px,100%);margin-top:8px}
 .home-close .waitlist-form__msg{color:rgba(255,255,255,.75)}
 .home-close .waitlist-form__row .btn{
-  border-radius:200px;padding:12px 18px;font-size:14px;
-  background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);
+  border-radius:200px;padding:12px 18px;font-size:14px;font-weight:700;
+  background:#fff;color:var(--royal-blue);border:1px solid #fff;
 }
+.home-close .waitlist-form__row .btn .btn__arrow{color:var(--royal-blue)}
 .home-close .waitlist-form__row .btn:hover{
-  background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.28);
+  background:var(--paper);color:var(--deep-navy);border-color:#fff;
 }
+.home-close .waitlist-form__row .btn:hover .btn__arrow{color:var(--deep-navy)}
 .home-close__ctas{
   display:flex;flex-wrap:nowrap;justify-content:center;gap:12px;margin-top:8px;
   width:100%;
 }
 .home-close .btn--ghost{
-  background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);
+  background:#fff;color:var(--royal-blue);border:1px solid #fff;
   border-radius:var(--r-btn);padding:16px 24px;
 }
-.home-close .btn--ghost:hover{background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.28)}
+.home-close .btn--ghost .btn__arrow{color:var(--royal-blue)}
+.home-close .btn--ghost:hover{
+  background:var(--paper);color:var(--deep-navy);border-color:#fff;
+}
+.home-close .btn--ghost:hover .btn__arrow{color:var(--deep-navy)}
 
 @media (max-width:1100px){
   .home-close__ctas{flex-wrap:wrap}
   .home-sectors__tagline{white-space:normal}
+}
+@media (max-width:560px){
+  .home-audience__specialties-grid{grid-template-columns:1fr}
 }
 @media (max-width:1000px){
   .home-audience__grid,.home-audience__grid--flip{grid-template-columns:1fr}
