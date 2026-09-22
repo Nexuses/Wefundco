@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wave Lines Lab · WeFundCo</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --royal: #01279F;
+    --navy: #1A1B60;
+    --picton: #30AFF8;
+    --pale: #C5D8F5;
+    --sky: #E6F4FD;
+    --paper: #F7F8FA;
+    --ink: #001438;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .lab-header {
+    padding: 20px clamp(20px, 4vw, 40px);
+    border-bottom: 1px solid rgba(0, 20, 56, 0.08);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #fff;
+  }
+  .lab-header h1 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .lab-header p {
+    margin: 4px 0 0;
+    font-family: "Geist Mono", monospace;
+    font-size: 12px;
+    color: rgba(0, 20, 56, 0.55);
+  }
+  .lab-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .lab-links a {
+    color: var(--royal);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(1, 39, 159, 0.35);
+  }
+  .lab-links a:hover { color: var(--navy); }
+  .lab-stage {
+    position: relative;
+    min-height: calc(100vh - 88px);
+    display: flex;
+    flex-direction: column;
+  }
+  .wave-panel {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #fff 0%, var(--sky) 120%);
+  }
+  #waveSvg {
+    display: block;
+    width: 100%;
+    height: min(58vh, 480px);
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .lottie-panel {
+    padding: clamp(32px, 5vw, 56px) clamp(20px, 4vw, 40px);
+    background: #fff;
+    border-top: 1px solid rgba(0, 20, 56, 0.08);
+  }
+  .lottie-panel h2 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-family: "Geist Mono", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(0, 20, 56, 0.55);
+  }
+  .lottie-panel p {
+    margin: 0 0 20px;
+    font-size: 14px;
+    color: rgba(0, 20, 56, 0.65);
+    max-width: 52ch;
+  }
+  #lottieWaves {
+    width: 100%;
+    max-width: 1200px;
+    height: min(40vh, 320px);
+    margin: 0 auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lab-note { display: block; }
+  }
+  .lab-note {
+    display: none;
+    padding: 12px 20px;
+    font-size: 13px;
+    background: var(--sky);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header class="lab-header">
+  <div>
+    <h1>Wave Lines Lab</h1>
+    <p>Test URL: <strong>/lab/wave-lines</strong></p>
+  </div>
+  <nav class="lab-links" aria-label="Lab navigation">
+    <a href="/investors">Investors page</a>
+    <a href="/">Home</a>
+    <a href="#lottie">Lottie version</a>
+  </nav>
+</header>
+
+<p class="lab-note">Motion reduced — wave animation paused for accessibility.</p>
+
+<main class="lab-stage">
+  <section class="wave-panel" aria-label="Animated SVG wave lines">
+    <svg id="waveSvg" viewBox="0 0 1440 320" preserveAspectRatio="none" role="img" aria-label="Slow moving wave lines in brand blues">
+      <!-- paths injected by script -->
+    </svg>
+  </section>
+
+  <section class="lottie-panel" id="lottie">
+    <h2>Lottie playback</h2>
+    <p>Same palette and motion intent, rendered with Lottie (SVG renderer). Speed is slowed for a smooth drift.</p>
+    <div id="lottieWaves" aria-hidden="true"></div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+(function () {
+  const svg = document.getElementById('waveSvg');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const lines = [
+    { color: '#01279F', width: 18,  base: 68,  amp: 24, freq: 1.1, speed: 0.22, phase: 0 },
+    { color: '#C5D8F5', width: 22,  base: 118, amp: 28, freq: 0.85, speed: 0.16, phase: 1.4 },
+    { color: '#1A1B60', width: 18,  base: 168, amp: 20, freq: 1.35, speed: 0.19, phase: 2.1 },
+    { color: '#30AFF8', width: 20,  base: 218, amp: 26, freq: 1.0, speed: 0.14, phase: 0.7 },
+    { color: '#E6F4FD', width: 26,  base: 268, amp: 16, freq: 0.75, speed: 0.11, phase: 3.0 }
+  ];
+
+  const paths = lines.map((line, i) => {
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('fill', 'none');
+    p.setAttribute('stroke', line.color);
+    p.setAttribute('stroke-width', String(line.width));
+    p.setAttribute('stroke-linecap', 'round');
+    p.setAttribute('stroke-linejoin', 'round');
+    p.setAttribute('opacity', line.color === '#E6F4FD' ? '0.95' : '1');
+    p.dataset.index = String(i);
+    svg.appendChild(p);
+    return { el: p, line };
+  });
+
+  const W = 1440;
+  const step = 6;
+
+  function buildPath(line, t) {
+    let d = '';
+    for (let x = 0; x <= W; x += step) {
+      const wave =
+        Math.sin((x / W) * Math.PI * 2 * line.freq + t * line.speed + line.phase) * line.amp +
+        Math.sin((x / W) * Math.PI * 4 * line.freq + t * line.speed * 0.6 + line.phase * 1.3) * (line.amp * 0.22);
+      const y = line.base + wave;
+      d += (x === 0 ? 'M' : 'L') + x + ' ' + y.toFixed(2);
+    }
+    return d;
+  }
+
+  let start = performance.now();
+  function tick(now) {
+    const t = (now - start) / 1000;
+    paths.forEach(({ el, line }) => {
+      el.setAttribute('d', buildPath(line, t));
+    });
+    if (!reduced) requestAnimationFrame(tick);
+  }
+
+  if (reduced) {
+    paths.forEach(({ el, line }) => el.setAttribute('d', buildPath(line, 0)));
+  } else {
+    requestAnimationFrame(tick);
+  }
+})();
+
+(function () {
+  const container = document.getElementById('lottieWaves');
+  if (!container || typeof lottie === 'undefined') return;
+
+  const anim = lottie.loadAnimation({
+    container,
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'wave-lines-lottie.json',
+    rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
+  });
+  anim.setSpeed(0.35);
+})();
+</script>
+</body>
+</html>

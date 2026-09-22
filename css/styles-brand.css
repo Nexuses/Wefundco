@@ -723,9 +723,10 @@ ul{margin:0;padding:0;list-style:none}
 .footer__bottom{
   display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   margin-top:clamp(48px,7vw,90px);padding-top:26px;border-top:1px solid rgba(255,255,255,.14);
-  font-size:14px;color:rgba(255,255,255,.6);
+  font-size:13px;line-height:1.55;color:rgba(255,255,255,.6);
 }
-.footer__disclaimer{margin-top:22px;font-size:12px;line-height:1.65;color:rgba(255,255,255,.38);max-width:110ch}
+.footer__bottom p{margin:0;font-size:inherit;line-height:inherit;color:inherit}
+.footer__disclaimer{margin-top:22px;font-size:13px;line-height:1.55;color:rgba(255,255,255,.38);max-width:110ch}
 .footer__legal .footer__disclaimer{margin-top:0}
 .footer__legal .footer__disclaimer + .footer__disclaimer{margin-top:14px}
 
@@ -1861,20 +1862,72 @@ body.modal-open{overflow:hidden}
 
 /* ---- investors page (layouts shared with home + startups) ---- */
 .inv-section--paper{background:var(--paper-2)}
-.inv-context .problem__inner{max-width:min(var(--container),100%)}
+.inv-context .problem__inner{
+  max-width:min(var(--container),100%);text-align:center;
+}
 .inv-context__title{
-  max-width:min(28ch,100%);margin-inline:auto;text-align:center;
+  max-width:min(32ch,100%);margin-inline:auto;text-align:center;
 }
 .inv-context__body{
-  margin:clamp(32px,4vw,48px) 0 0;max-width:min(920px,100%);
+  margin:clamp(32px,4vw,48px) auto 0;max-width:min(920px,100%);
+  text-align:center;
 }
 .inv-context__copy{
-  margin:0 0 clamp(28px,4vw,40px);max-width:min(72ch,100%);
-  color:var(--muted);font-size:16px;line-height:1.65;
+  margin:0 auto clamp(28px,4vw,40px);max-width:min(72ch,100%);
+  color:var(--muted);font-size:16px;line-height:1.65;text-align:center;
 }
 .inv-lenses__grid--2x2{
   display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+  max-width:min(760px,100%);margin-inline:auto;text-align:center;
 }
+.inv-lenses__grid--2x2 .inv-lens-card{
+  align-items:flex-start;text-align:left;
+}
+.inv-lenses__grid--2x2 .inv-lens-card .inv-icon-row__text h3,
+.inv-lenses__grid--2x2 .inv-lens-card .inv-icon-row__text p{
+  max-width:none;margin-inline:0;text-align:left;
+}
+.inv-pillars--dashboard{
+  grid-template-columns:minmax(0,.58fr) minmax(0,2.84fr) minmax(0,.58fr);
+}
+.inv-pillar-card{padding:12px 14px}
+.inv-pillar-card h3{
+  font-size:14px;line-height:1.3;margin:0 0 6px;letter-spacing:-.02em;
+}
+.inv-pillar-card p{
+  font-size:13px;line-height:1.45;margin:0;
+}
+.inv-pillars--dashboard .inv-pillars__media{
+  min-height:min(520px,56vh);padding:6px;
+}
+.inv-pillars--dashboard .inv-pillars__media img{
+  max-height:min(600px,56vh);width:100%;
+}
+.inv-bridge__flow{
+  max-width:min(480px,100%);margin:clamp(32px,4vw,48px) auto 0;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.inv-bridge__block{
+  width:100%;text-align:center;background:var(--white);
+  border-radius:var(--r-lg);padding:clamp(18px,2.5vw,24px);
+  border:1px solid rgba(0,20,56,.08);
+}
+.inv-bridge__block--accent{border-color:var(--picton-blue);background:var(--paper)}
+.inv-bridge__block h3{
+  margin:0 0 8px;font-size:18px;line-height:1.25;letter-spacing:-.02em;color:var(--ink);
+}
+.inv-bridge__block p{
+  margin:0;font-size:15px;line-height:1.5;color:var(--muted);
+}
+.inv-bridge__label{
+  margin:0 0 6px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
+.inv-bridge__arrow{margin:0;font-size:20px;line-height:1;color:var(--picton-blue)}
+.inv-ecosystem{background:var(--white)}
+.inv-ecosystem__head{text-align:center;margin-bottom:8px}
+.inv-ecosystem__cta{display:flex;justify-content:center;margin-top:clamp(28px,4vw,40px)}
+.inv-ecosystem__flow{margin-top:clamp(24px,3vw,36px)}
 .inv-structured{
   --inv-structured-width:min(1480px,calc(100vw - 32px));
 }
@@ -2031,9 +2084,15 @@ body:not(.page-waitlist-new) .lede,
 body:not(.page-waitlist-new) .inv-context__copy,
 body:not(.page-waitlist-new) .home-audience__points li,
 body:not(.page-waitlist-new) .home-audience__specialties-grid li,
-body:not(.page-waitlist-new) .footer__disclaimer,
 body:not(.page-waitlist-new) .footer__tag{
   font-size:18px;line-height:1.5;
+}
+
+.footer__bottom,
+.footer__bottom p,
+.footer__legal .footer__disclaimer,
+.footer .footer__disclaimer{
+  font-size:13px;line-height:1.55;
 }
 
 body:not(.page-waitlist-new) .home-cap-card p,
@@ -2093,3 +2152,8 @@ body:not(.page-waitlist-new) .how-card h3{
 .page-investors-new .inv-journey__title{
   font-size:clamp(38px,4.4vw,54px);line-height:1.08;
 }
+
+body:not(.page-waitlist-new) .inv-pillar-card h3{font-size:14px;line-height:1.3}
+body:not(.page-waitlist-new) .inv-pillar-card p{font-size:13px;line-height:1.45}
+body:not(.page-waitlist-new) .inv-bridge__block h3{font-size:18px;line-height:1.25}
+body:not(.page-waitlist-new) .inv-bridge__block p{font-size:15px;line-height:1.5}
