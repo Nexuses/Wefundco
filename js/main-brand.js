@@ -320,6 +320,7 @@
      10. Waitlist form → POST /api/waitlist
      --------------------------------------------------------- */
   const waitlistSuccessModal = $('#waitlistSuccessModal');
+  const inviteModal = $('#inviteModal');
   let lastWaitlistEmail = '';
   const WAITLIST_COPY = {
     joined: {
@@ -356,8 +357,34 @@
     }
   }
 
+  function syncModalLock() {
+    const inviteOpen = inviteModal && inviteModal.classList.contains('is-open');
+    const successOpen = waitlistSuccessModal && waitlistSuccessModal.classList.contains('is-open');
+    document.body.classList.toggle('modal-open', !!(inviteOpen || successOpen));
+  }
+
+  function closeInviteModal() {
+    if (!inviteModal) return;
+    inviteModal.classList.remove('is-open');
+    inviteModal.setAttribute('aria-hidden', 'true');
+    syncModalLock();
+  }
+
+  function openInviteModal() {
+    if (!inviteModal) return;
+    inviteModal.classList.add('is-open');
+    inviteModal.setAttribute('aria-hidden', 'false');
+    syncModalLock();
+    const email = $('#wlEmail', inviteModal);
+    if (email) email.focus();
+  }
+
   function openWaitlistSuccessModal(opts) {
     if (!waitlistSuccessModal) return false;
+    if (inviteModal && inviteModal.classList.contains('is-open')) {
+      inviteModal.classList.remove('is-open');
+      inviteModal.setAttribute('aria-hidden', 'true');
+    }
     const alreadyJoined = !!(opts && opts.alreadyJoined);
     const hasPhone = !!(opts && opts.hasPhone);
     const copy = alreadyJoined
@@ -385,7 +412,7 @@
 
     waitlistSuccessModal.classList.add('is-open');
     waitlistSuccessModal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open');
+    syncModalLock();
     if (showFollow) {
       const firstSocial = $('.wfc-modal__follow-social a', waitlistSuccessModal);
       if (firstSocial) firstSocial.focus();
@@ -408,7 +435,7 @@
     if (!waitlistSuccessModal) return;
     waitlistSuccessModal.classList.remove('is-open');
     waitlistSuccessModal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('modal-open');
+    syncModalLock();
   }
 
   if (waitlistSuccessModal) {
@@ -416,9 +443,9 @@
       el.addEventListener('click', closeWaitlistSuccessModal);
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && waitlistSuccessModal.classList.contains('is-open')) {
-        closeWaitlistSuccessModal();
-      }
+      if (e.key !== 'Escape') return;
+      if (waitlistSuccessModal.classList.contains('is-open')) closeWaitlistSuccessModal();
+      else if (inviteModal && inviteModal.classList.contains('is-open')) closeInviteModal();
     });
 
     const phoneForm = $('#waitlistPhoneForm', waitlistSuccessModal);
@@ -580,9 +607,18 @@
     });
   }
 
+  $$('[data-invite-open]').forEach((btn) => {
+    btn.addEventListener('click', openInviteModal);
+  });
+  if (inviteModal) {
+    $$('[data-invite-close]', inviteModal).forEach((el) => {
+      el.addEventListener('click', closeInviteModal);
+    });
+  }
+
   bindWaitlist($('#waitlistForm'), $('#wlEmail'), $('#wlMsg'), {
-    error: '#FFB4B4',
-    ok: '#D4F4F8'
+    error: '#B42318',
+    ok: '#0AAFC8'
   });
   bindWaitlist($('#heroWaitlistForm'), $('#heroEmail'), $('#heroMsg'), {
     error: '#B42318',

@@ -12,12 +12,10 @@
      Geist Mono — OFL, Google Fonts
    ========================================================= */
 
-/* Aspekta variable (weights 50–1000) served from jsDelivr.
-   For production, self-host: download the woff2 from the repo
-   above and point this src at your own /fonts directory. */
+/* Aspekta variable (weights 50–1000), self-hosted in /fonts. */
 @font-face{
   font-family:'Aspekta';
-  src:url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@2.000/fonts/variable/AspektaVF.woff2') format('woff2');
+  src:url('../fonts/AspektaVF.woff2') format('woff2');
   font-weight:50 1000;
   font-style:normal;
   font-display:swap;

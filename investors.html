@@ -30,9 +30,7 @@
 <meta name="twitter:description" content="Discover and evaluate private capital opportunities with structured information, readiness visibility, and investment context before deeper engagement." />
 <meta name="twitter:image" content="https://wefundco.in/Assets/thumbnail.png" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/google-fonts.css">
 <link rel="stylesheet" href="css/styles-brand.css" />
 <link rel="stylesheet" href="css/circle-footer.css" />
 <script>
@@ -49,7 +47,7 @@
       <img src="Assets/WeFundCo-color.png" alt="WeFundCo" class="nav__logo-img" />
     </a>
 
-    <a href="#invite" class="btn btn--dark btn--nav"><span>Request<span class="btn__long"> an Invitation</span></span><span class="btn__arrow">&rarr;</span></a>
+    <button type="button" class="btn btn--dark btn--nav" data-invite-open><span>Request<span class="btn__long"> an Invitation</span></span><span class="btn__arrow">&rarr;</span></button>
   </div>
 </header>
 
@@ -81,13 +79,7 @@
     <p class="lede lede--tagline reveal" data-delay="140">A more informed approach to private capital discovery and evaluation.</p>
 
     <div class="hero__cta reveal" data-delay="200">
-      <form class="hero-form wl-form inv-hero-form" id="waitlistForm" data-source="investors-hero" data-role="investor" novalidate>
-        <div class="hero-form__row">
-          <input type="email" id="wlEmail" name="email" placeholder="you@firm.com" autocomplete="email" aria-label="Work email" required />
-          <button type="submit" class="btn btn--dark">Request an Investor Invitation <span class="btn__arrow">&rarr;</span></button>
-        </div>
-        <p class="waitlist-form__msg" id="wlMsg"></p>
-      </form>
+      <button type="button" class="btn btn--dark" data-invite-open>Request an Investor Invitation <span class="btn__arrow">&rarr;</span></button>
       <div class="hero__proof">
         <div class="avatars">
           <img src="Assets/demo-images/compressed/image (1) (1).png" alt="" />
@@ -415,35 +407,35 @@
   </div>
 
   <div class="inv-participants__rail" data-inv-drag-scroll tabindex="0" aria-label="Investor types — drag to scroll">
-    <article class="inv-participant-card" style="--inv-participant-bg:url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&amp;fit=crop&amp;w=900&amp;q=80')">
+    <article class="inv-participant-card" style="--inv-participant-bg:url('Assets/photos/startup-workshop.jpg')">
       <div class="inv-participant-card__overlay" aria-hidden="true"></div>
       <div class="inv-participant-card__content">
         <h3>Venture capital investors</h3>
         <p>Discover businesses aligned with sector, stage, and investment focus.</p>
       </div>
     </article>
-    <article class="inv-participant-card" style="--inv-participant-bg:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=900&amp;q=80')">
+    <article class="inv-participant-card" style="--inv-participant-bg:url('Assets/photos/city-tower.jpg')">
       <div class="inv-participant-card__overlay" aria-hidden="true"></div>
       <div class="inv-participant-card__content">
         <h3>Family offices</h3>
         <p>Review opportunities with greater business context.</p>
       </div>
     </article>
-    <article class="inv-participant-card" style="--inv-participant-bg:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=900&amp;q=80')">
+    <article class="inv-participant-card" style="--inv-participant-bg:url('Assets/photos/analytics-desk.jpg')">
       <div class="inv-participant-card__overlay" aria-hidden="true"></div>
       <div class="inv-participant-card__content">
         <h3>Growth investors</h3>
         <p>Evaluate businesses preparing for expansion capital.</p>
       </div>
     </article>
-    <article class="inv-participant-card" style="--inv-participant-bg:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&amp;fit=crop&amp;w=900&amp;q=80')">
+    <article class="inv-participant-card" style="--inv-participant-bg:url('Assets/photos/team-meeting.jpg')">
       <div class="inv-participant-card__overlay" aria-hidden="true"></div>
       <div class="inv-participant-card__content">
         <h3>Strategic investors</h3>
         <p>Explore potential partnerships and strategic opportunities.</p>
       </div>
     </article>
-    <article class="inv-participant-card" style="--inv-participant-bg:url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=900&amp;q=80')">
+    <article class="inv-participant-card" style="--inv-participant-bg:url('Assets/photos/market-screens.jpg')">
       <div class="inv-participant-card__overlay" aria-hidden="true"></div>
       <div class="inv-participant-card__content">
         <h3>Private capital participants</h3>
@@ -541,7 +533,7 @@
     </div>
 
     <div class="inv-ecosystem__cta reveal" data-delay="160">
-      <a href="#invite" class="btn btn--dark">Request an Investor Invitation <span class="btn__arrow">&rarr;</span></a>
+      <button type="button" class="btn btn--dark" data-invite-open>Request an Investor Invitation <span class="btn__arrow">&rarr;</span></button>
     </div>
   </div>
 </section>
@@ -554,11 +546,26 @@
     <p class="lede lede--center wln-join__lede">
       WeFundCo is onboarding a select group of investors as part of its growing investor ecosystem. Share your investment mandate and areas of interest, enabling our team to curate relevant opportunities aligned with your investment objectives as the network evolves.
     </p>
-    <a href="#invite" class="btn btn--dark btn--lg">Request an Investor Invitation <span class="btn__arrow">&rarr;</span></a>
+    <button type="button" class="btn btn--dark btn--lg" data-invite-open>Request an Investor Invitation <span class="btn__arrow">&rarr;</span></button>
   </div>
 </section>
 
 </main>
+
+<div class="wfc-modal" id="inviteModal" aria-hidden="true" role="dialog" aria-labelledby="inviteTitle" aria-modal="true">
+  <div class="wfc-modal__backdrop" data-invite-close></div>
+  <div class="wfc-modal__card wfc-invite">
+    <button type="button" class="wfc-modal__x wfc-modal__x--sm" data-invite-close aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h2 class="wfc-invite__title" id="inviteTitle">Request an invitation.</h2>
+    <form class="wfc-invite__form wl-form" id="waitlistForm" data-source="investors-hero" data-role="investor" novalidate>
+      <input type="email" id="wlEmail" name="email" placeholder="you@firm.com" autocomplete="email" aria-label="Work email" required />
+      <button type="submit" class="btn btn--dark wl-submit">Request an Investor Invitation <span class="btn__arrow">&rarr;</span></button>
+      <p class="waitlist-form__msg" id="wlMsg"></p>
+    </form>
+  </div>
+</div>
 
 <div class="wfc-modal" id="waitlistSuccessModal" aria-hidden="true" role="dialog" aria-labelledby="waitlistSuccessTitle" aria-modal="true">
   <div class="wfc-modal__backdrop" data-modal-close></div>

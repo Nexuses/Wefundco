@@ -10,12 +10,10 @@
      Geist Mono — OFL, Google Fonts
    ========================================================= */
 
-/* Aspekta variable (weights 50–1000) served from jsDelivr.
-   For production, self-host: download the woff2 from the repo
-   above and point this src at your own /fonts directory. */
+/* Aspekta variable (weights 50–1000), self-hosted in /fonts. */
 @font-face{
   font-family:'Aspekta';
-  src:url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@2.000/fonts/variable/AspektaVF.woff2') format('woff2');
+  src:url('../fonts/AspektaVF.woff2') format('woff2');
   font-weight:50 1000;
   font-style:normal;
   font-display:swap;
@@ -775,6 +773,68 @@ body.modal-open{overflow:hidden}
   font-size:16px;
   line-height:1.65;
   color:var(--muted);
+}
+
+.wfc-modal__card.wfc-invite{
+  width:min(560px,100%);
+  text-align:left;
+  border-radius:12px;
+  padding:clamp(28px,4vw,36px) clamp(24px,4vw,32px);
+}
+.wfc-modal__x.wfc-modal__x--sm{
+  top:12px;
+  right:12px;
+  width:28px;
+  height:28px;
+  font-size:20px;
+  background:#E4E4E4;
+  color:var(--ink);
+}
+.wfc-modal__x.wfc-modal__x--sm:hover{
+  background:#D4D4D4;
+  color:var(--ink);
+}
+.wfc-invite__title{
+  margin:0 0 20px;
+  font-family:var(--serif);
+  font-size:clamp(26px,4vw,32px);
+  font-weight:400;
+  line-height:1.2;
+  letter-spacing:-.03em;
+  color:var(--ink);
+  text-align:center;
+}
+.wfc-invite__form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin:0;
+}
+.wfc-invite__form input[type="email"]{
+  width:100%;
+  min-height:56px;
+  padding:14px 16px;
+  font:inherit;
+  font-size:16px;
+  color:var(--ink);
+  background:var(--paper-2);
+  border:1px solid rgba(0,20,56,.14);
+  border-radius:var(--r-sm);
+}
+.wfc-invite__form input[type="email"]:focus{
+  outline:none;
+  border-color:var(--royal-blue);
+  background:var(--white);
+}
+.wfc-invite__form .btn{
+  width:100%;
+  white-space:normal;
+}
+.wfc-invite__form .waitlist-form__msg{
+  margin:0;
+  min-height:0;
+  font-size:14px;
+  text-align:left;
 }
 
 /* =========================================================

@@ -30,9 +30,7 @@
 <meta name="twitter:description" content="WeFundCo is an investment readiness, intelligence and transaction platform connecting businesses and capital with greater clarity. Join the waitlist for early access." />
 <meta name="twitter:image" content="https://wefundco.in/Assets/thumbnail.png" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/google-fonts.css">
 <link rel="stylesheet" href="css/styles-brand.css" />
 <link rel="stylesheet" href="css/circle-footer.css" />
 <script>
@@ -49,7 +47,7 @@
       <img src="Assets/WeFundCo-color.png" alt="WeFundCo" class="nav__logo-img" />
     </a>
 
-    <a href="#apply" class="btn btn--dark btn--nav"><span>Join<span class="btn__long"> the Waitlist</span></span><span class="btn__arrow">&rarr;</span></a>
+    <button type="button" class="btn btn--dark btn--nav" data-invite-open><span>Join<span class="btn__long"> the Waitlist</span></span><span class="btn__arrow">&rarr;</span></button>
   </div>
 </header>
 
@@ -70,15 +68,7 @@
         Join the waitlist to get early access when WeFundCo launches.
       </p>
 
-      <form class="wln-hero__form wl-form" id="waitlistForm" data-source="startups-hero" data-role="startup" novalidate>
-        <div class="wln-hero__form-row">
-          <div class="wl-field">
-            <input type="email" id="wlEmail" name="email" placeholder="Enter your work email" autocomplete="email" aria-label="Work email" required />
-          </div>
-          <button type="submit" class="btn btn--dark btn--lg wl-submit">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
-        </div>
-        <p class="waitlist-form__msg" id="wlMsg"></p>
-      </form>
+      <button type="button" class="btn btn--dark btn--lg" data-invite-open>Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
     </div>
 
     <div class="wln-hero__media reveal" data-delay="120">
@@ -252,11 +242,26 @@
       Preparation changes how investors see your business.<br>
       Join the waitlist and be first to know when WeFundCo launches.
     </p>
-    <a href="#apply" class="btn btn--dark btn--lg">Join the Waitlist <span class="btn__arrow">&rarr;</span></a>
+    <button type="button" class="btn btn--dark btn--lg" data-invite-open>Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
   </div>
 </section>
 
 </main>
+
+<div class="wfc-modal" id="inviteModal" aria-hidden="true" role="dialog" aria-labelledby="inviteTitle" aria-modal="true">
+  <div class="wfc-modal__backdrop" data-invite-close></div>
+  <div class="wfc-modal__card wfc-invite">
+    <button type="button" class="wfc-modal__x wfc-modal__x--sm" data-invite-close aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h2 class="wfc-invite__title" id="inviteTitle">Join the waitlist.</h2>
+    <form class="wfc-invite__form wl-form" id="waitlistForm" data-source="startups-hero" data-role="startup" novalidate>
+      <input type="email" id="wlEmail" name="email" placeholder="Enter your work email" autocomplete="email" aria-label="Work email" required />
+      <button type="submit" class="btn btn--dark btn--lg wl-submit">Join the Waitlist <span class="btn__arrow">&rarr;</span></button>
+      <p class="waitlist-form__msg" id="wlMsg"></p>
+    </form>
+  </div>
+</div>
 
 <div class="wfc-modal" id="waitlistSuccessModal" aria-hidden="true" role="dialog" aria-labelledby="waitlistSuccessTitle" aria-modal="true">
   <div class="wfc-modal__backdrop" data-modal-close></div>
