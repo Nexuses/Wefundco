@@ -209,6 +209,68 @@
   }
 
   /* ---------------------------------------------------------
+     6b. About beliefs — cards deal onto a stack while the
+         image beside them crossfades (scroll-pinned)
+     --------------------------------------------------------- */
+  const beliefs = $('[data-beliefs]');
+  const beliefsPin = beliefs ? $('.ab-beliefs__pin', beliefs) : null;
+  const beliefCards = beliefs ? $$('.ab-belief', beliefs) : [];
+  const beliefImgs = beliefs ? $$('.ab-beliefs__img', beliefs) : [];
+  const beliefsWide = window.matchMedia('(min-width: 901px)');
+  let beliefsOn = false;
+
+  function syncBeliefs() {
+    if (!beliefs || !beliefsPin || beliefCards.length < 2) return;
+    beliefsOn = !reduced && beliefsWide.matches;
+    beliefs.classList.toggle('is-animated', beliefsOn);
+    if (!beliefsOn) {
+      beliefs.style.height = '';
+      beliefCards.forEach((c) => { c.style.transform = ''; c.style.opacity = ''; c.style.zIndex = ''; });
+      beliefImgs.forEach((img) => { img.style.opacity = ''; img.style.transform = ''; });
+      return;
+    }
+    const navH = nav ? nav.offsetHeight : 0;
+    beliefs.style.setProperty('--beliefs-top', `${navH}px`);
+    beliefs.style.height = `calc(100vh - ${navH}px + ${(beliefCards.length - 1) * 75}vh)`;
+  }
+
+  function paintBeliefs() {
+    if (!beliefsOn) return;
+    const navH = nav ? nav.offsetHeight : 0;
+    const r = beliefs.getBoundingClientRect();
+    const range = Math.max(beliefs.offsetHeight - beliefsPin.offsetHeight, 1);
+    const raw = Math.max(0, Math.min(1, (navH - r.top) / range));
+    // Short hold at both ends so the first and last cards get a beat on screen.
+    const p = Math.max(0, Math.min(1, (raw - 0.06) / 0.84));
+    const n = beliefCards.length;
+    const enterFrom = window.innerHeight * 0.8;
+
+    const landed = beliefCards.map((_, i) => {
+      if (i === 0) return 1;
+      const t = Math.max(0, Math.min(1, p * (n - 1) - (i - 1)));
+      return 1 - Math.pow(1 - t, 3);
+    });
+
+    beliefCards.forEach((card, i) => {
+      const e = landed[i];
+      let depth = 0;
+      for (let k = i + 1; k < n; k++) depth += landed[k];
+      const y = (1 - e) * enterFrom - depth * 14;
+      const rot = (1 - e) * (i % 2 ? -7 : 7);
+      const scale = 1 - depth * 0.045;
+      card.style.zIndex = i + 1;
+      card.style.opacity = Math.max(0, Math.min(1, 4 - depth));
+      card.style.transform = `translate3d(0,${y}px,0) rotate(${rot}deg) scale(${scale})`;
+    });
+
+    beliefImgs.forEach((img, i) => {
+      const e = i < n ? landed[i] : 0;
+      img.style.opacity = e;
+      img.style.transform = `scale(${1.08 - e * 0.08})`;
+    });
+  }
+
+  /* ---------------------------------------------------------
      7. Master scroll loop (rAF-throttled)
      --------------------------------------------------------- */
   let ticking = false;
@@ -228,15 +290,18 @@
       paintCounts();
       paintWords();
       if (!reduced) paintStack();
+      paintBeliefs();
       ticking = false;
     });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => {
     syncStackSectionHeight();
+    syncBeliefs();
     onScroll();
   });
   syncStackSectionHeight();
+  syncBeliefs();
   onScroll();
 
   /* ---------------------------------------------------------
