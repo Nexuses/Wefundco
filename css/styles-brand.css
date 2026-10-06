@@ -177,6 +177,7 @@ ul{margin:0;padding:0;list-style:none}
 .badge--lilac{background:var(--lilac)}
 .badge--pink{background:var(--pink)}
 .badge--white{background:var(--white)}
+.badge--royal{background:var(--royal-blue);color:#fff}
 
 .tag{
   display:inline-block;padding:7px 14px;border-radius:100px;
@@ -485,12 +486,33 @@ ul{margin:0;padding:0;list-style:none}
   position:relative;aspect-ratio:16/10;display:grid;place-items:center;
   overflow:visible;background:#E8E8E8;border-radius:var(--r-md) var(--r-md) 0 0;
 }
+#how .how-card__fill{aspect-ratio:16/11}
 .how-card__fill-img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   border-radius:inherit;z-index:0;
 }
 .how-card__icon{
   position:relative;z-index:1;width:72px;height:72px;object-fit:contain;
+}
+.how-card__lottie{
+  position:absolute;inset:0;z-index:1;overflow:hidden;
+  border-radius:inherit;pointer-events:none;
+}
+.how-card__lottie svg{display:block;width:100%!important;height:100%!important}
+.how-card__lottie--contain{
+  inset:clamp(10px,3.5%,18px);
+}
+.how-card--mint .how-card__lottie--contain{
+  inset:clamp(34px,14%,50px);
+  transform:translateY(35px);
+}
+.how-card__lottie--centered{
+  inset:auto;width:150px;height:150px;
+  left:50%;top:50%;transform:translate(-50%, -50%);
+}
+.how-card--blush .how-card__lottie--centered{
+  width:clamp(200px,52%,240px);height:clamp(200px,52%,240px);
+  transform:translate(-50%, calc(-50% + 30px));
 }
 .how-card{position:relative}
 .how-card--lilac .how-card__fill,

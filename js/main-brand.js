@@ -324,6 +324,39 @@
 
   wireHowCarousel($('#howRail'), $('#howPrev'), $('#howNext'));
 
+  /* How-it-works cards — Lottie autoplays and loops */
+  const initHowCardLottie = () => {
+    const rail = $('#howRail');
+    if (!rail || typeof lottie === 'undefined') return;
+
+    const defaultLottie = '1-1 (1).json';
+    const lottieBase = 'Assets/animation/';
+    const slots = $$('.how-card__lottie', rail);
+    if (!slots.length) return;
+
+    slots.forEach((el) => {
+      const file = el.dataset.lottie || defaultLottie;
+      const fitContain =
+        el.classList.contains('how-card__lottie--centered') ||
+        el.classList.contains('how-card__lottie--contain');
+      const anim = lottie.loadAnimation({
+        container: el,
+        renderer: 'svg',
+        loop: true,
+        autoplay: !reduced,
+        path: lottieBase + encodeURIComponent(file),
+        rendererSettings: {
+          preserveAspectRatio: fitContain ? 'xMidYMid meet' : 'xMidYMid slice'
+        }
+      });
+      anim.addEventListener('data_failed', () => {
+        console.warn('[WeFundCo] Lottie failed to load:', file);
+      });
+      if (reduced) anim.goToAndStop(0, true);
+    });
+  };
+  initHowCardLottie();
+
   $$('[data-how-carousel]').forEach((section) => {
     wireHowCarousel(
       section.querySelector('[data-how-rail]'),
