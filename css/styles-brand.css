@@ -271,65 +271,82 @@ ul{margin:0;padding:0;list-style:none}
 .hero__title.is-in .line > span{transform:translateY(0)}
 .hero__title.is-in .line:nth-child(2) > span{transition-delay:.09s}
 
-/* hero headline wipe — "Where" stays put while a blue bar wipes the
-   rest of the headline out and the next one back in */
-.hero__wipe{
-  --wipe-cycle:10s;
-  --wipe-stagger:.14s;
+/* hero headline swap — "Where" stays static; phrase pairs carousel vertically */
+.hero__swap{
+  --swap-cycle:10s;
+  --swap-ease:cubic-bezier(.4,0,.15,1);
   display:flex;flex-direction:column;align-items:center;gap:.08em;
   line-height:1.1;text-align:center;
 }
-.hero__wipe-row{display:block;max-width:100%}
-.hero__wipe-static{display:inline}
-.hero__wipe-slot{
+.hero__swap-row{display:block;max-width:100%;min-height:1.12em}
+.hero__swap-row--accent{text-align:center}
+.hero__swap-static{display:inline;margin-right:.22em}
+.hero__swap-cycle{
   position:relative;display:inline-grid;vertical-align:baseline;
+  overflow:hidden;height:1.12em;
+  min-width:12.8em;text-align:left;
+  contain:layout style;
+  isolation:isolate;
 }
-.hero__wipe-slot--start{justify-items:start;text-align:left}
-.hero__wipe-slot--late{justify-items:center}
-.hero__wipe-phrase{grid-area:1/1;white-space:nowrap}
-.hero__wipe-phrase--b{opacity:0}
-.hero__wipe-slot::after{
-  content:"";position:absolute;inset:0 -.06em -.08em;
-  background:var(--royal-blue);border-radius:.06em;
-  transform:scaleX(0);transform-origin:left center;pointer-events:none;
+.hero__swap-row--accent .hero__swap-cycle{
+  min-width:13.2em;text-align:center;justify-items:center;
 }
-.hero__wipe.is-in .hero__wipe-slot::after{
-  animation:heroWipeBar var(--wipe-cycle) cubic-bezier(.65,0,.35,1) infinite both;
+.hero__swap-phrase{
+  grid-area:1/1;align-self:center;width:100%;
+  white-space:nowrap;
+  backface-visibility:hidden;-webkit-font-smoothing:antialiased;
+  opacity:0;visibility:hidden;
+  transform:translate3d(0,100%,0);
+  pointer-events:none;
 }
-.hero__wipe.is-in .hero__wipe-phrase--a{animation:heroWipeA var(--wipe-cycle) linear infinite both}
-.hero__wipe.is-in .hero__wipe-phrase--b{animation:heroWipeB var(--wipe-cycle) linear infinite both}
-.hero__wipe.is-in .hero__wipe-slot--late::after,
-.hero__wipe.is-in .hero__wipe-slot--late .hero__wipe-phrase{animation-delay:var(--wipe-stagger)}
+.hero__swap-phrase:first-child{
+  opacity:1;visibility:visible;transform:translate3d(0,0,0);
+}
+.hero__swap.is-in .hero__swap-phrase:first-child{
+  animation:heroSwapA var(--swap-cycle) var(--swap-ease) infinite;
+}
+.hero__swap.is-in .hero__swap-phrase:nth-child(2){
+  animation:heroSwapB var(--swap-cycle) var(--swap-ease) infinite;
+}
 
-/* 0–38% first headline, bar covers it, swap at 44%, bar uncovers the second;
-   88–100% repeats the same wipe back to the first headline */
-@keyframes heroWipeBar{
-  0%, 38%   { transform:scaleX(0); transform-origin:left center; }
-  44%       { transform:scaleX(1); transform-origin:left center; }
-  44.01%    { transform:scaleX(1); transform-origin:right center; }
-  50%, 88%  { transform:scaleX(0); transform-origin:right center; }
-  88.01%    { transform:scaleX(0); transform-origin:left center; }
-  94%       { transform:scaleX(1); transform-origin:left center; }
-  94.01%    { transform:scaleX(1); transform-origin:right center; }
-  100%      { transform:scaleX(0); transform-origin:right center; }
+@keyframes heroSwapA{
+  0%, 38%{
+    opacity:1;visibility:visible;transform:translate3d(0,0,0);
+  }
+  44%{
+    opacity:0;visibility:hidden;transform:translate3d(0,-100%,0);
+  }
+  44.01%, 87.99%{
+    opacity:0;visibility:hidden;transform:translate3d(0,100%,0);
+  }
+  93%, 100%{
+    opacity:1;visibility:visible;transform:translate3d(0,0,0);
+  }
 }
-@keyframes heroWipeA{
-  0%, 44%       { opacity:1; }
-  44.01%, 94%   { opacity:0; }
-  94.01%, 100%  { opacity:1; }
-}
-@keyframes heroWipeB{
-  0%, 44%       { opacity:0; }
-  44.01%, 94%   { opacity:1; }
-  94.01%, 100%  { opacity:0; }
+@keyframes heroSwapB{
+  0%, 38%{
+    opacity:0;visibility:hidden;transform:translate3d(0,100%,0);
+  }
+  44%, 82%{
+    opacity:1;visibility:visible;transform:translate3d(0,0,0);
+  }
+  88%{
+    opacity:0;visibility:hidden;transform:translate3d(0,-100%,0);
+  }
+  88.01%, 100%{
+    opacity:0;visibility:hidden;transform:translate3d(0,100%,0);
+  }
 }
 @media (max-width:640px){
-  .hero__wipe-phrase{white-space:normal}
-  .hero__wipe-slot--start{justify-items:center;text-align:center}
+  .hero__swap-cycle{min-width:0;height:auto;min-height:1.12em}
+  .hero__swap-phrase{white-space:normal}
 }
 @media (prefers-reduced-motion:reduce){
-  .hero__wipe.is-in .hero__wipe-slot::after,
-  .hero__wipe.is-in .hero__wipe-phrase{animation:none}
+  .hero__swap.is-in .hero__swap-phrase{animation:none}
+  .hero__swap-phrase:first-child{
+    opacity:1;visibility:visible;transform:none;
+  }
+  .hero__swap-phrase:nth-child(2){display:none}
 }
 
 /* image strip */
