@@ -506,6 +506,10 @@ ul{margin:0;padding:0;list-style:none}
   inset:clamp(34px,14%,50px);
   transform:translateY(35px);
 }
+.how-card--sky .how-card__lottie--contain{
+  inset:clamp(4px,1.6%,10px);
+  transform:translateY(24px);
+}
 .how-card__lottie--centered{
   inset:auto;width:150px;height:150px;
   left:50%;top:50%;transform:translate(-50%, -50%);
