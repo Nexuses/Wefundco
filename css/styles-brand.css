@@ -1453,6 +1453,39 @@ body.modal-open{overflow:hidden}
   .ev-host__grid{grid-template-columns:1fr}
 }
 
+.page-events-new .ab-hero{
+  background:
+    linear-gradient(rgba(255,255,255,.43),rgba(255,255,255,.43)),
+    var(--white) url("../Assets/events-hero.png") center/cover no-repeat;
+}
+.page-events-new .ab-hero .inv-hero__inner .lede{max-width:min(92ch,100%)}
+.page-events-new .ev-types .home-capabilities__grid{
+  grid-template-columns:repeat(2,1fr);margin-top:clamp(36px,4vw,48px);
+}
+.page-events-new .home-cap-card.ev-type-card{
+  gap:clamp(12px,1.5vw,16px);
+}
+.page-events-new .ev-type-card .badge{align-self:flex-start}
+.page-events-new .ev-how{background:var(--white)}
+.page-events-new .ev-how__inner{max-width:min(880px,100%);margin-inline:auto}
+.page-events-new .ev-host.ab-founding{background:var(--paper-2)}
+.page-events-new .ev-host__body .ticks{margin:8px 0 20px}
+.page-events-new .ev-host__body .btn{margin-top:4px}
+.page-events-new .ev-host__fine{margin-top:16px;font-size:14px;line-height:1.5;color:var(--muted)}
+.page-events-new .ev-cta .inv-cohort__inner{
+  display:flex;flex-direction:column;align-items:center;
+  max-width:min(720px,100%);margin-inline:auto;
+}
+.page-events-new .ev-cta__fine{
+  margin:16px 0 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.72);
+  max-width:min(52ch,100%);text-align:center;
+}
+.page-events-new .ev-cta .ab-cta__buttons{margin-top:clamp(28px,4vw,36px)}
+
+@media (max-width:900px){
+  .page-events-new .ev-types .home-capabilities__grid{grid-template-columns:1fr}
+}
+
 /* =========================================================
    ABOUT US PAGE
    ========================================================= */
