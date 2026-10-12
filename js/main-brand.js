@@ -809,6 +809,25 @@
     ok: '#D4F4F8'
   });
 
+  /* Hero video — poster image until each video is ready */
+  if (!reduced) {
+    $$('.ab-hero--media .ab-hero__video').forEach((heroVideo) => {
+      const revealVideo = () => {
+        heroVideo.classList.add('is-ready');
+        const playPromise = heroVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+      };
+      if (heroVideo.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+        revealVideo();
+      } else {
+        heroVideo.addEventListener('canplay', revealVideo, { once: true });
+        heroVideo.addEventListener('loadeddata', revealVideo, { once: true });
+      }
+    });
+  }
+
   /* ---------------------------------------------------------
      11. Image fallback — if a stock photo fails to load,
          swap in a brand gradient so nothing looks broken.
@@ -824,6 +843,7 @@
     encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="10"/>');
 
   $$('img').forEach((img, i) => {
+    if (img.classList.contains('ab-hero__poster')) return;
     if (img.classList.contains('how-card__icon') || img.classList.contains('how-card__fill-img')) {
       img.addEventListener('error', () => { img.style.visibility = 'hidden'; });
       return;

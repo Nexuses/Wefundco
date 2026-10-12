@@ -55,7 +55,12 @@
 <main>
 
 <!-- ============ 01 · HERO ============ -->
-<section class="inv-hero section ab-hero">
+<section class="inv-hero section ab-hero ab-hero--media">
+  <div class="ab-hero__media" aria-hidden="true">
+    <img class="ab-hero__poster" src="Assets/events-hero.png" alt="" width="1920" height="1080" decoding="async" fetchpriority="high" />
+    <video class="ab-hero__video" src="Assets/video/events-hero.mp4" muted loop playsinline autoplay poster="Assets/events-hero.png"></video>
+  </div>
+  <div class="ab-hero__scrim" aria-hidden="true"></div>
   <div class="container inv-hero__inner">
     <p class="eyebrow eyebrow--center reveal">Events</p>
 
