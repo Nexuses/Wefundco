@@ -12,6 +12,11 @@
       "destination": "/startups",
       "permanent": true
     },
+    {
+      "source": "/blogs",
+      "destination": "/resources/blogs",
+      "permanent": false
+    },
     { "source": "/server.js", "destination": "/", "permanent": false },
     { "source": "/package.json", "destination": "/", "permanent": false },
     { "source": "/package-lock.json", "destination": "/", "permanent": false }
