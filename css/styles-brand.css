@@ -1483,13 +1483,23 @@ body.modal-open{overflow:hidden}
 .page-events-new .ev-host__fine{margin-top:16px;font-size:14px;line-height:1.5;color:var(--muted)}
 .page-events-new .ev-cta .inv-cohort__inner{
   display:flex;flex-direction:column;align-items:center;
-  max-width:min(720px,100%);margin-inline:auto;
+  max-width:min(960px,100%);margin-inline:auto;
+}
+.page-events-new .ev-cta .ev-upcoming__lede{
+  max-width:none;white-space:nowrap;
+}
+@media (max-width:900px){
+  .page-events-new .ev-cta .ev-upcoming__lede{white-space:normal;max-width:min(92ch,100%)}
+}
+.page-events-new .ev-types .ev-type-card.cap-hover-card{
+  min-height:clamp(200px,18vw,280px);
 }
 .page-events-new .ev-cta__fine{
   margin:16px 0 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.72);
   max-width:min(52ch,100%);text-align:center;
 }
 .page-events-new .ev-cta .ab-cta__buttons{margin-top:clamp(28px,4vw,36px)}
+.page-events-new #upcoming{scroll-margin-top:88px}
 
 @media (max-width:900px){
   .page-events-new .ev-types .home-capabilities__grid{grid-template-columns:1fr}
@@ -1499,6 +1509,118 @@ body.modal-open{overflow:hidden}
    ABOUT US PAGE
    ========================================================= */
 .page-about{background:var(--paper)}
+.page-about .about-legacy{display:none!important}
+
+/* About hero — h1.ht word crossfade */
+.page-about .ab-hero.inv-hero.section.ab-hero--media{
+  padding:clamp(28px,4.5vw,48px) 0;
+  min-height:clamp(520px,72vh,720px);
+}
+.page-about .ab-hero .inv-hero__inner{
+  gap:clamp(8px,1.2vw,14px);
+  width:100%;
+}
+.page-about h1.ht{
+  margin:0;
+  line-height:1.08;
+  min-height:1.08em;
+  max-width:100%;
+}
+.page-about .ab-hero__lede{margin-top:clamp(4px,1vw,12px)}
+.page-about .ht__wrap{
+  position:relative;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-wrap:nowrap;gap:0 .34em;max-width:min(100%,1080px);
+  text-align:center;
+}
+.page-about .ht__static{
+  flex:none;color:var(--ink);white-space:nowrap;
+}
+.page-about .ht__live{
+  flex:none;display:block;white-space:nowrap;text-align:left;
+  height:1.08em;line-height:1.08;overflow:hidden;
+  box-sizing:content-box;
+}
+.page-about .ht__live.is-transitioning{overflow:hidden}
+.page-about .ht__measure{
+  position:absolute;left:-9999px;top:0;
+  visibility:hidden;pointer-events:none;white-space:nowrap;
+  line-height:1.08;font-size:inherit;
+}
+.page-about .ht__slot{
+  display:inline-block;position:relative;vertical-align:top;
+  overflow:hidden;height:1.08em;line-height:1.08;
+}
+.page-about .ht__word{
+  display:inline-block;white-space:nowrap;
+  transform:translate3d(0,0,0);
+  backface-visibility:hidden;
+}
+.page-about .ht__word--ghost{
+  visibility:hidden;pointer-events:none;
+}
+.page-about .ht__word--live{
+  position:relative;
+}
+.page-about .ht__word--out,
+.page-about .ht__word--in{
+  position:absolute;left:0;top:0;line-height:1.08;white-space:nowrap;
+  will-change:transform,opacity;
+}
+.page-about .ht__word.is-out{
+  animation:htWordOut .38s cubic-bezier(.65,0,.35,1) forwards;
+}
+.page-about .ht__word.is-in{
+  opacity:0;
+  animation:htWordIn .38s cubic-bezier(.65,0,.35,1) forwards;
+}
+@keyframes htWordOut{
+  to{transform:translate3d(0,-100%,0);opacity:0}
+}
+@keyframes htWordIn{
+  from{transform:translate3d(0,100%,0);opacity:0}
+  to{transform:translate3d(0,0,0);opacity:1}
+}
+@media (max-width:900px){
+  .page-about .ht__wrap{
+    flex-direction:column;align-items:center;gap:clamp(6px,1.5vw,10px);
+  }
+  .page-about .ht__live{
+    width:auto!important;min-width:0!important;max-width:min(calc(100vw - 48px),640px)!important;
+    text-align:center;height:auto;min-height:1.08em;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .page-about .ht__word.is-out,
+  .page-about .ht__word.is-in{animation:none;opacity:1;transform:none}
+}
+.page-about #beliefs{background:var(--white)}
+.page-about #beliefs.wln-journey{background:var(--white)}
+.page-about .ab-beliefs__closing--center{
+  margin:clamp(28px,4vw,40px) auto 0;max-width:min(68ch,100%);text-align:center;
+}
+.page-about #beliefs .ab-principles{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,40px);
+  margin-top:clamp(32px,4vw,48px);max-width:min(960px,100%);margin-inline:auto;
+  text-align:center;
+}
+.page-about #beliefs .ab-principles__item{
+  display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2vw,20px);
+}
+.page-about #beliefs .ab-principles__icon{
+  width:72px;height:72px;border-radius:100%;background:var(--paper-2);
+  border:1px solid rgba(0,20,56,.08);display:grid;place-items:center;flex:none;
+}
+.page-about #beliefs .ab-principles__icon img{
+  width:36px;height:36px;object-fit:contain;
+}
+.page-about #beliefs .ab-principles__label{
+  margin:0;font-size:clamp(16px,1.5vw,18px);line-height:1.4;font-weight:600;
+  letter-spacing:-.02em;color:var(--ink);max-width:16ch;
+}
+@media (max-width:768px){
+  .page-about #beliefs .ab-principles{grid-template-columns:1fr;max-width:min(320px,100%)}
+}
 
 .ab-hero{
   background:
@@ -1616,7 +1738,14 @@ body.modal-open{overflow:hidden}
   .ab-beliefs__media{display:none}
 }
 .ab-belief h3{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;margin:0 0 10px}
+.ab-belief h3:last-child{margin-bottom:0}
 .ab-belief p{color:var(--muted);font-size:15px;line-height:1.6;margin:0;max-width:72ch}
+.ab-beliefs__intro{
+  margin:clamp(20px,3vw,28px) 0 0;font-size:16px;line-height:1.55;color:var(--muted);
+}
+.ab-beliefs__closing{
+  margin:clamp(24px,3vw,32px) 0 0;font-size:16px;line-height:1.55;font-weight:600;color:var(--teal);
+}
 
 .ab-company__inner{text-align:center;max-width:min(1080px,100%);margin-inline:auto}
 .ab-company__copy{margin-top:32px;text-align:center}
@@ -1626,8 +1755,21 @@ body.modal-open{overflow:hidden}
 .ab-leadership__inner{
   text-align:center;max-width:min(1080px,100%);margin-inline:auto;
 }
-.ab-leadership .ab-team{
-  margin-top:clamp(36px,5vw,52px);text-align:left;
+.ab-leadership__split{
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,420px);
+  gap:clamp(32px,5vw,64px);align-items:center;
+}
+.ab-leadership__copy{text-align:left}
+.ab-leadership__copy .display{margin-bottom:clamp(24px,3vw,32px)}
+.ab-leadership__media{margin:0}
+.ab-leadership__media .ab-team__photo{max-width:100%}
+.ab-leadership .ab-team{margin-top:0;text-align:left}
+.ab-team__name a{color:inherit;text-decoration:none}
+.page-about .ab-team__name a{color:var(--royal-blue)}
+.page-about .ab-team__name a:hover{color:var(--picton-blue);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:900px){
+  .ab-leadership__split{grid-template-columns:1fr}
+  .ab-leadership__media{max-width:min(420px,100%)}
 }
 .ab-team{text-align:left}
 .ab-team__split{
@@ -1868,6 +2010,42 @@ body.modal-open{overflow:hidden}
 
 .page-about .wln-journey__subtitle{
   margin:clamp(20px,3vw,28px) auto 0;max-width:min(88ch,100%);
+}
+.page-about .ab-approach__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  margin-top:clamp(28px,4vw,40px);max-width:min(1080px,100%);margin-inline:auto;
+}
+.page-about .ab-approach__card{
+  position:relative;overflow:hidden;isolation:isolate;
+  min-height:clamp(360px,32vw,420px);border-radius:var(--r-lg);
+  border:1px solid rgba(0,20,56,.08);text-align:left;
+  transition:box-shadow .4s var(--ease),transform .4s var(--ease);
+}
+.page-about .ab-approach__card-bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+}
+.page-about .ab-approach__card-scrim{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:rgba(0,0,0,.6);
+}
+.page-about .ab-approach__card-content{
+  position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;
+  min-height:100%;padding:200px clamp(20px,2.5vw,28px) clamp(24px,3vw,32px);
+  justify-content:flex-end;
+}
+.page-about .ab-approach__card h3{
+  margin:0;font-size:clamp(17px,1.6vw,20px);letter-spacing:-.02em;color:#fff;
+}
+.page-about .ab-approach__card p{
+  margin:0;font-size:15px;line-height:1.55;color:rgba(255,255,255,.88);
+}
+.page-about .ab-approach__card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 0 0 2px var(--picton-blue),0 20px 44px rgba(0,20,56,.18);
+}
+.page-about .ab-approach__card.reveal.is-in:hover{transform:translateY(-4px)}
+@media (max-width:900px){
+  .page-about .ab-approach__grid{grid-template-columns:1fr}
 }
 .page-about .ab-hero__lede .lede:nth-child(2){
   font-weight:700;color:var(--ink);

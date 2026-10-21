@@ -214,8 +214,8 @@
      --------------------------------------------------------- */
   const beliefs = $('[data-beliefs]');
   const beliefsPin = beliefs ? $('.ab-beliefs__pin', beliefs) : null;
-  const beliefCards = beliefs ? $$('.ab-belief', beliefs) : [];
-  const beliefImgs = beliefs ? $$('.ab-beliefs__img', beliefs) : [];
+  const beliefCards = beliefs ? $$('.ab-belief:not(.about-legacy)', beliefs) : [];
+  const beliefImgs = beliefs ? $$('.ab-beliefs__img:not(.about-legacy)', beliefs) : [];
   const beliefsWide = window.matchMedia('(min-width: 901px)');
   let beliefsOn = false;
 
