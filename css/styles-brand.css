@@ -1605,17 +1605,25 @@ body.modal-open{overflow:hidden}
   text-align:center;
 }
 .page-about #beliefs .ab-principles__item{
-  display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2vw,20px);
+  display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2vw,18px);
+  padding:clamp(24px,3vw,32px) clamp(16px,2.5vw,24px);
+  background:var(--paper-2);
+  border:1px solid rgba(0,20,56,.06);
+  border-radius:var(--r-lg);
+  transition:border-color .25s ease, box-shadow .25s ease;
+}
+.page-about #beliefs .ab-principles__item:hover{
+  border-color:var(--picton-blue);
+  box-shadow:0 0 0 1px var(--picton-blue);
 }
 .page-about #beliefs .ab-principles__icon{
-  width:72px;height:72px;border-radius:100%;background:var(--paper-2);
-  border:1px solid rgba(0,20,56,.08);display:grid;place-items:center;flex:none;
+  display:grid;place-items:center;flex:none;
 }
 .page-about #beliefs .ab-principles__icon img{
-  width:36px;height:36px;object-fit:contain;
+  width:48px;height:48px;object-fit:contain;
 }
 .page-about #beliefs .ab-principles__label{
-  margin:0;font-size:clamp(16px,1.5vw,18px);line-height:1.4;font-weight:600;
+  margin:0;font-size:clamp(16px,1.5vw,18px);line-height:1.4;font-weight:400;
   letter-spacing:-.02em;color:var(--ink);max-width:16ch;
 }
 @media (max-width:768px){

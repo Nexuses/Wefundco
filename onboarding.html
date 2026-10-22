@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WeFundCo Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cambo&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#001438; --sky:#36ABF2; --sky-soft:#E8F5FE; --grey:#6E6E6E; --line:#D9DEE6;
+    --bg:#F4F6F9; --card:#FFFFFF; --err:#C2410C; --ok:#0F7B4B;
+    --serif:"Cambo",Georgia,"Times New Roman",serif;
+    --sans:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"Geist Mono",ui-monospace,SFMono-Regular,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--navy);font-family:var(--sans);font-size:16px;-webkit-font-smoothing:antialiased}
+  button,input,textarea,select{font:inherit;color:inherit}
+
+  /* Top bar */
+  .progress{position:fixed;inset:0 0 auto 0;height:4px;background:var(--line);z-index:20}
+  .progress i{display:block;height:100%;width:0;background:var(--sky);transition:width .4s ease}
+  header{position:fixed;top:4px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:linear-gradient(var(--bg) 70%,transparent);z-index:10}
+  header img{height:34px;display:block}
+  header .tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+
+  /* Stage */
+  main{min-height:100%;display:flex;align-items:center;justify-content:center;padding:96px 24px 120px}
+  .step{width:100%;max-width:720px;animation:in .45s cubic-bezier(.2,.7,.2,1) both}
+  .step.back{animation-name:inBack}
+  @keyframes in{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  @keyframes inBack{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:none}}
+
+  .section-tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);margin:0 0 14px}
+  .q-row{display:flex;gap:12px;align-items:flex-start}
+  .q-num{font-family:var(--mono);font-size:14px;color:var(--sky);padding-top:9px;white-space:nowrap}
+  .q-body{flex:1;min-width:0}
+  h1.q,h2.q{font-family:var(--serif);font-weight:400;font-size:clamp(24px,3.4vw,32px);line-height:1.25;margin:0 0 8px}
+  .q .req{color:var(--sky)}
+  .help{color:var(--grey);margin:0 0 14px;line-height:1.5}
+  .why{display:flex;gap:10px;background:var(--sky-soft);border-left:3px solid var(--sky);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.5;margin:0 0 22px;color:#1C3557}
+  .why svg{flex:none;margin-top:2px}
+  .why b{font-weight:600}
+
+  /* Inputs */
+  .line-input{width:100%;border:0;border-bottom:2px solid rgba(0,20,56,.25);background:transparent;font-size:clamp(20px,2.6vw,26px);padding:8px 0;outline:none;color:var(--navy);transition:border-color .2s}
+  .line-input:focus{border-bottom-color:var(--sky)}
+  .line-input::placeholder{color:rgba(0,20,56,.3)}
+  textarea.line-input{resize:none;min-height:90px;line-height:1.4}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .two label{font-size:13px;color:var(--grey);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+
+  .choices{display:flex;flex-direction:column;gap:8px;max-width:520px}
+  .choices.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:none}
+  .choice{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid rgba(54,171,242,.55);background:rgba(54,171,242,.07);border-radius:8px;padding:10px 12px;cursor:pointer;font-size:17px;transition:background .15s,transform .1s}
+  .choice:hover{background:rgba(54,171,242,.16)}
+  .choice:active{transform:scale(.99)}
+  .choice .key{flex:none;width:24px;height:24px;border:1px solid rgba(54,171,242,.7);border-radius:4px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;background:#fff}
+  .choice .tick{margin-left:auto;opacity:0}
+  .choice.sel{background:rgba(54,171,242,.22);border-color:var(--sky);box-shadow:inset 0 0 0 1px var(--sky)}
+  .choice.sel .key{background:var(--sky);color:#fff;border-color:var(--sky)}
+  .choice.sel .tick{opacity:1}
+  .multi-hint{font-size:13px;color:var(--grey);margin:-6px 0 10px}
+
+  /* Upload */
+  .drop{border:2px dashed rgba(54,171,242,.6);background:rgba(54,171,242,.05);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s}
+  .drop:hover,.drop.over{background:rgba(54,171,242,.14);border-color:var(--sky)}
+  .drop strong{display:block;font-size:17px;margin:8px 0 4px}
+  .drop span{font-size:13px;color:var(--grey)}
+  .files{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:6px}
+  .files li{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px}
+  .files li .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .files li .sz{color:var(--grey);font-family:var(--mono);font-size:12px}
+  .files li button{border:0;background:none;cursor:pointer;color:var(--grey);font-size:18px;line-height:1;padding:0 4px}
+  .na-row{margin-top:12px}
+  .na-row button{border:0;background:none;color:var(--grey);text-decoration:underline;cursor:pointer;font-size:14px;padding:0}
+
+  /* Actions */
+  .actions{display:flex;align-items:center;gap:14px;margin-top:26px;flex-wrap:wrap}
+  .btn{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:opacity .2s,transform .1s}
+  .btn:hover{opacity:.9}
+  .btn:active{transform:scale(.98)}
+  .btn.sky{background:var(--sky)}
+  .btn[disabled]{opacity:.5;cursor:progress}
+  .hint{font-size:13px;color:var(--grey)}
+  .hint b{font-weight:600}
+  .error{color:var(--err);font-size:14px;margin-top:12px;min-height:20px;display:flex;gap:6px;align-items:center}
+
+  /* Welcome / end */
+  .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(32px,5vw,48px);line-height:1.15;margin:0 0 14px}
+  .hero h1 em{font-style:normal;color:var(--sky)}
+  .hero p{color:var(--grey);font-size:18px;line-height:1.55;margin:0 0 18px;max-width:600px}
+  .checklist{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:8px}
+  .checklist li{display:flex;gap:10px;align-items:flex-start;line-height:1.45}
+  .checklist li::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--sky) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center/12px no-repeat}
+  .meta{font-family:var(--mono);font-size:13px;color:var(--grey);display:flex;gap:18px;flex-wrap:wrap;margin-top:16px}
+  .next-steps{counter-reset:s;list-style:none;padding:0;margin:20px 0 26px;display:grid;gap:12px}
+  .next-steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;line-height:1.45}
+  .next-steps li::before{content:counter(s);flex:none;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-size:13px}
+  .consent{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;cursor:pointer;margin-bottom:10px;line-height:1.5;font-size:15px}
+  .consent input{width:20px;height:20px;accent-color:var(--sky);margin-top:2px;flex:none}
+  .disclaimer,.hero .disclaimer{font-size:12px;color:var(--grey);line-height:1.5;margin-top:22px}
+  .hero a{color:#1F8FD6}
+
+  /* Step nav */
+  .nav{position:fixed;right:24px;bottom:22px;display:flex;gap:2px;z-index:10}
+  .nav button{width:40px;height:36px;border:0;background:var(--navy);color:#fff;cursor:pointer;display:grid;place-items:center}
+  .nav button:first-child{border-radius:8px 0 0 8px}
+  .nav button:last-child{border-radius:0 8px 8px 0}
+  .nav button[disabled]{opacity:.35;cursor:default}
+  .hidden{display:none!important}
+
+  @media (max-width:640px){
+    header{padding:12px 16px} header img{height:28px} header .tag{display:none}
+    main{padding:84px 16px 110px;align-items:flex-start}
+    .two,.choices.grid{grid-template-columns:1fr}
+    .q-num{display:none}
+    .nav{right:16px;bottom:16px}
+  }
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<header>
+  <a href="/" aria-label="WeFundCo home"><img src="Assets/WeFundCo-color.png" alt="WeFundCo"></a>
+  <span class="tag" id="tag">Onboarding</span>
+</header>
+<main><div id="stage"></div></main>
+<div class="nav" id="nav">
+  <button id="prev" aria-label="Previous question"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 15l6-6 6 6"/></svg></button>
+  <button id="next" aria-label="Next question"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+</div>
+
+<script>
+/* ============ CONFIG ============
+   Set SUBMIT_URL to your backend endpoint (receives multipart/form-data: answers JSON + files).
+   Left empty, the form runs in preview mode: nothing is uploaded, and the end screen still shows. */
+const SUBMIT_URL = "";
+const MAX_MB = 10;
+const DOC_TYPES = ".pdf,.jpg,.jpeg,.png";
+
+const INVESTOR_TYPES = ["Angel Investor","Super Angel","Seed Fund","Venture Capital (VC)","Corporate Venture Capital (CVC)","Family Office","Private Equity (PE)","Accelerator/incubator","Government/PSU fund","Impact Investor"];
+const INDUSTRIES = ["AgriTech","AI/Machine Learning","Blockchain/Web3","CleanTech/ClimateTech","E-Commerce","EdTech","FinTech","Fishing & Aquaculture","HealthTech","Logistics & Supply Chain","Mining & Quarrying","SaaS"];
+const isInv = a => a.role === "Investor";
+const isSu = a => a.role === "Startup";
+const isIndividual = a => isInv(a) && ["Angel Investor","Super Angel"].includes(a.investor_type);
+const isEntity = a => isInv(a) && a.investor_type && !isIndividual(a);
+const PRIVACY = " Your documents are used only for verification and are reviewed by the WeFundCo onboarding team.";
+
+/* ============ QUESTIONS ============
+   type: text | email | tel | url | number | long | choice | multi | file | budget | statement | consent
+   show(a): branching condition. why: shown under the question. */
+const STEPS = [
+  {id:"role", type:"choice", section:"Let's start", q:"Are you joining WeFundCo as a startup or an investor?",
+   options:["Startup","Investor"], why:"The two journeys ask for different information and documents. Choosing first means you only see what applies to you."},
+  {id:"contact_name", type:"text", q:"What's your full name?", ph:"Type your answer here…",
+   why:"So we know who we're speaking with. You'll be our main point of contact during onboarding."},
+  {id:"contact_email", type:"email", q:"And your email address, {contact_name}?", ph:"name@company.com",
+   why:"We send onboarding status updates, document requests and your final confirmation here."},
+  {id:"contact_phone", type:"tel", q:"Your phone number (WhatsApp preferred)", ph:"+91 98765 43210",
+   why:"For quick clarifications if a document needs re-uploading, which is usually faster than email."},
+
+  /* ---------- INVESTOR · PART I ---------- */
+  {id:"inv_intro", type:"statement", show:isInv, section:"Part I · Investor profile",
+   q:"Great, let's set up your investor profile.", text:"These answers decide which startups we introduce you to. The more precise you are, the better your matches."},
+  {id:"company_name", type:"text", show:isInv, q:"What is your company or investor name?", help:"If you invest personally, enter your own name.",
+   why:"This is the name startups will see on your WeFundCo profile, and it must match your KYC documents."},
+  {id:"website", type:"url", show:isInv, optional:true, q:"Your website or LinkedIn page", ph:"https://",
+   why:"Lets our team confirm who you are, and lets founders learn about your track record before they reach out."},
+  {id:"investor_type", type:"choice", show:isInv, q:"Which best describes you?", options:INVESTOR_TYPES, grid:true,
+   why:"Your investor type decides which KYC documents you need. Individuals and institutions are verified differently. It also shapes how we present you to startups."},
+  {id:"geography", type:"text", show:isInv, q:"Which countries do you want to invest in?", ph:"e.g. India, UAE, Singapore",
+   why:"We only surface startups operating in, or expanding to, the markets you can invest in."},
+  {id:"connections", type:"multi", show:isInv, q:"What kinds of connections are you looking for?",
+   options:["Start-ups","Other Investors","Strategic Partners","Accelerators","Incubators","Mentors"],
+   why:"WeFundCo is a network, not just deal flow. This tells us who else to introduce you to."},
+  {id:"investor_stage", type:"multi", show:isInv, q:"At which stages do you invest?",
+   options:["Early Stage","Pre-seed","Seed","Angel","Series A","Series B","Series C","Growth","IPO/Public"], grid:true,
+   why:"So we don't send you companies that are too early or too late for your mandate."},
+  {id:"industries", type:"multi", show:isInv, q:"Which industries interest you?", options:INDUSTRIES, grid:true,
+   why:"Sector focus is the strongest signal for a good match, and it keeps irrelevant pitches out of your inbox."},
+  {id:"budget", type:"budget", show:isInv, q:"What is your typical cheque size (USD)?", help:"Between USD 25,000 and USD 10,000,000.",
+   why:"We match you with startups raising amounts that fit your range, so both sides avoid wasted conversations."},
+
+  /* ---------- INVESTOR · PART II ---------- */
+  {id:"inv_p2", type:"statement", show:isInv, section:"Part II · KYC & profile setup",
+   q:"Now a few details for your public profile.", text:"Next, you'll upload the KYC documents that confirm your identity."},
+  {id:"logo", type:"file", show:isInv, accept:".png,.jpg,.jpeg,.svg", q:"Upload your company logo",
+   why:"Your logo appears on your profile and in introductions, so founders recognise you at a glance."},
+  {id:"city", type:"text", show:isInv, q:"Which city are you based in?",
+   why:"Some founders prefer local investors for in-person meetings, and it helps us plan regional events."},
+  {id:"turnover", type:"text", show:isInv, q:"What is your annual turnover or assets under management?", help:"Approximate is fine, for example \"USD 5M\" or \"INR 40 Cr AUM\".",
+   why:"It indicates your capacity to invest and follow on, which helps startups prioritise conversations."},
+  {id:"stage_pref", type:"multi", show:isInv, q:"Which startup stages do you prefer?", options:["Idea","MVP","Revenue","Scaling"],
+   why:"This is about the company's maturity rather than the funding round. It refines your matches further."},
+  {id:"num_investments", type:"number", show:isInv, q:"How many investments have you made so far?", ph:"0",
+   why:"Your experience level helps founders understand what support to expect from you beyond capital."},
+  {id:"notable", type:"long", show:isInv, q:"Any notable investments you'd like to highlight?", help:"Write \"None yet\" if you're just starting.",
+   why:"Portfolio companies are social proof. Founders often check them before accepting an introduction."},
+
+  /* ---------- INVESTOR · KYC ---------- */
+  {id:"inv_kyc", type:"statement", show:isInv, section:"KYC documents",
+   q:"Last step: verify your identity.", text:"Accepted formats are PDF, JPG and PNG, up to 10 MB each. Clear scans or phone photos both work.", textFn:a=> isIndividual(a)
+     ? "As an individual investor, you need 2 documents: PAN and Aadhaar or Passport. Accepted formats are PDF, JPG and PNG, up to 10 MB each."
+     : "As an institutional investor, you need up to 3 documents: Certificate of Incorporation, PAN, and GST / Tax ID (if applicable). Accepted formats are PDF, JPG and PNG, up to 10 MB each."},
+  {id:"doc_inv_pan", type:"file", show:isInv, q:"Upload your PAN card", help:"For entities, upload the entity's PAN.",
+   why:"PAN is your tax identity in India. We use it to confirm you are who you say you are, a basic check every investor in the network goes through."+PRIVACY},
+  {id:"doc_inv_id", type:"file", show:isIndividual, q:"Upload your Aadhaar or Passport", help:"Non-resident investors should upload their passport.",
+   why:"This confirms your identity and address as an individual investor, so founders know every investor they meet on WeFundCo has been verified."+PRIVACY},
+  {id:"doc_inv_coi", type:"file", show:isEntity, q:"Upload your Certificate of Incorporation",
+   why:"It proves your fund or company is a legally registered entity, which startups need to know before engaging with an institution."+PRIVACY},
+  {id:"doc_inv_gst", type:"file", show:isEntity, na:true, q:"Upload your GST registration or Tax ID", help:"Overseas entities can upload their local tax registration. Not registered? Choose \"Not applicable\".",
+   why:"This confirms the entity's tax registration and registered address, and completes the entity KYC."+PRIVACY},
+
+  /* ---------- STARTUP ---------- */
+  {id:"su_intro", type:"statement", show:isSu, section:"Startup profile",
+   q:"Let's get your startup investor-ready.", text:"First, a few basics about your company. Then you'll upload the documents investors expect to see."},
+  {id:"startup_name", type:"text", show:isSu, q:"What is your startup's registered name?",
+   why:"It must match your Certificate of Incorporation, and it's the name investors will see on your profile."},
+  {id:"su_website", type:"url", show:isSu, optional:true, q:"Your website", ph:"https://",
+   why:"Investors look at your website first. It also helps us confirm the business is real and active."},
+  {id:"founders", type:"long", show:isSu, q:"Who are the founders or promoters?", help:"Full names, one per line, matching their ID documents.",
+   why:"Investors back people as much as products. We also verify the identity of every founder listed here."},
+  {id:"industry", type:"choice", show:isSu, q:"Which industry are you in?", options:[...INDUSTRIES,"Other"], grid:true,
+   why:"Investors filter by sector first, so this decides who discovers your startup."},
+  {id:"su_stage", type:"choice", show:isSu, q:"What stage is your startup at?", options:["Idea","MVP","Revenue","Scaling"],
+   why:"Investors state the stages they back. This makes sure you're matched with investors who actually fund companies like yours."},
+  {id:"su_city", type:"text", show:isSu, q:"Which city are you headquartered in?",
+   why:"Many investors focus on specific regions, and location is part of your company's legal record."},
+  {id:"su_country", type:"text", show:isSu, q:"And which country?", ph:"e.g. India",
+   why:"This determines which investors can legally and practically invest in you."},
+
+  {id:"su_docs", type:"statement", show:isSu, section:"Verification documents",
+   q:"Now, your verification documents.", text:"There are 7 documents in 3 groups: company documents, founder KYC, and financials. Accepted formats are PDF, JPG and PNG, up to 10 MB each. Investors only engage with verified companies, so this step builds trust up front."},
+  {id:"doc_coi", type:"file", show:isSu, section:"Company documents", q:"Certificate of Incorporation",
+   why:"It proves your company legally exists and is registered with the Registrar of Companies. This is the first thing any investor's due diligence asks for."+PRIVACY},
+  {id:"doc_pan", type:"file", show:isSu, section:"Company documents", q:"Company PAN card",
+   why:"Your company's tax identity. It's needed to verify the entity and for any future investment paperwork."+PRIVACY},
+  {id:"doc_gst", type:"file", show:isSu, na:true, section:"Company documents", q:"GST registration certificate", help:"Not GST-registered yet? Choose \"Not applicable\".",
+   why:"It confirms your business is registered for indirect tax and shows your principal place of business. It's only required if you're GST-registered."+PRIVACY},
+  {id:"doc_address", type:"file", show:isSu, section:"Company documents", q:"Registered address proof", help:"For example a utility bill, rent agreement, or property document for the registered office.",
+   why:"It confirms the official address on your company records, which is needed for KYC and for any legal or investor correspondence."+PRIVACY},
+  {id:"doc_founder_pan", type:"file", multiple:true, show:isSu, section:"Founder KYC", q:"PAN card of each founder", help:"Upload one file per founder.",
+   why:"Investors need to know the people behind the company are verified. Founder KYC is standard anti-fraud practice and protects everyone in the network."+PRIVACY},
+  {id:"doc_founder_id", type:"file", multiple:true, show:isSu, section:"Founder KYC", q:"Aadhaar or Passport of each founder", help:"Upload one file per founder.",
+   why:"This confirms each founder's identity and address alongside their PAN, which completes the founder KYC."+PRIVACY},
+  {id:"doc_financials", type:"file", multiple:true, show:isSu, section:"Financial proof", q:"Financial statements for the last 2 years", help:"Balance sheet and P&L. Audited if available. If your company is less than 2 years old, upload what you have.",
+   why:"Financials let investors judge traction and readiness from real numbers rather than projections. We also use them for your investment-readiness assessment."+PRIVACY},
+
+  /* ---------- SHARED ---------- */
+  {id:"consent", type:"consent", section:"Almost done", q:"Please confirm before submitting",
+   why:"Your confirmation lets us run the verification checks. Without it we can't complete onboarding."},
+];
+
+/* ============ STATE ============ */
+const A = {};          // answers
+const F = {};          // files: id -> File[]
+let cur = -1;          // -1 welcome, STEPS.length = done
+let dir = 1;
+const stage = document.getElementById("stage");
+const visible = () => STEPS.filter(s => !s.show || s.show(A));
+const fmt = s => s.replace(/\{(\w+)\}/g,(_,k)=> (A[k]||"").split(" ")[0] || "");
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const kb = n => n<1024*1024 ? Math.round(n/1024)+" KB" : (n/1048576).toFixed(1)+" MB";
+const INFO = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#36ABF2" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>';
+const ARROW = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>';
+
+function progress(){
+  const v = visible(); const i = v.indexOf(STEPS[cur]);
+  const pct = cur < 0 ? 0 : cur >= STEPS.length ? 100 : Math.round((i / v.length) * 100);
+  document.getElementById("bar").style.width = pct + "%";
+  document.getElementById("prev").disabled = cur <= 0 || cur >= STEPS.length;
+  document.getElementById("next").disabled = cur >= STEPS.length;
+  document.getElementById("tag").textContent = A.role ? A.role + " onboarding" : "Onboarding";
+}
+
+/* ============ RENDER ============ */
+function render(){
+  progress();
+  if (cur < 0) return renderWelcome();
+  if (cur >= STEPS.length) return renderDone();
+  const s = STEPS[cur];
+  const v = visible(); const qn = v.filter(x=>x.type!=="statement").indexOf(s) + 1;
+  let h = `<div class="step ${dir<0?"back":""}">`;
+  if (s.section) h += `<p class="section-tag">${esc(s.section)}</p>`;
+  h += `<div class="q-row">${s.type!=="statement"?`<span class="q-num">${qn} ${ARROW}</span>`:""}<div class="q-body">`;
+  h += `<h2 class="q">${esc(fmt(s.q))}${s.optional||s.type==="statement"?"":'<span class="req"> *</span>'}</h2>`;
+  if (s.help) h += `<p class="help">${esc(s.help)}</p>`;
+  if (s.type==="statement") h += `<p class="help" style="font-size:18px">${esc(s.textFn?s.textFn(A):s.text)}</p>`;
+  if (s.why) h += `<div class="why">${INFO}<div><b>Why we ask:</b> ${esc(s.why)}</div></div>`;
+  h += inputHTML(s);
+  const label = s.type==="statement" ? "Continue" : s.type==="consent" ? "Submit" : "OK";
+  h += `<div class="actions"><button class="btn ${s.type==="consent"?"sky":""}" id="ok">${label} ${s.type==="consent"?ARROW:CHECK}</button>
+        <span class="hint">${s.type==="long"?"<b>Shift ⇧ + Enter ↵</b> for a new line":"press <b>Enter ↵</b>"}</span></div>`;
+  h += `<div class="error" id="err" role="alert"></div></div></div></div>`;
+  stage.innerHTML = h;
+  bind(s);
+}
+
+function inputHTML(s){
+  const val = A[s.id] ?? "";
+  switch(s.type){
+    case "text": case "email": case "tel": case "url": case "number":
+      return `<input class="line-input" id="in" type="${s.type==="number"?"number":s.type}" ${s.type==="number"?'min="0" step="1"':""} placeholder="${esc(s.ph||"Type your answer here…")}" value="${esc(val)}" autocomplete="on">`;
+    case "long":
+      return `<textarea class="line-input" id="in" placeholder="${esc(s.ph||"Type your answer here…")}">${esc(val)}</textarea>`;
+    case "budget":
+      return `<div class="two"><div><label for="bmin">Minimum (USD)</label><input class="line-input" id="bmin" type="number" min="25000" max="10000000" step="1000" placeholder="25,000" value="${esc(A.budget_min??"")}"></div>
+              <div><label for="bmax">Maximum (USD)</label><input class="line-input" id="bmax" type="number" min="25000" max="10000000" step="1000" placeholder="10,000,000" value="${esc(A.budget_max??"")}"></div></div>`;
+    case "choice": case "multi": {
+      const sel = s.type==="multi" ? (A[s.id]||[]) : [A[s.id]];
+      return (s.type==="multi"?'<p class="multi-hint">Choose as many as you like</p>':"") +
+        `<div class="choices ${s.grid?"grid":""}" role="${s.type==="multi"?"group":"radiogroup"}">` +
+        s.options.map((o,i)=>`<button type="button" class="choice ${sel.includes(o)?"sel":""}" data-v="${esc(o)}" aria-pressed="${sel.includes(o)}"><span class="key">${String.fromCharCode(65+i)}</span>${esc(o)}<span class="tick">${CHECK}</span></button>`).join("") + `</div>`;
+    }
+    case "file": {
+      const na = A[s.id]==="N/A";
+      return `<div class="drop ${na?"hidden":""}" id="drop" tabindex="0" role="button" aria-label="Upload file">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#36ABF2" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+          <strong>Choose file${s.multiple?"s":""} or drag ${s.multiple?"them":"it"} here</strong>
+          <span>${(s.accept||DOC_TYPES).replace(/\./g,"").toUpperCase().replace(/,/g," · ")} · max ${MAX_MB} MB each</span>
+          <input type="file" id="fi" class="hidden" accept="${s.accept||DOC_TYPES}" ${s.multiple?"multiple":""}></div>
+        <ul class="files" id="fl"></ul>
+        ${s.na?`<div class="na-row">${na?`<span class="hint">Marked as <b>Not applicable</b>. </span><button type="button" id="undoNa">Upload a document instead</button>`:`<button type="button" id="na">Not applicable to us</button>`}</div>`:""}`;
+    }
+    case "consent":
+      return `<label class="consent"><input type="checkbox" id="c1" ${A.consent_accuracy?"checked":""}> <span>I confirm that the information and documents I've provided are accurate, complete and belong to me or my organisation.</span></label>
+        <label class="consent"><input type="checkbox" id="c2" ${A.consent_kyc?"checked":""}> <span>I authorise WeFundCo (CapitalPrime Technologies Private Limited) to verify these documents and to contact me about my onboarding.</span></label>
+        <p class="disclaimer">WeFundCo does not provide investment advice or guarantee investment outcomes, and does not act as a broker or placement agent.</p>`;
+    default: return "";
+  }
+}
+
+function listFiles(s){
+  const ul = document.getElementById("fl"); if(!ul) return;
+  ul.innerHTML = (F[s.id]||[]).map((f,i)=>`<li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F7B4B" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg><span class="nm">${esc(f.name)}</span><span class="sz">${kb(f.size)}</span><button type="button" aria-label="Remove ${esc(f.name)}" data-i="${i}">×</button></li>`).join("");
+  ul.querySelectorAll("button").forEach(b=>b.onclick=()=>{F[s.id].splice(+b.dataset.i,1);listFiles(s);});
+}
+
+function addFiles(s, list){
+  const ok = (s.accept||DOC_TYPES).split(",");
+  const err = document.getElementById("err"); err.textContent = "";
+  for (const f of list){
+    const ext = "." + f.name.split(".").pop().toLowerCase();
+    if (!ok.includes(ext)) { err.textContent = `"${f.name}" isn't a supported format. Please use ${ok.join(", ").toUpperCase()}.`; continue; }
+    if (f.size > MAX_MB*1048576) { err.textContent = `"${f.name}" is larger than ${MAX_MB} MB. Please compress it and try again.`; continue; }
+    F[s.id] = s.multiple ? [...(F[s.id]||[]), f] : [f];
+  }
+  if ((F[s.id]||[]).length) A[s.id] = (F[s.id]).map(f=>f.name);
+  listFiles(s);
+}
+
+function bind(s){
+  document.getElementById("ok").onclick = submitStep;
+  const inp = document.getElementById("in");
+  if (inp) { inp.focus(); inp.oninput = ()=> A[s.id] = inp.value; }
+  if (s.type==="budget") document.getElementById("bmin").focus();
+  if (s.type==="choice" || s.type==="multi"){
+    stage.querySelectorAll(".choice").forEach(b=> b.onclick = ()=> pick(s, b.dataset.v));
+  }
+  if (s.type==="file"){
+    const drop = document.getElementById("drop"), fi = document.getElementById("fi");
+    drop.onclick = ()=> fi.click();
+    drop.onkeydown = e=>{ if(e.key===" "){e.preventDefault();fi.click();} };
+    fi.onchange = ()=> { addFiles(s, fi.files); fi.value=""; };
+    ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
+    ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
+    drop.addEventListener("drop", e=> addFiles(s, e.dataTransfer.files));
+    listFiles(s);
+    const na = document.getElementById("na"); if (na) na.onclick = ()=>{ A[s.id]="N/A"; F[s.id]=[]; go(1); };
+    const un = document.getElementById("undoNa"); if (un) un.onclick = ()=>{ delete A[s.id]; render(); };
+  }
+}
+
+function pick(s, v){
+  if (s.type==="multi"){
+    const arr = A[s.id] || []; const i = arr.indexOf(v);
+    i>=0 ? arr.splice(i,1) : arr.push(v); A[s.id] = arr;
+    stage.querySelectorAll(".choice").forEach(b=>{const on=arr.includes(b.dataset.v);b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);});
+  } else {
+    A[s.id] = v;
+    stage.querySelectorAll(".choice").forEach(b=>{const on=b.dataset.v===v;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);});
+    setTimeout(()=>go(1), 280);   // Typeform-style auto-advance
+  }
+}
+
+/* ============ VALIDATION / NAV ============ */
+function validate(s){
+  const v = A[s.id];
+  const empty = v==null || v==="" || (Array.isArray(v)&&!v.length);
+  switch(s.type){
+    case "statement": return "";
+    case "email": if (empty) return "Please fill this in."; return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "" : "Hmm, that email doesn't look right.";
+    case "tel": if (empty) return "Please fill this in."; return /^[+\d][\d\s\-()]{6,}$/.test(v) ? "" : "Please enter a valid phone number, with country code.";
+    case "url": if (empty) return s.optional ? "" : "Please fill this in.";
+      if (!/^https?:\/\//i.test(v)) { A[s.id] = "https://" + v.trim(); } return /^https?:\/\/[^\s.]+\.[^\s]+$/i.test(A[s.id]) ? "" : "Please enter a valid web address.";
+    case "number": if (empty) return "Please fill this in."; return +v>=0 ? "" : "Please enter a number of 0 or more.";
+    case "budget": {
+      A.budget_min = document.getElementById("bmin").value; A.budget_max = document.getElementById("bmax").value;
+      const lo=+A.budget_min, hi=+A.budget_max;
+      if (!A.budget_min || !A.budget_max) return "Please enter both a minimum and a maximum.";
+      if (lo<25000 || hi>10000000) return "Budget must be between USD 25,000 and USD 10,000,000.";
+      if (lo>hi) return "The minimum can't be higher than the maximum.";
+      A.budget = `${lo}-${hi}`; return "";
+    }
+    case "file": if (v==="N/A") return ""; return (F[s.id]||[]).length ? "" : (s.na ? "Please upload the document, or choose \"Not applicable\"." : "Please upload this document to continue.");
+    case "multi": return empty ? "Please choose at least one option." : "";
+    case "choice": return empty ? "Please choose an option." : "";
+    case "consent": {
+      A.consent_accuracy = document.getElementById("c1").checked; A.consent_kyc = document.getElementById("c2").checked;
+      return A.consent_accuracy && A.consent_kyc ? "" : "Please tick both boxes to submit.";
+    }
+    default: return empty && !s.optional ? "Please fill this in." : "";
+  }
+}
+
+function submitStep(){
+  const s = STEPS[cur]; const e = validate(s);
+  if (e){ const el=document.getElementById("err"); el.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>'+esc(e); return; }
+  if (s.type==="consent") return send();
+  go(1);
+}
+
+function go(d){
+  dir = d; let i = cur;
+  do { i += d; } while (i>=0 && i<STEPS.length && STEPS[i].show && !STEPS[i].show(A));
+  if (i < 0) i = -1;
+  cur = Math.min(i, STEPS.length - 1);
+  render(); window.scrollTo(0,0);
+}
+
+/* ============ SUBMIT ============ */
+async function send(){
+  const btn = document.getElementById("ok"); btn.disabled = true; btn.textContent = "Submitting…";
+  const answers = {}; visible().forEach(s=>{ if(s.type!=="statement" && A[s.id]!==undefined) answers[s.id]=A[s.id]; });
+  Object.assign(answers,{budget_min:A.budget_min,budget_max:A.budget_max,consent_accuracy:A.consent_accuracy,consent_kyc:A.consent_kyc,submitted_at:new Date().toISOString()});
+  window.__submission = answers;
+  if (SUBMIT_URL){
+    const fd = new FormData(); fd.append("answers", JSON.stringify(answers));
+    visible().forEach(s=> (F[s.id]||[]).forEach(f=> fd.append(s.id, f, f.name)));
+    try { const r = await fetch(SUBMIT_URL,{method:"POST",body:fd}); if(!r.ok) throw new Error(r.status); }
+    catch(e){ btn.disabled=false; btn.innerHTML="Submit "+ARROW; document.getElementById("err").textContent="Something went wrong while submitting. Please try again, or email investments@wefundco.com."; return; }
+  }
+  cur = STEPS.length; dir = 1; render();
+}
+
+function renderWelcome(){
+  stage.innerHTML = `<div class="step hero">
+    <p class="section-tag">WeFundCo onboarding</p>
+    <h1>Be ready for capital, <em>not just visible to it.</em></h1>
+    <p>Welcome to WeFundCo, the investment readiness, intelligence and transaction platform connecting startups with the right investors. This short form sets up your verified profile.</p>
+    <ul class="checklist">
+      <li>One question at a time. Each one explains why we need it.</li>
+      <li>Keep your KYC documents ready: PAN, Aadhaar or Passport, and company documents if you're a business.</li>
+      <li>Files can be PDF, JPG or PNG, up to ${MAX_MB} MB each.</li>
+    </ul>
+    <div class="actions"><button class="btn" id="start">Let's begin ${ARROW}</button><span class="hint">press <b>Enter ↵</b></span></div>
+    <div class="meta"><span>⏱ About 8–10 minutes</span><span>🔒 Reviewed only by the WeFundCo team</span></div>
+  </div>`;
+  document.getElementById("start").onclick = ()=> go(1);
+}
+
+function renderDone(){
+  const name = (A.contact_name||"").split(" ")[0];
+  stage.innerHTML = `<div class="step hero">
+    <p class="section-tag">Submitted</p>
+    <h1>Thank you${name?", "+esc(name):""}. <em>You're in the queue.</em></h1>
+    <p>We've received your ${A.role==="Investor"?"investor profile":"startup profile"} and documents. Here's what happens next:</p>
+    <ol class="next-steps">
+      <li><div><b>Document check.</b> A member of our onboarding team verifies each document against the details you shared.</div></li>
+      <li><div><b>Independent approval.</b> A second team member reviews and approves your profile. Every account gets two separate checks.</div></li>
+      <li><div><b>You're live.</b> We'll email ${esc(A.contact_email||"you")} once onboarding is complete, or let you know if anything needs re-uploading.</div></li>
+    </ol>
+    <p style="font-size:16px">Questions in the meantime? Write to <a href="mailto:investments@wefundco.com">investments@wefundco.com</a>, or join the <a href="https://chat.whatsapp.com/FVf4arP8OCu0OVstKVfXt5" target="_blank" rel="noopener">WeFundCo Circle</a> on WhatsApp.</p>
+    <div class="meta"><a href="https://www.linkedin.com/company/wefundco/" target="_blank" rel="noopener">LinkedIn</a><a href="https://x.com/wefundco" target="_blank" rel="noopener">X</a><a href="https://www.instagram.com/wefundco" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/@Wefundco" target="_blank" rel="noopener">YouTube</a></div>
+    ${SUBMIT_URL?"":'<p class="disclaimer"><b>Preview mode:</b> no data was sent. Set SUBMIT_URL in the page script to connect your backend.</p>'}
+    <p class="disclaimer">© 2026 CapitalPrime Technologies Private Limited. WeFundCo does not provide investment advice or guarantee investment outcomes, and does not act as a broker or placement agent.</p>
+  </div>`;
+}
+
+/* ============ KEYBOARD ============ */
+document.addEventListener("keydown", e=>{
+  if (cur < 0 && e.key==="Enter"){ e.preventDefault(); return go(1); }
+  if (cur < 0 || cur >= STEPS.length) return;
+  const s = STEPS[cur];
+  const typing = ["INPUT","TEXTAREA"].includes(document.activeElement.tagName) && document.activeElement.type!=="checkbox";
+  if (e.key==="Enter" && !(s.type==="long" && e.shiftKey)){ e.preventDefault(); return submitStep(); }
+  if (!typing && (s.type==="choice"||s.type==="multi") && /^[a-z]$/i.test(e.key) && !e.metaKey && !e.ctrlKey){
+    const i = e.key.toUpperCase().charCodeAt(0)-65; if (s.options[i]) pick(s, s.options[i]);
+  }
+});
+document.getElementById("prev").onclick = ()=> go(-1);
+document.getElementById("next").onclick = ()=> cur<0 ? go(1) : submitStep();
+
+render();
+</script>
+</body>
+</html>
