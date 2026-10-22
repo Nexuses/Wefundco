@@ -1481,25 +1481,98 @@ body.modal-open{overflow:hidden}
 .page-events-new .ev-host__body .ticks{margin:8px 0 20px}
 .page-events-new .ev-host__body .btn{margin-top:4px}
 .page-events-new .ev-host__fine{margin-top:16px;font-size:14px;line-height:1.5;color:var(--muted)}
-.page-events-new .ev-cta .inv-cohort__inner{
-  display:flex;flex-direction:column;align-items:center;
-  max-width:min(960px,100%);margin-inline:auto;
-}
-.page-events-new .ev-cta .ev-upcoming__lede{
-  max-width:none;white-space:nowrap;
-}
-@media (max-width:900px){
-  .page-events-new .ev-cta .ev-upcoming__lede{white-space:normal;max-width:min(92ch,100%)}
-}
 .page-events-new .ev-types .ev-type-card.cap-hover-card{
   min-height:clamp(200px,18vw,280px);
 }
-.page-events-new .ev-cta__fine{
-  margin:16px 0 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.72);
-  max-width:min(52ch,100%);text-align:center;
-}
-.page-events-new .ev-cta .ab-cta__buttons{margin-top:clamp(28px,4vw,36px)}
 .page-events-new #upcoming{scroll-margin-top:88px}
+
+/* Events — upcoming (blog-style grid, blurred preview) */
+.page-events-new .visually-hidden{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+.page-events-new .ev-upcoming{background:var(--white)}
+.page-events-new .ev-upcoming__wrap{
+  max-width:min(1200px,100%);margin-inline:auto;text-align:center;
+}
+.page-events-new .ev-upcoming .eyebrow{color:var(--royal-blue);margin-bottom:clamp(16px,2vw,24px)}
+.page-events-new .ev-upcoming__lede{
+  max-width:none;margin-inline:auto;white-space:nowrap;
+}
+@media (max-width:960px){
+  .page-events-new .ev-upcoming__lede{
+    white-space:normal;max-width:min(92ch,100%);
+  }
+}
+.page-events-new .ev-upcoming__preview{
+  position:relative;margin-top:clamp(36px,5vw,52px);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.page-events-new .ev-upcoming__cards{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:clamp(28px,3.5vw,48px) clamp(20px,2.5vw,32px);
+  text-align:left;padding:clamp(8px,1vw,12px);
+  filter:blur(7px);transform:scale(1.02);pointer-events:none;user-select:none;
+}
+.page-events-new .ev-upcoming__card{display:flex;flex-direction:column;height:100%}
+.page-events-new .ev-upcoming__media{
+  margin:0;border-radius:var(--r-lg);overflow:hidden;
+  aspect-ratio:16/10;background:var(--paper-3);
+  border:1px solid rgba(0,20,56,.06);
+}
+.page-events-new .ev-upcoming__media img{
+  display:block;width:100%;height:100%;object-fit:cover;
+}
+.page-events-new .ev-upcoming__body{
+  display:flex;flex-direction:column;gap:clamp(8px,1vw,10px);
+  padding-top:clamp(12px,1.5vw,16px);
+}
+.page-events-new .ev-upcoming__meta{
+  margin:0;
+  font-family:var(--mono);font-size:14px;font-weight:500;line-height:1.4;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--medium-gray);
+}
+.page-events-new .ev-upcoming__meta span+span::before{
+  content:"";display:inline-block;width:4px;height:4px;border-radius:50%;
+  background:var(--timberwolf);margin:0 clamp(10px,1.2vw,14px);vertical-align:middle;
+}
+.page-events-new .ev-upcoming__title{
+  font-family:var(--sans);font-size:clamp(20px,2.2vw,28px);font-weight:600;
+  letter-spacing:-.02em;line-height:1.25;margin:0;color:var(--ink);
+}
+.page-events-new .ev-upcoming__veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(
+    180deg,
+    rgba(255,255,255,.55) 0%,
+    rgba(255,255,255,.82) 42%,
+    rgba(255,255,255,.94) 100%
+  );
+}
+.page-events-new .ev-upcoming__gate{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(14px,2vw,20px);padding:clamp(24px,4vw,40px);
+  text-align:center;
+}
+.page-events-new .ev-upcoming__gate-text{
+  margin:0;pointer-events:none;
+  font-family:var(--sans);font-size:clamp(20px,2.2vw,24px);font-weight:600;
+  letter-spacing:-.02em;line-height:1.25;color:var(--ink);
+  white-space:nowrap;max-width:none;
+}
+.page-events-new .ev-upcoming__gate .btn{
+  pointer-events:auto;position:relative;z-index:3;
+}
+@media (max-width:768px){
+  .page-events-new .ev-upcoming__cards{grid-template-columns:1fr}
+  .page-events-new .ev-upcoming__meta{font-size:13px}
+}
+@media (max-width:960px){
+  .page-events-new .ev-upcoming__gate-text{
+    white-space:normal;max-width:min(42ch,100%);font-size:clamp(18px,4.5vw,22px);
+  }
+}
 
 @media (max-width:900px){
   .page-events-new .ev-types .home-capabilities__grid{grid-template-columns:1fr}
