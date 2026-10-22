@@ -59,6 +59,7 @@
         liveEl.style.minWidth = `${maxPhraseW}px`;
         liveEl.style.maxWidth = `${maxPhraseW}px`;
       }
+      liveEl.style.marginInline = 'auto';
     }
 
     function buildWord(word, layer) {
