@@ -9,6 +9,10 @@ const adminLogin = require('./api/admin/login');
 const adminLogout = require('./api/admin/logout');
 const adminMe = require('./api/admin/me');
 const adminWaitlist = require('./api/admin/waitlist');
+const onboardingCreate = require('./api/onboarding');
+const onboardingFiles = require('./api/onboarding/[id]/files');
+const onboardingComplete = require('./api/onboarding/[id]/complete');
+const adminOnboarding = require('./api/admin/onboarding');
 
 const app = express();
 const root = __dirname;
@@ -18,6 +22,10 @@ app.set('trust proxy', 1);
 app.use(express.json({ limit: '32kb' }));
 
 app.all('/api/waitlist', waitlist);
+app.post('/api/onboarding', onboardingCreate);
+app.post('/api/onboarding/:id/files', onboardingFiles);
+app.post('/api/onboarding/:id/complete', onboardingComplete);
+app.all('/api/admin/onboarding', adminOnboarding);
 app.all('/api/admin/signup', adminSignup);
 app.all('/api/admin/login', adminLogin);
 app.all('/api/admin/logout', adminLogout);

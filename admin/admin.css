@@ -314,16 +314,78 @@ th{
 .pager{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px}
 .pager span{font-size:13px;color:var(--gray)}
 
+.admin-tabs{
+  display:flex;gap:8px;margin-bottom:20px;
+}
+.admin-tabs__btn{
+  border:1px solid var(--line);
+  background:var(--white);
+  color:var(--oxford);
+  border-radius:999px;
+  padding:10px 18px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+.admin-tabs__btn.is-active{
+  background:var(--royal);
+  border-color:var(--royal);
+  color:#fff;
+}
+.admin-panel[hidden]{display:none!important}
+
+.col-actions--split{
+  display:flex;align-items:center;justify-content:flex-end;gap:8px;
+}
+
 .modal{
   position:fixed;inset:0;
-  background:rgba(0,20,56,.46);
-  display:none;
+  display:flex;
   align-items:center;
   justify-content:center;
   padding:20px;
   z-index:40;
 }
-.modal.is-open{display:flex}
+.modal[hidden]{display:none!important}
+.modal__backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,20,56,.46);
+}
+.modal__panel{
+  position:relative;
+  width:min(720px,100%);
+  max-height:min(88vh,900px);
+  overflow:auto;
+  background:#fff;
+  border-radius:20px;
+  padding:0;
+  box-shadow:0 24px 64px rgba(0,20,56,.18);
+}
+.modal__head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:20px 22px;border-bottom:1px solid var(--line);
+}
+.modal__title{margin:0;font-size:20px;letter-spacing:-.02em}
+.modal__close{
+  border:0;background:transparent;font-size:28px;line-height:1;
+  cursor:pointer;color:var(--gray);padding:0 4px;
+}
+.modal__body{padding:20px 22px 24px}
+.modal__meta{margin:0 0 16px;font-size:14px;color:var(--gray)}
+.modal__subhead{margin:20px 0 10px;font-size:15px;font-weight:600}
+.detail-table{width:100%;border-collapse:collapse;font-size:14px}
+.detail-table th{
+  text-align:left;vertical-align:top;
+  width:34%;padding:8px 12px 8px 0;
+  color:var(--gray);font-weight:500;
+}
+.detail-table td{padding:8px 0;word-break:break-word}
+.file-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.file-list li{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-size:14px;
+}
 .modal__card{
   width:min(440px,100%);
   background:#fff;

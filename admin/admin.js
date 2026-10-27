@@ -21,6 +21,26 @@
     return data;
   }
 
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function fmtDate(value) {
+    if (!value) return '—';
+    return new Date(value).toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
   const loginForm = $('#loginForm');
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -81,23 +101,39 @@
   }
 
   const rowsEl = $('#rows');
-  if (!rowsEl) return;
+  const onboardingRowsEl = $('#onboardingRows');
+  if (!rowsEl && !onboardingRowsEl) return;
 
-  const state = { page: 1, pages: 1, items: [], q: '', role: 'all' };
+  function initTabs() {
+    const tabs = document.querySelectorAll('.admin-tabs__btn');
+    const panelWaitlist = $('#panelWaitlist');
+    const panelOnboarding = $('#panelOnboarding');
+    if (!tabs.length) return;
 
-  function fmtDate(value) {
-    if (!value) return '—';
-    return new Date(value).toLocaleString('en-IN', {
-      timeZone: 'Asia/Kolkata',
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const name = tab.getAttribute('data-tab');
+        tabs.forEach((t) => t.classList.toggle('is-active', t === tab));
+        if (panelWaitlist) {
+          const show = name === 'waitlist';
+          panelWaitlist.classList.toggle('is-active', show);
+          panelWaitlist.hidden = !show;
+        }
+        if (panelOnboarding) {
+          const show = name === 'onboarding';
+          panelOnboarding.classList.toggle('is-active', show);
+          panelOnboarding.hidden = !show;
+        }
+      });
     });
   }
 
-  function renderRows(items) {
+  initTabs();
+
+  const waitlistState = { page: 1, pages: 1, items: [], q: '', role: 'all' };
+
+  function renderWaitlistRows(items) {
+    if (!rowsEl) return;
     if (!items.length) {
       rowsEl.innerHTML = '<tr><td class="empty" colspan="7">No waitlist entries yet.</td></tr>';
       return;
@@ -111,133 +147,348 @@
         <td class="muted">${escapeHtml(item.page || '—')}</td>
         <td>${escapeHtml(fmtDate(item.createdAt))}</td>
         <td class="col-actions">
-          <button
-            type="button"
-            class="btn-delete"
-            data-delete-id="${escapeHtml(item.id)}"
-            data-delete-email="${escapeHtml(item.email)}"
-            aria-label="Delete ${escapeHtml(item.email)}"
-            title="Delete"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9zm-1 12h12l1-12H5l1 12z"/>
-            </svg>
+          <button type="button" class="btn-delete" data-wl-delete-id="${escapeHtml(item.id)}" data-wl-delete-email="${escapeHtml(item.email)}" aria-label="Delete ${escapeHtml(item.email)}" title="Delete">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9zm-1 12h12l1-12H5l1 12z"/></svg>
           </button>
         </td>
       </tr>
     `).join('');
   }
 
-  function escapeHtml(value) {
-    return String(value || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  async function load() {
+  async function loadWaitlist() {
     const params = new URLSearchParams({
-      page: String(state.page),
+      page: String(waitlistState.page),
       limit: '50',
-      q: state.q,
-      role: state.role
+      q: waitlistState.q,
+      role: waitlistState.role
     });
     const data = await api('/api/admin/waitlist?' + params.toString());
-    state.items = data.items;
-    state.pages = data.pages;
-    state.page = data.page;
-    renderRows(data.items);
-    $('#statTotal').textContent = data.stats.allTotal;
-    $('#statWeek').textContent = data.stats.thisWeek;
-    $('#statStartup').textContent = data.stats.byRole.startup || 0;
-    $('#statInvestor').textContent = data.stats.byRole.investor || 0;
-    $('#pageInfo').textContent = `Page ${data.page} of ${data.pages} · ${data.total} shown by filter`;
-    $('#prevBtn').disabled = data.page <= 1;
-    $('#nextBtn').disabled = data.page >= data.pages;
+    waitlistState.items = data.items;
+    waitlistState.pages = data.pages;
+    waitlistState.page = data.page;
+    renderWaitlistRows(data.items);
+    if ($('#statTotal')) $('#statTotal').textContent = data.stats.allTotal;
+    if ($('#statWeek')) $('#statWeek').textContent = data.stats.thisWeek;
+    if ($('#statStartup')) $('#statStartup').textContent = data.stats.byRole.startup || 0;
+    if ($('#statInvestor')) $('#statInvestor').textContent = data.stats.byRole.investor || 0;
+    if ($('#pageInfo')) $('#pageInfo').textContent = `Page ${data.page} of ${data.pages} · ${data.total} shown by filter`;
+    if ($('#prevBtn')) $('#prevBtn').disabled = data.page <= 1;
+    if ($('#nextBtn')) $('#nextBtn').disabled = data.page >= data.pages;
+  }
+
+  const obState = { page: 1, pages: 1, items: [], q: '', role: 'all' };
+
+  function renderOnboardingRows(items) {
+    if (!onboardingRowsEl) return;
+    if (!items.length) {
+      onboardingRowsEl.innerHTML = '<tr><td class="empty" colspan="7">No onboarding submissions yet.</td></tr>';
+      return;
+    }
+    onboardingRowsEl.innerHTML = items.map((item) => `
+      <tr data-id="${escapeHtml(item.id)}">
+        <td>${escapeHtml(item.contactName || '—')}</td>
+        <td class="email">${escapeHtml(item.contactEmail)}</td>
+        <td class="muted">${escapeHtml(item.contactPhone || '—')}</td>
+        <td><span class="pill">${escapeHtml(item.role || '—')}</span></td>
+        <td>${escapeHtml(fmtDate(item.createdAt))}</td>
+        <td>${escapeHtml(String(item.fileCount || 0))}</td>
+        <td class="col-actions col-actions--split">
+          <button type="button" class="btn btn--ghost btn--sm" data-ob-view="${escapeHtml(item.id)}">View</button>
+          <button type="button" class="btn-delete" data-ob-delete-id="${escapeHtml(item.id)}" data-ob-delete-label="${escapeHtml(item.contactEmail)}" title="Delete" aria-label="Delete submission">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9zm-1 12h12l1-12H5l1 12z"/></svg>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function loadOnboarding() {
+    const params = new URLSearchParams({
+      page: String(obState.page),
+      limit: '50',
+      q: obState.q,
+      role: obState.role
+    });
+    const data = await api('/api/admin/onboarding?' + params.toString());
+    obState.items = data.items;
+    obState.pages = data.pages;
+    obState.page = data.page;
+    renderOnboardingRows(data.items);
+    if ($('#obStatTotal')) $('#obStatTotal').textContent = data.stats.allTotal;
+    if ($('#obStatWeek')) $('#obStatWeek').textContent = data.stats.thisWeek;
+    if ($('#obStatStartup')) $('#obStatStartup').textContent = data.stats.byRole.startup || 0;
+    if ($('#obStatInvestor')) $('#obStatInvestor').textContent = data.stats.byRole.investor || 0;
+    if ($('#obPageInfo')) $('#obPageInfo').textContent = `Page ${data.page} of ${data.pages} · ${data.total} shown by filter`;
+    if ($('#obPrevBtn')) $('#obPrevBtn').disabled = data.page <= 1;
+    if ($('#obNextBtn')) $('#obNextBtn').disabled = data.page >= data.pages;
+  }
+
+  const modal = $('#onboardingModal');
+  const modalBody = $('#onboardingModalBody');
+  const modalTitle = $('#onboardingModalTitle');
+
+  function closeModal() {
+    if (!modal) return;
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  function openModal() {
+    if (!modal) return;
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  async function downloadOnboardingFile(submissionId, fileId, filename) {
+    const url = `/api/admin/onboarding?action=file&id=${encodeURIComponent(submissionId)}&fileId=${encodeURIComponent(fileId)}`;
+    const res = await fetch(url, { credentials: 'same-origin' });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Download failed');
+    }
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename || 'download';
+    a.click();
+    URL.revokeObjectURL(blobUrl);
+  }
+
+  async function showOnboardingDetail(id) {
+    const data = await api('/api/admin/onboarding?id=' + encodeURIComponent(id));
+    const item = data.item;
+    if (!item) throw new Error('Submission not found');
+
+    modalTitle.textContent = item.contactName || item.contactEmail || 'Submission';
+    const answers = item.answers || {};
+    const answerRows = Object.keys(answers).sort().map((key) => `
+      <tr><th scope="row">${escapeHtml(key)}</th><td>${escapeHtml(formatAnswer(answers[key]))}</td></tr>
+    `).join('');
+
+    const fileRows = (item.files || []).map((f) => `
+      <li>
+        <span>${escapeHtml(f.fieldId)} — ${escapeHtml(f.filename)} (${escapeHtml(String(Math.round((f.size || 0) / 1024))} KB)</span>
+        <button type="button" class="btn btn--ghost btn--sm" data-ob-dl="${escapeHtml(item.id)}" data-ob-file="${escapeHtml(f.fileId)}" data-ob-name="${escapeHtml(f.filename)}">Download</button>
+      </li>
+    `).join('');
+
+    modalBody.innerHTML = `
+      <p class="modal__meta">${escapeHtml(item.contactEmail)} · ${escapeHtml(item.contactPhone || '—')} · <span class="pill">${escapeHtml(item.role)}</span> · ${escapeHtml(fmtDate(item.createdAt))}</p>
+      <h3 class="modal__subhead">Answers</h3>
+      <table class="detail-table"><tbody>${answerRows || '<tr><td>No answers recorded.</td></tr>'}</tbody></table>
+      <h3 class="modal__subhead">Documents</h3>
+      <ul class="file-list">${fileRows || '<li>No files uploaded.</li>'}</ul>
+    `;
+    openModal();
+  }
+
+  function formatAnswer(value) {
+    if (value === true) return 'Yes';
+    if (value === false) return 'No';
+    if (Array.isArray(value)) return value.join(', ');
+    if (value && typeof value === 'object') return JSON.stringify(value);
+    return String(value ?? '');
+  }
+
+  if (modal) {
+    modal.querySelectorAll('[data-modal-close]').forEach((el) => {
+      el.addEventListener('click', closeModal);
+    });
+    modalBody.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-ob-dl]');
+      if (!btn) return;
+      try {
+        await downloadOnboardingFile(
+          btn.getAttribute('data-ob-dl'),
+          btn.getAttribute('data-ob-file'),
+          btn.getAttribute('data-ob-name')
+        );
+      } catch (err) {
+        window.alert(err.message || 'Could not download file.');
+      }
+    });
   }
 
   (async () => {
     try {
       const me = await api('/api/admin/me');
-      $('#adminEmail').textContent = me.email;
+      if ($('#adminEmail')) $('#adminEmail').textContent = me.email;
       document.body.classList.remove('auth-pending');
-      await load();
+      const loads = [];
+      if (rowsEl) loads.push(loadWaitlist());
+      if (onboardingRowsEl) loads.push(loadOnboarding());
+      await Promise.all(loads);
     } catch (_) {
       window.location.replace('/admin/login');
     }
   })();
 
-  let timer;
-  $('#search').addEventListener('input', (e) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      state.q = e.target.value.trim();
-      state.page = 1;
-      load().catch((err) => { rowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message)}</td></tr>`; });
-    }, 250);
-  });
-
-  $('#roleFilter').addEventListener('change', (e) => {
-    state.role = e.target.value;
-    state.page = 1;
-    load().catch(() => {});
-  });
-
-  $('#prevBtn').addEventListener('click', () => {
-    if (state.page > 1) {
-      state.page -= 1;
-      load();
-    }
-  });
-  $('#nextBtn').addEventListener('click', () => {
-    if (state.page < state.pages) {
-      state.page += 1;
-      load();
-    }
-  });
-
-  $('#logoutBtn').addEventListener('click', async () => {
-    await api('/api/admin/logout', { method: 'POST' });
-    window.location.href = '/admin/login';
-  });
-
-  $('#exportBtn').addEventListener('click', async () => {
-    const params = new URLSearchParams({
-      page: '1',
-      limit: '500',
-      q: state.q,
-      role: state.role
+  let wlTimer;
+  if ($('#search')) {
+    $('#search').addEventListener('input', (e) => {
+      clearTimeout(wlTimer);
+      wlTimer = setTimeout(() => {
+        waitlistState.q = e.target.value.trim();
+        waitlistState.page = 1;
+        loadWaitlist().catch((err) => {
+          rowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message)}</td></tr>`;
+        });
+      }, 250);
     });
-    const data = await api('/api/admin/waitlist?' + params.toString());
-    const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt'];
-    const lines = [header.join(',')].concat(
-      data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
-    );
-    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'wefundco-waitlist.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-  });
+  }
 
-  rowsEl.addEventListener('click', async (e) => {
-    const btn = e.target.closest('[data-delete-id]');
-    if (!btn) return;
-    const id = btn.getAttribute('data-delete-id');
-    const email = btn.getAttribute('data-delete-email') || 'this entry';
-    if (!id) return;
-    if (!window.confirm(`Delete ${email} from the waitlist?`)) return;
+  if ($('#roleFilter')) {
+    $('#roleFilter').addEventListener('change', (e) => {
+      waitlistState.role = e.target.value;
+      waitlistState.page = 1;
+      loadWaitlist().catch(() => {});
+    });
+  }
 
-    btn.disabled = true;
-    try {
-      await api('/api/admin/waitlist?id=' + encodeURIComponent(id), { method: 'DELETE' });
-      await load();
-    } catch (err) {
-      btn.disabled = false;
-      window.alert(err.message || 'Could not delete that entry.');
-    }
-  });
+  if ($('#prevBtn')) {
+    $('#prevBtn').addEventListener('click', () => {
+      if (waitlistState.page > 1) {
+        waitlistState.page -= 1;
+        loadWaitlist();
+      }
+    });
+  }
+  if ($('#nextBtn')) {
+    $('#nextBtn').addEventListener('click', () => {
+      if (waitlistState.page < waitlistState.pages) {
+        waitlistState.page += 1;
+        loadWaitlist();
+      }
+    });
+  }
+
+  let obTimer;
+  if ($('#obSearch')) {
+    $('#obSearch').addEventListener('input', (e) => {
+      clearTimeout(obTimer);
+      obTimer = setTimeout(() => {
+        obState.q = e.target.value.trim();
+        obState.page = 1;
+        loadOnboarding().catch((err) => {
+          onboardingRowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message)}</td></tr>`;
+        });
+      }, 250);
+    });
+  }
+
+  if ($('#obRoleFilter')) {
+    $('#obRoleFilter').addEventListener('change', (e) => {
+      obState.role = e.target.value;
+      obState.page = 1;
+      loadOnboarding().catch(() => {});
+    });
+  }
+
+  if ($('#obPrevBtn')) {
+    $('#obPrevBtn').addEventListener('click', () => {
+      if (obState.page > 1) {
+        obState.page -= 1;
+        loadOnboarding();
+      }
+    });
+  }
+  if ($('#obNextBtn')) {
+    $('#obNextBtn').addEventListener('click', () => {
+      if (obState.page < obState.pages) {
+        obState.page += 1;
+        loadOnboarding();
+      }
+    });
+  }
+
+  if ($('#logoutBtn')) {
+    $('#logoutBtn').addEventListener('click', async () => {
+      await api('/api/admin/logout', { method: 'POST' });
+      window.location.href = '/admin/login';
+    });
+  }
+
+  if ($('#exportBtn')) {
+    $('#exportBtn').addEventListener('click', async () => {
+      const params = new URLSearchParams({ page: '1', limit: '500', q: waitlistState.q, role: waitlistState.role });
+      const data = await api('/api/admin/waitlist?' + params.toString());
+      const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt'];
+      const lines = [header.join(',')].concat(
+        data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
+      );
+      const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'wefundco-waitlist.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  if ($('#obExportBtn')) {
+    $('#obExportBtn').addEventListener('click', async () => {
+      const params = new URLSearchParams({ page: '1', limit: '500', q: obState.q, role: obState.role });
+      const data = await api('/api/admin/onboarding?' + params.toString());
+      const header = ['contactName', 'contactEmail', 'contactPhone', 'role', 'fileCount', 'createdAt'];
+      const lines = [header.join(',')].concat(
+        data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
+      );
+      const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'wefundco-onboarding.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  if (rowsEl) {
+    rowsEl.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-wl-delete-id]');
+      if (!btn) return;
+      const id = btn.getAttribute('data-wl-delete-id');
+      const email = btn.getAttribute('data-wl-delete-email') || 'this entry';
+      if (!id) return;
+      if (!window.confirm(`Delete ${email} from the waitlist?`)) return;
+      btn.disabled = true;
+      try {
+        await api('/api/admin/waitlist?id=' + encodeURIComponent(id), { method: 'DELETE' });
+        await loadWaitlist();
+      } catch (err) {
+        btn.disabled = false;
+        window.alert(err.message || 'Could not delete that entry.');
+      }
+    });
+  }
+
+  if (onboardingRowsEl) {
+    onboardingRowsEl.addEventListener('click', async (e) => {
+      const viewBtn = e.target.closest('[data-ob-view]');
+      if (viewBtn) {
+        try {
+          await showOnboardingDetail(viewBtn.getAttribute('data-ob-view'));
+        } catch (err) {
+          window.alert(err.message || 'Could not load submission.');
+        }
+        return;
+      }
+      const delBtn = e.target.closest('[data-ob-delete-id]');
+      if (!delBtn) return;
+      const id = delBtn.getAttribute('data-ob-delete-id');
+      const label = delBtn.getAttribute('data-ob-delete-label') || 'this submission';
+      if (!id) return;
+      if (!window.confirm(`Delete onboarding submission for ${label}?`)) return;
+      delBtn.disabled = true;
+      try {
+        await api('/api/admin/onboarding?id=' + encodeURIComponent(id), { method: 'DELETE' });
+        await loadOnboarding();
+      } catch (err) {
+        delBtn.disabled = false;
+        window.alert(err.message || 'Could not delete that submission.');
+      }
+    });
+  }
 })();

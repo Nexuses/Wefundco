@@ -134,10 +134,7 @@
 </div>
 
 <script>
-/* ============ CONFIG ============
-   Set SUBMIT_URL to your backend endpoint (receives multipart/form-data: answers JSON + files).
-   Left empty, the form runs in preview mode: nothing is uploaded, and the end screen still shows. */
-const SUBMIT_URL = "";
+const ONBOARDING_API = "/api/onboarding";
 const MAX_MB = 10;
 const DOC_TYPES = ".pdf,.jpg,.jpeg,.png";
 
@@ -435,16 +432,47 @@ function go(d){
 /* ============ SUBMIT ============ */
 async function send(){
   const btn = document.getElementById("ok"); btn.disabled = true; btn.textContent = "Submitting…";
+  const errEl = document.getElementById("err");
   const answers = {}; visible().forEach(s=>{ if(s.type!=="statement" && A[s.id]!==undefined) answers[s.id]=A[s.id]; });
   Object.assign(answers,{budget_min:A.budget_min,budget_max:A.budget_max,consent_accuracy:A.consent_accuracy,consent_kyc:A.consent_kyc,submitted_at:new Date().toISOString()});
-  window.__submission = answers;
-  if (SUBMIT_URL){
-    const fd = new FormData(); fd.append("answers", JSON.stringify(answers));
-    visible().forEach(s=> (F[s.id]||[]).forEach(f=> fd.append(s.id, f, f.name)));
-    try { const r = await fetch(SUBMIT_URL,{method:"POST",body:fd}); if(!r.ok) throw new Error(r.status); }
-    catch(e){ btn.disabled=false; btn.innerHTML="Submit "+ARROW; document.getElementById("err").textContent="Something went wrong while submitting. Please try again, or email investments@wefundco.com."; return; }
+  try {
+    const createRes = await fetch(ONBOARDING_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answers })
+    });
+    const createData = await createRes.json().catch(() => ({}));
+    if (!createRes.ok) throw new Error(createData.error || "Could not save your answers.");
+
+    const submissionId = createData.id;
+    if (!submissionId) throw new Error("Invalid server response.");
+
+    for (const s of visible()) {
+      if (s.type !== "file") continue;
+      if (A[s.id] === "N/A") continue;
+      const files = F[s.id] || [];
+      for (const file of files) {
+        const fd = new FormData();
+        fd.append("file", file, file.name);
+        btn.textContent = "Uploading documents…";
+        const upUrl = `${ONBOARDING_API}/${submissionId}/files?fieldId=${encodeURIComponent(s.id)}`;
+        const upRes = await fetch(upUrl, { method: "POST", body: fd });
+        const upData = await upRes.json().catch(() => ({}));
+        if (!upRes.ok) throw new Error(upData.error || "Could not upload a document.");
+      }
+    }
+
+    const doneRes = await fetch(`${ONBOARDING_API}/${submissionId}/complete`, { method: "POST" });
+    const doneData = await doneRes.json().catch(() => ({}));
+    if (!doneRes.ok) throw new Error(doneData.error || "Could not finalize your submission.");
+
+    window.__submission = answers;
+    cur = STEPS.length; dir = 1; render();
+  } catch (e) {
+    btn.disabled = false;
+    btn.innerHTML = "Submit "+ARROW;
+    errEl.textContent = (e && e.message ? e.message : "Something went wrong while submitting.") + " Please try again, or email investments@wefundco.com.";
   }
-  cur = STEPS.length; dir = 1; render();
 }
 
 function renderWelcome(){
@@ -476,7 +504,6 @@ function renderDone(){
     </ol>
     <p style="font-size:16px">Questions in the meantime? Write to <a href="mailto:investments@wefundco.com">investments@wefundco.com</a>, or join the <a href="https://chat.whatsapp.com/FVf4arP8OCu0OVstKVfXt5" target="_blank" rel="noopener">WeFundCo Circle</a> on WhatsApp.</p>
     <div class="meta"><a href="https://www.linkedin.com/company/wefundco/" target="_blank" rel="noopener">LinkedIn</a><a href="https://x.com/wefundco" target="_blank" rel="noopener">X</a><a href="https://www.instagram.com/wefundco" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/@Wefundco" target="_blank" rel="noopener">YouTube</a></div>
-    ${SUBMIT_URL?"":'<p class="disclaimer"><b>Preview mode:</b> no data was sent. Set SUBMIT_URL in the page script to connect your backend.</p>'}
     <p class="disclaimer">© 2026 CapitalPrime Technologies Private Limited. WeFundCo does not provide investment advice or guarantee investment outcomes, and does not act as a broker or placement agent.</p>
   </div>`;
 }
