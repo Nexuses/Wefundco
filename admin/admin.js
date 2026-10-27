@@ -71,11 +71,10 @@
             password: $('#password').value
           })
         });
-        await api('/api/admin/me');
+        // Session cookie is set by login; go straight to the dashboard.
         window.location.replace('/admin');
       } catch (err) {
         setMsg(msg, err.message || 'Sign-in failed. Try again.', false);
-      } finally {
         btn.disabled = false;
       }
     });
@@ -285,7 +284,7 @@
 
     const fileRows = (item.files || []).map((f) => `
       <li>
-        <span>${escapeHtml(f.fieldId)} — ${escapeHtml(f.filename)} (${escapeHtml(String(Math.round((f.size || 0) / 1024))} KB)</span>
+        <span>${escapeHtml(f.fieldId)} — ${escapeHtml(f.filename)} (${escapeHtml(String(Math.round((f.size || 0) / 1024)))} KB)</span>
         <button type="button" class="btn btn--ghost btn--sm" data-ob-dl="${escapeHtml(item.id)}" data-ob-file="${escapeHtml(f.fileId)}" data-ob-name="${escapeHtml(f.filename)}">Download</button>
       </li>
     `).join('');
