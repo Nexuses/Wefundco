@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 const { getDb } = require('../../lib/db');
 const { requireAdmin } = require('../../lib/auth');
 const { allowMethods, escapeRegex, getQuery, getBody } = require('../../lib/http');
-const { deleteSubmission, openFileStream, getSubmission } = require('../../lib/onboarding-store');
+const { deleteSubmission, openFileStream, getSubmission, fileUrl } = require('../../lib/onboarding-store');
 
 function mapItem(item) {
   return {
@@ -22,13 +22,7 @@ function mapDetail(item) {
   return {
     ...mapItem(item),
     answers: item.answers || {},
-    files: (item.files || []).map((f) => ({
-      fileId: f.fileId,
-      fieldId: f.fieldId,
-      filename: f.filename,
-      mimeType: f.mimeType,
-      size: f.size
-    }))
+    files: (item.files || []).map((f) => fileUrl(f)).filter(Boolean)
   };
 }
 
@@ -85,24 +79,28 @@ async function handleDetail(req, res, id) {
   return res.status(200).json({ ok: true, item: mapDetail(item) });
 }
 
-async function handleFile(req, res, submissionId, fileId) {
+async function handleFile(req, res, submissionId, fileUrlParam) {
   const item = await getSubmission(submissionId);
   if (!item) {
     return res.status(404).json({ error: 'Submission not found.' });
   }
-  const meta = (item.files || []).find((f) => f.fileId === fileId);
-  if (!meta) {
+  const wanted = String(fileUrlParam || '').trim();
+  const match = (item.files || []).map(fileUrl).find((url) => url === wanted);
+  if (!match) {
     return res.status(404).json({ error: 'File not found.' });
   }
 
-  const file = await openFileStream(fileId);
+  const file = await openFileStream(match);
   if (!file) {
     return res.status(404).json({ error: 'File not found.' });
   }
 
-  const filename = meta.filename || 'download';
-  res.setHeader('Content-Type', meta.mimeType || file.meta.contentType || 'application/octet-stream');
+  const filename = file.meta.filename || 'download';
+  res.setHeader('Content-Type', file.meta.contentType || 'application/octet-stream');
   res.setHeader('Content-Disposition', `attachment; filename="${filename.replace(/"/g, '')}"`);
+  if (file.meta.contentLength) {
+    res.setHeader('Content-Length', String(file.meta.contentLength));
+  }
   file.stream.pipe(res);
 }
 
@@ -131,11 +129,11 @@ module.exports = async function handler(req, res) {
 
     if (action === 'file') {
       const submissionId = String(query.id || '').trim();
-      const fileId = String(query.fileId || '').trim();
-      if (!submissionId || !fileId) {
-        return res.status(400).json({ error: 'id and fileId are required.' });
+      const url = String(query.url || '').trim();
+      if (!submissionId || !url) {
+        return res.status(400).json({ error: 'id and url are required.' });
       }
-      return await handleFile(req, res, submissionId, fileId);
+      return await handleFile(req, res, submissionId, url);
     }
 
     const id = String(query.id || '').trim();

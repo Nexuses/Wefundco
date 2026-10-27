@@ -255,8 +255,8 @@
     modal.setAttribute('aria-hidden', 'false');
   }
 
-  async function downloadOnboardingFile(submissionId, fileId, filename) {
-    const url = `/api/admin/onboarding?action=file&id=${encodeURIComponent(submissionId)}&fileId=${encodeURIComponent(fileId)}`;
+  async function downloadOnboardingFile(submissionId, fileUrl) {
+    const url = `/api/admin/onboarding?action=file&id=${encodeURIComponent(submissionId)}&url=${encodeURIComponent(fileUrl)}`;
     const res = await fetch(url, { credentials: 'include' });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
@@ -266,7 +266,7 @@
     const blobUrl = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = blobUrl;
-    a.download = filename || 'download';
+    a.download = (String(fileUrl).split('/').pop() || 'download').split('?')[0];
     a.click();
     URL.revokeObjectURL(blobUrl);
   }
@@ -282,12 +282,15 @@
       <tr><th scope="row">${escapeHtml(key)}</th><td>${escapeHtml(formatAnswer(answers[key]))}</td></tr>
     `).join('');
 
-    const fileRows = (item.files || []).map((f) => `
+    const fileRows = (item.files || []).map((f) => {
+      const url = typeof f === 'string' ? f : (f && f.url) || '';
+      const label = url.split('/').pop() || url;
+      return `
       <li>
-        <span>${escapeHtml(f.fieldId)} — ${escapeHtml(f.filename)} (${escapeHtml(String(Math.round((f.size || 0) / 1024)))} KB)</span>
-        <button type="button" class="btn btn--ghost btn--sm" data-ob-dl="${escapeHtml(item.id)}" data-ob-file="${escapeHtml(f.fileId)}" data-ob-name="${escapeHtml(f.filename)}">Download</button>
-      </li>
-    `).join('');
+        <span title="${escapeHtml(url)}">${escapeHtml(decodeURIComponent(label))}</span>
+        <button type="button" class="btn btn--ghost btn--sm" data-ob-dl="${escapeHtml(item.id)}" data-ob-url="${escapeHtml(url)}">Download</button>
+      </li>`;
+    }).join('');
 
     modalBody.innerHTML = `
       <p class="modal__meta">${escapeHtml(item.contactEmail)} · ${escapeHtml(item.contactPhone || '—')} · <span class="pill">${escapeHtml(item.role)}</span> · ${escapeHtml(fmtDate(item.createdAt))}</p>
@@ -317,8 +320,7 @@
       try {
         await downloadOnboardingFile(
           btn.getAttribute('data-ob-dl'),
-          btn.getAttribute('data-ob-file'),
-          btn.getAttribute('data-ob-name')
+          btn.getAttribute('data-ob-url')
         );
       } catch (err) {
         window.alert(err.message || 'Could not download file.');

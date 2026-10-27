@@ -17,10 +17,11 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true, file: entry });
   } catch (err) {
     console.error('[WeFundCo] onboarding file error:', err);
-    const missingMongo = /MONGODB_URI/.test(String(err && err.message));
+    const msg = String(err && err.message || '');
+    const missingConfig = /MONGODB_URI|AWS_|S3_BUCKET/.test(msg);
     if (err.status) return sendError(res, err);
     return res.status(500).json({
-      error: missingMongo
+      error: missingConfig
         ? 'Onboarding storage is not configured yet.'
         : 'Could not upload that file. Please try again.'
     });

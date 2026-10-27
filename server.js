@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv').config({ path: '.env' });
+require('dotenv').config({ path: '.env.local', override: true });
 
 const express = require('express');
 const path = require('path');
@@ -65,7 +66,17 @@ app.use(['/server.js', '/package.json', '/package-lock.json', '/.env'], (_req, r
 app.use(express.static(root));
 
 const port = Number(process.env.PORT || 3000);
-app.listen(port, () => {
+const server = app.listen(port, () => {
+  if (!server.listening) return;
   console.log(`WeFundCo running at http://localhost:${port}`);
   console.log(`Admin: http://localhost:${port}/admin`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${port} is already in use. Stop the other process or set PORT to a free port.`);
+  } else {
+    console.error(err);
+  }
+  process.exit(1);
 });
