@@ -12,7 +12,7 @@
 
   async function api(url, options) {
     const res = await fetch(url, {
-      credentials: 'same-origin',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json', ...(options && options.headers) },
       ...options
     });
@@ -43,6 +43,13 @@
 
   const loginForm = $('#loginForm');
   if (loginForm) {
+    (async () => {
+      try {
+        await api('/api/admin/me');
+        window.location.replace('/admin');
+      } catch (_) { /* not signed in */ }
+    })();
+
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = loginForm.querySelector('button[type="submit"]');
@@ -56,7 +63,8 @@
             password: $('#password').value
           })
         });
-        window.location.href = '/admin';
+        await api('/api/admin/me');
+        window.location.assign('/admin');
       } catch (err) {
         setMsg(msg, err.message, false);
       } finally {
@@ -91,7 +99,8 @@
             password: $('#password').value
           })
         });
-        window.location.href = '/admin';
+        await api('/api/admin/me');
+        window.location.assign('/admin');
       } catch (err) {
         setMsg(msg, err.message, false);
       } finally {
@@ -241,7 +250,7 @@
 
   async function downloadOnboardingFile(submissionId, fileId, filename) {
     const url = `/api/admin/onboarding?action=file&id=${encodeURIComponent(submissionId)}&fileId=${encodeURIComponent(fileId)}`;
-    const res = await fetch(url, { credentials: 'same-origin' });
+    const res = await fetch(url, { credentials: 'include' });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
       throw new Error(data.error || 'Download failed');

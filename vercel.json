@@ -3,6 +3,12 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "wefundco.com" }],
+      "destination": "https://www.wefundco.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/waitlist-new",
       "destination": "/startups",
       "permanent": true

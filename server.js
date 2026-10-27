@@ -13,6 +13,7 @@ const onboardingCreate = require('./api/onboarding');
 const onboardingFiles = require('./api/onboarding/[id]/files');
 const onboardingComplete = require('./api/onboarding/[id]/complete');
 const adminOnboarding = require('./api/admin/onboarding');
+const { parseCookies } = require('./lib/http');
 
 const app = express();
 const root = __dirname;
@@ -34,7 +35,13 @@ app.all('/api/admin/waitlist', adminWaitlist);
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found' }));
 app.use('/lib', (_req, res) => res.status(404).end());
 
-app.get('/admin', (_req, res) => res.sendFile(path.join(root, 'admin', 'index.html')));
+app.get('/admin', (req, res) => {
+  const cookies = parseCookies(req);
+  if (!cookies.wfc_admin) {
+    return res.redirect(302, '/admin/login');
+  }
+  return res.sendFile(path.join(root, 'admin', 'index.html'));
+});
 app.get('/admin/login', (_req, res) => res.sendFile(path.join(root, 'admin', 'login.html')));
 app.get('/admin/signup', (_req, res) => res.sendFile(path.join(root, 'admin', 'signup.html')));
 
