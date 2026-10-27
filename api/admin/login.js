@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { getDb } = require('../../lib/db');
-const { signAdmin, cookieHeader } = require('../../lib/auth');
+const { signAdmin, sessionCookieHeaders } = require('../../lib/auth');
 const { allowMethods, getBody, isValidEmail } = require('../../lib/http');
 
 module.exports = async function handler(req, res) {
@@ -27,7 +27,7 @@ module.exports = async function handler(req, res) {
     }
 
     const token = signAdmin(admin);
-    res.setHeader('Set-Cookie', cookieHeader(token));
+    res.setHeader('Set-Cookie', sessionCookieHeaders(token));
     return res.status(200).json({ ok: true, email: admin.email, name: admin.name || '' });
   } catch (err) {
     console.error('[WeFundCo] login error:', err);

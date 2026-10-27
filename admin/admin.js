@@ -17,8 +17,16 @@
       ...options
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || 'Request failed');
+    if (!res.ok) {
+      const err = new Error(data.error || 'Request failed');
+      err.status = res.status;
+      throw err;
+    }
     return data;
+  }
+
+  function isAuthError(err) {
+    return err && (err.status === 401 || err.status === 403);
   }
 
   function escapeHtml(value) {
@@ -64,9 +72,9 @@
           })
         });
         await api('/api/admin/me');
-        window.location.assign('/admin');
+        window.location.replace('/admin');
       } catch (err) {
-        setMsg(msg, err.message, false);
+        setMsg(msg, err.message || 'Sign-in failed. Try again.', false);
       } finally {
         btn.disabled = false;
       }
@@ -320,17 +328,40 @@
   }
 
   (async () => {
+    let me;
     try {
-      const me = await api('/api/admin/me');
-      if ($('#adminEmail')) $('#adminEmail').textContent = me.email;
-      document.body.classList.remove('auth-pending');
-      const loads = [];
-      if (rowsEl) loads.push(loadWaitlist());
-      if (onboardingRowsEl) loads.push(loadOnboarding());
-      await Promise.all(loads);
-    } catch (_) {
-      window.location.replace('/admin/login');
+      me = await api('/api/admin/me');
+    } catch (err) {
+      if (isAuthError(err)) {
+        window.location.replace('/admin/login');
+      } else {
+        document.body.classList.remove('auth-pending');
+        if (rowsEl) {
+          rowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message || 'Could not verify session.')}</td></tr>`;
+        }
+      }
+      return;
     }
+
+    if ($('#adminEmail')) $('#adminEmail').textContent = me.email;
+    document.body.classList.remove('auth-pending');
+
+    const loads = [];
+    if (rowsEl) {
+      loads.push(
+        loadWaitlist().catch((err) => {
+          rowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message || 'Could not load waitlist.')}</td></tr>`;
+        })
+      );
+    }
+    if (onboardingRowsEl) {
+      loads.push(
+        loadOnboarding().catch((err) => {
+          onboardingRowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message || 'Could not load onboarding.')}</td></tr>`;
+        })
+      );
+    }
+    await Promise.all(loads);
   })();
 
   let wlTimer;

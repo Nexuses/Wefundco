@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { getDb } = require('../../lib/db');
-const { signAdmin, cookieHeader, readAdminToken } = require('../../lib/auth');
+const { signAdmin, sessionCookieHeaders, readAdminToken } = require('../../lib/auth');
 const { allowMethods, getBody, isValidEmail } = require('../../lib/http');
 
 module.exports = async function handler(req, res) {
@@ -61,7 +61,7 @@ module.exports = async function handler(req, res) {
     const invitedByAdmin = Boolean(readAdminToken(req));
     if (!invitedByAdmin) {
       const token = signAdmin({ _id: inserted.insertedId, email });
-      res.setHeader('Set-Cookie', cookieHeader(token));
+      res.setHeader('Set-Cookie', sessionCookieHeaders(token));
     }
     return res.status(201).json({ ok: true, email, name });
   } catch (err) {
