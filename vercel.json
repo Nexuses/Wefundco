@@ -29,6 +29,7 @@
   ],
   "rewrites": [
     { "source": "/", "destination": "/startups" },
+    { "source": "/favicon.ico", "destination": "/Assets/WeFundCo%20favicon.png" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/admin/login", "destination": "/admin/login.html" },
     { "source": "/admin/signup", "destination": "/admin/signup.html" },

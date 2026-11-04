@@ -46,6 +46,8 @@ app.get('/admin', (req, res) => {
 app.get('/admin/login', (_req, res) => res.sendFile(path.join(root, 'admin', 'login.html')));
 app.get('/admin/signup', (_req, res) => res.sendFile(path.join(root, 'admin', 'signup.html')));
 
+app.get('/favicon.ico', (_req, res) => res.sendFile(path.join(root, 'Assets', 'WeFundCo favicon.png')));
+
 // Match Vercel: homepage serves startups; clean URLs map /page → page.html
 app.get('/', (_req, res) => res.sendFile(path.join(root, 'startups.html')));
 app.get('/:page', (req, res, next) => {
