@@ -3330,7 +3330,8 @@ body.page-blog .blog-card__title{
    SITE MENU — header links + dropdown, footer Company column
    ========================================================= */
 .nav__links{align-items:center}
-.nav__links > a,.nav__drop-btn{font-size:15px;font-weight:400;color:var(--ink-soft)}
+.nav__links > a,.nav__drop-btn,.nav__links > .nav__label{font-size:15px;font-weight:400;color:var(--ink-soft)}
+.nav__links > .nav__label{padding:4px 0;cursor:default;user-select:none}
 .nav__links > a.is-active,.nav__drop-btn.is-active{color:var(--ink);font-weight:600}
 .nav__item{position:relative}
 .nav__drop-btn{
