@@ -3417,3 +3417,19 @@ body.page-blog .blog-card__title{
 }
 .page-legal .blog-article__body ul{list-style:disc}
 .page-legal .blog-article__body strong{color:var(--ink);font-weight:600}
+
+/* Footer v3 — legal links under divider, 4-column grid */
+.footer__top--menu{grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr))}
+.footer__legal-links{display:flex;flex-wrap:wrap;gap:6px 22px}
+.footer__legal-links a{font-size:12px;line-height:1.5;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s}
+.footer__legal-links a:hover,.footer__legal-links a:focus-visible{color:#fff;text-decoration:underline}
+.footer__legal-links a.is-active{color:#fff}
+@media (max-width:1080px){
+  .footer__top.footer__top--menu{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .footer__top.footer__top--menu{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:400px){
+  .footer__top.footer__top--menu{grid-template-columns:1fr}
+}
