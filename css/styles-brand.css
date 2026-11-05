@@ -3391,3 +3391,29 @@ body.page-blog .blog-card__title{
 @media (max-width:560px){
   .footer__top.footer__top--menu{grid-template-columns:1fr}
 }
+
+/* =========================================================
+   MENU v2 — right-aligned header menu, 5-column footer, legal pages
+   ========================================================= */
+.nav__inner{gap:32px}
+.nav__links{margin-left:auto;gap:32px}
+.footer__top--menu{
+  grid-template-columns:minmax(0,1.5fr) repeat(4,minmax(0,1fr));
+  gap:clamp(28px,4vw,56px);
+}
+.footer__col > a.footer__email{margin:0 0 6px}
+.page-blog-post .blog-article__body a{color:var(--royal-blue);font-weight:600}
+.page-blog-post .blog-article__body h2 + p,.page-blog-post .blog-article__body h2 + ul{margin-top:0}
+.page-blog-post .legal-updated{font-size:15px;color:var(--silver-chalice,#8a8a8a);margin:0 0 clamp(24px,3vw,32px)}
+
+@media (max-width:1080px){
+  .nav__inner > .btn{margin-left:auto}
+  .nav__inner{gap:16px}
+  .footer__top.footer__top--menu{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer__top--menu .footer__brand{grid-column:1/-1}
+}
+@media (max-width:560px){
+  .footer__top.footer__top--menu{grid-template-columns:1fr}
+}
+.page-legal .blog-article__body ul{list-style:disc}
+.page-legal .blog-article__body strong{color:var(--ink);font-weight:600}
