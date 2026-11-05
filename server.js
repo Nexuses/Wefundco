@@ -65,7 +65,7 @@ app.use(['/server.js', '/package.json', '/package-lock.json', '/.env'], (_req, r
   res.status(404).end();
 });
 
-app.use(express.static(root));
+app.use(express.static(root, { extensions: ['html'] }));
 
 const port = Number(process.env.PORT || 3000);
 const server = app.listen(port, () => {

@@ -105,12 +105,61 @@
   /* mobile menu */
   const burger = $('#navBurger');
   const navLinks = $('#navLinks');
+  const setMenuOpen = (open) => {
+    if (!navLinks) return;
+    navLinks.classList.toggle('is-open', open);
+    if (burger) burger.setAttribute('aria-expanded', String(open));
+  };
   if (burger && navLinks) {
-    burger.addEventListener('click', () => navLinks.classList.toggle('is-open'));
-    $$('a', navLinks).forEach((a) =>
-      a.addEventListener('click', () => navLinks.classList.remove('is-open'))
-    );
+    burger.addEventListener('click', () => setMenuOpen(!navLinks.classList.contains('is-open')));
+    $$('a', navLinks).forEach((a) => a.addEventListener('click', () => setMenuOpen(false)));
   }
+
+  /* "Who We Serve" dropdown (click/tap + keyboard; hover handled in CSS) */
+  $$('.nav__item').forEach((item) => {
+    const btn = $('.nav__drop-btn', item);
+    if (!btn) return;
+    const setOpen = (open) => {
+      item.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(!item.classList.contains('is-open'));
+    });
+    document.addEventListener('click', (e) => {
+      if (!item.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        setMenuOpen(false);
+      }
+    });
+  });
+
+  /* highlight the current page in header + footer menus */
+  (() => {
+    const norm = (p) => (p.replace(/\.html$/, '').replace(/\/+$/, '') || '/');
+    const here = norm(window.location.pathname);
+    const isCurrent = (href) => {
+      if (!href || href.charAt(0) !== '/') return false;
+      const target = norm(href);
+      if (target === '/') return here === '/';
+      if (target === '/resources/blogs') return here.indexOf('/resources') === 0;
+      return here === target;
+    };
+    $$('.nav__links a, .footer__col a').forEach((a) => {
+      if (!isCurrent(a.getAttribute('href'))) return;
+      a.classList.add('is-active');
+      a.setAttribute('aria-current', 'page');
+      const dd = a.closest('.nav__item');
+      if (dd) {
+        const trigger = $('.nav__drop-btn', dd);
+        if (trigger) trigger.classList.add('is-active');
+      }
+    });
+  })();
 
   /* ---------------------------------------------------------
      4. Hero image strip — horizontal drift on scroll
