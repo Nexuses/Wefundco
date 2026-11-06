@@ -3332,6 +3332,11 @@ body.page-blog .blog-card__title{
 .nav__links{align-items:center}
 .nav__links > a,.nav__drop-btn,.nav__links > .nav__label{font-size:15px;font-weight:400;color:var(--ink-soft)}
 .nav__links > .nav__label{padding:4px 0;cursor:default;user-select:none}
+.nav__dropdown .nav__label--drop{display:block;padding:10px 14px;border-radius:10px;color:var(--silver-chalice,#8a8a8a);cursor:default;user-select:none}
+.footer__col .footer__soon{display:block;color:rgba(255,255,255,.55);cursor:default;user-select:none}
+.wfc-soon{padding:clamp(80px,12vw,140px) 0;text-align:center}
+.wfc-soon__inner{max-width:640px;margin-inline:auto}
+.wfc-soon .lede{margin-inline:auto}
 .nav__links > a.is-active,.nav__drop-btn.is-active{color:var(--ink);font-weight:600}
 .nav__item{position:relative}
 .nav__drop-btn{

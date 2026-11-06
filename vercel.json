@@ -20,7 +20,7 @@
     },
     {
       "source": "/blogs",
-      "destination": "/resources/blogs",
+      "destination": "/resources/coming-soon.html",
       "permanent": false
     },
     { "source": "/server.js", "destination": "/", "permanent": false },
@@ -28,6 +28,8 @@
     { "source": "/package-lock.json", "destination": "/", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/resources/blogs", "destination": "/resources/coming-soon.html" },
+    { "source": "/resources/blogs/:slug", "destination": "/resources/coming-soon.html" },
     { "source": "/", "destination": "/startups" },
     { "source": "/favicon.ico", "destination": "/Assets/WeFundCo%20favicon.png" },
     { "source": "/admin", "destination": "/admin/index.html" },

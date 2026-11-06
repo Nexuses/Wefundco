@@ -48,6 +48,10 @@ app.get('/admin/signup', (_req, res) => res.sendFile(path.join(root, 'admin', 's
 
 app.get('/favicon.ico', (_req, res) => res.sendFile(path.join(root, 'Assets', 'WeFundCo favicon.png')));
 
+const comingSoonResources = path.join(root, 'resources', 'coming-soon.html');
+app.get('/resources/blogs', (_req, res) => res.sendFile(comingSoonResources));
+app.get('/resources/blogs/:slug', (_req, res) => res.sendFile(comingSoonResources));
+
 // Match Vercel: homepage serves startups; clean URLs map /page → page.html
 app.get('/', (_req, res) => res.sendFile(path.join(root, 'startups.html')));
 app.get('/:page', (req, res, next) => {
