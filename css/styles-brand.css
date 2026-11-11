@@ -274,7 +274,7 @@ ul{margin:0;padding:0;list-style:none}
 .hero__title.is-in .line > span{transform:translateY(0)}
 .hero__title.is-in .line:nth-child(2) > span{transition-delay:.09s}
 
-/* hero headline swap — "Where" stays static; phrase pairs carousel vertically */
+/* hero headline swap — full sentences carousel vertically (each includes "Where") */
 .hero__swap{
   --swap-cycle:10s;
   --swap-ease:cubic-bezier(.4,0,.15,1);
@@ -293,6 +293,15 @@ ul{margin:0;padding:0;list-style:none}
   position:relative;display:inline-grid;vertical-align:baseline;
   overflow:hidden;text-align:center;
   isolation:isolate;
+}
+.hero__swap-cycle--full{
+  max-width:min(24ch,100%);
+}
+.hero__swap-cycle--full .hero__swap-measure,
+.hero__swap-cycle--full .hero__swap-phrase{
+  white-space:normal;
+  max-width:min(24ch,100%);
+  text-wrap:balance;
 }
 .hero__swap-measure{
   grid-area:1/1;visibility:hidden;white-space:nowrap;

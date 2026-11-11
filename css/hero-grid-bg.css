@@ -104,7 +104,7 @@ body.page-home .home-hero .hero__swap-phrase {
 }
 
 body.page-home .home-hero .display__accent,
-body.page-home .home-hero .hero__swap-row--accent .hero__swap-phrase {
+body.page-home .home-hero .hero__swap-phrase .display__accent {
   color: #e8f4ff;
 }
 
