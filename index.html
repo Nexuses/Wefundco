@@ -8,6 +8,7 @@
 
 <link rel="stylesheet" href="fonts/google-fonts.css">
 <link rel="stylesheet" href="css/styles-brand.css" />
+<link rel="stylesheet" href="css/hero-grid-bg.css" />
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
@@ -17,10 +18,11 @@
 
 
 <!-- ============ NAV ============ -->
-<header class="nav nav--simple" id="nav">
+<header class="nav nav--simple nav--on-hero" id="nav">
   <div class="nav__inner">
-    <a href="index.html" class="nav__logo" aria-label="WeFundCo home">
-      <img src="Assets/WeFundCo-color.png" alt="WeFundCo" class="nav__logo-img" />
+    <a href="/" class="nav__logo" aria-label="WeFundCo home">
+      <img src="Assets/WeFundCo-color.png" alt="" class="nav__logo-img nav__logo-img--color" width="160" height="52" decoding="async" />
+      <img src="Assets/Wefundco-white.png" alt="WeFundCo" class="nav__logo-img nav__logo-img--white" width="160" height="52" decoding="async" />
     </a>
 
     <button type="button" class="btn btn--dark btn--nav" data-invite-open><span>Join<span class="btn__long"> the Waitlist</span></span><span class="btn__arrow">&rarr;</span></button>
@@ -29,8 +31,49 @@
 
 <main>
 
-<!-- ============ 01 ┬╖ HERO ============ -->
+<!-- ============ 01 · HERO ============ -->
 <section class="hero home-hero" id="top">
+  <div class="home-hero__bg" aria-hidden="true">
+    <div class="home-hero__ambient"></div>
+    <div class="home-hero__light-field" id="homeHeroLightField"></div>
+    <svg class="home-hero__grid-svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="homeHeroTilePattern" width="22" height="22" patternUnits="userSpaceOnUse">
+          <rect width="22" height="22" fill="none"/>
+          <path d="M5 16 L15 6 M9 6 H15 V12" fill="none" stroke="#d9eaff" stroke-width="1.35" stroke-linecap="square" stroke-linejoin="miter" opacity=".8"/>
+          <path d="M1 1 H21 V21" fill="none" stroke="#9fc7f5" stroke-width=".35" opacity=".20"/>
+        </pattern>
+        <pattern id="homeHeroTilePatternBright" width="22" height="22" patternUnits="userSpaceOnUse">
+          <rect width="22" height="22" fill="none"/>
+          <path d="M5 16 L15 6 M9 6 H15 V12" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="1"/>
+          <path d="M1 1 H21 V21" fill="none" stroke="#e4f2ff" stroke-width=".5" opacity=".38"/>
+        </pattern>
+        <radialGradient id="homeHeroCursorReveal" gradientUnits="userSpaceOnUse" cx="800" cy="480" r="330">
+          <stop offset="0%" stop-color="white" stop-opacity="1"/>
+          <stop offset="38%" stop-color="white" stop-opacity=".94"/>
+          <stop offset="72%" stop-color="white" stop-opacity=".48"/>
+          <stop offset="100%" stop-color="black" stop-opacity="0"/>
+        </radialGradient>
+        <mask id="homeHeroCursorMask">
+          <rect width="1600" height="1000" fill="url(#homeHeroCursorReveal)"/>
+        </mask>
+        <linearGradient id="homeHeroLowerFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="white" stop-opacity="1"/>
+          <stop offset="76%" stop-color="white" stop-opacity=".84"/>
+          <stop offset="100%" stop-color="white" stop-opacity=".18"/>
+        </linearGradient>
+        <mask id="homeHeroFadeMask">
+          <rect width="1600" height="1000" fill="url(#homeHeroLowerFade)"/>
+        </mask>
+      </defs>
+      <g mask="url(#homeHeroFadeMask)">
+        <rect class="home-hero__grid-base" width="1600" height="1000" fill="url(#homeHeroTilePattern)" opacity=".8"/>
+        <rect class="home-hero__grid-lit" width="1600" height="1000" fill="url(#homeHeroTilePatternBright)"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="home-hero__content">
   <div class="container hero__head">
     <p class="eyebrow reveal">Investment readiness and intelligence</p>
 
@@ -119,10 +162,11 @@
 
     </div>
   </div>
+  </div>
 </section>
 
 
-<!-- ============ 02 ┬╖ THE PROBLEM ============ -->
+<!-- ============ 02 · THE PROBLEM ============ -->
 <section class="section problem" id="about">
   <div class="container problem__inner">
     <div class="problem__cols problem__cols--split">
@@ -484,5 +528,6 @@
 
 <script src="js/vendor/lottie.min.js"></script>
 <script src="js/main-brand.js"></script>
+<script defer src="js/hero-grid-bg.js"></script>
 </body>
 </html>

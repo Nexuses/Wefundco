@@ -52,8 +52,9 @@ const comingSoonResources = path.join(root, 'resources', 'coming-soon.html');
 app.get('/resources/blogs', (_req, res) => res.sendFile(comingSoonResources));
 app.get('/resources/blogs/:slug', (_req, res) => res.sendFile(comingSoonResources));
 
-// Match Vercel: homepage serves startups; clean URLs map /page → page.html
-app.get('/', (_req, res) => res.sendFile(path.join(root, 'startups.html')));
+// Match Vercel: homepage serves index.html; clean URLs map /page → page.html
+app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html')));
+app.get('/index-home', (_req, res) => res.redirect(301, '/'));
 app.get('/:page', (req, res, next) => {
   const page = req.params.page;
   if (!page || page.includes('.') || page.includes('/') || page === 'api' || page === 'admin' || page === 'lib') {

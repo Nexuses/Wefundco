@@ -9,6 +9,11 @@
       "permanent": true
     },
     {
+      "source": "/index-home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/waitlist-new",
       "destination": "/startups",
       "permanent": true
@@ -30,7 +35,6 @@
   "rewrites": [
     { "source": "/resources/blogs", "destination": "/resources/coming-soon.html" },
     { "source": "/resources/blogs/:slug", "destination": "/resources/coming-soon.html" },
-    { "source": "/", "destination": "/startups" },
     { "source": "/favicon.ico", "destination": "/Assets/WeFundCo%20favicon.png" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/admin/login", "destination": "/admin/login.html" },

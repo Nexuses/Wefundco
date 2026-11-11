@@ -100,6 +100,29 @@
     const onScrollNav = () => nav.classList.toggle('is-stuck', window.scrollY > 10);
     onScrollNav();
     window.addEventListener('scroll', onScrollNav, { passive: true });
+
+    if (document.body.classList.contains('page-home')) {
+      const heroTop = $('#top');
+      if (heroTop) {
+        let navOnHeroRaf = null;
+        const syncNavOnHero = () => {
+          const navH = nav.offsetHeight || 0;
+          document.documentElement.style.setProperty('--home-nav-h', navH + 'px');
+          const onHero = heroTop.getBoundingClientRect().bottom > navH + 1;
+          nav.classList.toggle('nav--on-hero', onHero);
+        };
+        const scheduleNavOnHero = () => {
+          if (navOnHeroRaf !== null) return;
+          navOnHeroRaf = requestAnimationFrame(() => {
+            navOnHeroRaf = null;
+            syncNavOnHero();
+          });
+        };
+        syncNavOnHero();
+        window.addEventListener('scroll', scheduleNavOnHero, { passive: true });
+        window.addEventListener('resize', scheduleNavOnHero, { passive: true });
+      }
+    }
   }
 
   /* mobile menu */

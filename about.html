@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="fonts/google-fonts.css">
 <link rel="stylesheet" href="css/styles-brand.css" />
 <link rel="stylesheet" href="css/circle-footer.css" />
+<link rel="stylesheet" href="css/leadership-section.css" />
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
@@ -246,30 +247,122 @@
 
 
 <!-- ============ 05 · LEADERSHIP ============ -->
-<section class="section ab-leadership" id="leadership">
-  <div class="container ab-leadership__split">
-    <div class="ab-leadership__copy">
-      <p class="eyebrow reveal">Leadership</p>
+<section class="section wfc-leadership" id="leadership">
+  <div class="wfc-container">
+    <div class="wfc-section-intro">
+      <p class="eyebrow reveal">The people behind WeFundCo</p>
       <h2 class="display display--lg reveal" data-delay="80">
-        Experience behind <span class="display__accent">the vision.</span>
+        Leadership <span class="display__accent">&amp; advisors</span>
       </h2>
+      <p class="lede reveal" data-delay="100">
+        WeFundCo brings together experience in finance, legal advisory and
+        governance, with a shared purpose: helping businesses prepare for
+        investment and enabling more informed connections between founders
+        and investors.
+      </p>
+    </div>
 
-      <div class="ab-team reveal" data-delay="120">
-        <header class="ab-team__head">
-          <h3 class="display ab-team__name"><a href="https://www.linkedin.com/in/navneet-momi-39373511/" target="_blank" rel="noopener noreferrer">Navneet Momi</a></h3>
-          <p class="ab-team__role">Founder &amp; Strategic Advisor – Legal, Governance &amp; Strategy</p>
-        </header>
-        <div class="ab-team__bio">
-          <p>With over 17 years of legal and strategic advisory experience, Navneet brings expertise across corporate law, governance, transactions and startup advisory.</p>
-          <p>As Founder and Managing Partner of Intellect Juris Law Offices, she has advised businesses and entrepreneurs across complex legal, regulatory and strategic matters. At WeFundCo, she leads the platform&rsquo;s legal, governance and strategic architecture.</p>
+    <div class="wfc-profile-section reveal" data-delay="120">
+      <div class="wfc-section-heading">
+        <div>
+          <p class="eyebrow">Our leadership</p>
+          <h3 class="statement">Founding leadership</h3>
         </div>
       </div>
+
+      <div class="wfc-profile-grid wfc-profile-grid--row">
+        <article
+          class="wfc-profile-card wfc-profile-card--row"
+          data-wfc-profile="navneet"
+          tabindex="0"
+          role="button"
+          aria-label="View profile for Navneet Momi"
+        >
+          <div class="wfc-profile-content">
+            <span class="wfc-profile-label">Co-founder</span>
+            <h4>Navneet Momi</h4>
+            <p class="wfc-profile-designation">
+              Founder &amp; Strategic Advisor – Legal, Governance &amp; Strategy
+            </p>
+            <p class="wfc-profile-summary">
+              Over 17 years in legal and strategic advisory across corporate law, governance, transactions and startup advisory.
+            </p>
+            <span class="wfc-view-profile">
+              View profile <span aria-hidden="true">&rarr;</span>
+            </span>
+          </div>
+          <div class="wfc-profile-visual">
+            <img class="wfc-profile-photo" src="Assets/navneet.jpg" alt="" width="800" height="600" loading="lazy" decoding="async" />
+          </div>
+        </article>
+      </div>
     </div>
-    <figure class="ab-leadership__media reveal" data-delay="100">
-      <img class="ab-team__photo" src="Assets/navneet.jpg" alt="Navneet Momi" width="400" height="400" loading="lazy" decoding="async" />
-    </figure>
+
+    <div class="wfc-profile-section wfc-advisory-section reveal" data-delay="160">
+      <div class="wfc-section-heading">
+        <div>
+          <p class="eyebrow">Expertise &amp; guidance</p>
+          <h3 class="statement">Advisory board</h3>
+          <p class="lede lede--left">
+            Our advisors contribute experience across investment,
+            entrepreneurship and industry, providing strategic perspectives
+            to support WeFundCo&rsquo;s development and long-term direction.
+          </p>
+        </div>
+      </div>
+
+      <div class="wfc-profile-grid wfc-profile-grid--row">
+        <article
+          class="wfc-profile-card wfc-profile-card--row"
+          data-wfc-profile="sunil"
+          tabindex="0"
+          role="button"
+          aria-label="View profile for Sunil Saklani"
+        >
+          <div class="wfc-profile-content">
+            <span class="wfc-profile-label">Advisor</span>
+            <h4>Sunil Saklani</h4>
+            <p class="wfc-profile-designation">
+              Founder, S R Saklani &amp; Co.; Former Director, Deloitte Haskins &amp; Sells LLP
+            </p>
+            <p class="wfc-profile-summary">
+              Cost and Management Accountant with 20 years across indirect taxation, regulatory compliance and corporate advisory.
+            </p>
+            <span class="wfc-view-profile">
+              View profile <span aria-hidden="true">&rarr;</span>
+            </span>
+          </div>
+          <div class="wfc-profile-visual">
+            <img class="wfc-profile-photo" src="Assets/sunil.png" alt="" width="800" height="600" loading="lazy" decoding="async" />
+          </div>
+        </article>
+      </div>
+    </div>
   </div>
 </section>
+
+<div class="wfc-profile-modal" id="wfcProfileModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wfcModalName">
+  <div class="wfc-profile-modal__backdrop" tabindex="-1"></div>
+  <div class="wfc-profile-modal__panel">
+    <button type="button" class="wfc-profile-modal__close" aria-label="Close profile">&times;</button>
+    <div class="wfc-profile-modal__hero">
+      <div class="wfc-profile-modal__photo-cell">
+        <img class="wfc-profile-modal__photo" id="wfcModalPhoto" width="120" height="120" alt="" decoding="async" />
+        <div class="wfc-profile-modal__photo is-placeholder" id="wfcModalPhotoFallback" hidden></div>
+      </div>
+      <div class="wfc-profile-modal__intro">
+        <p class="eyebrow" id="wfcModalLabel"></p>
+        <h3 class="statement" id="wfcModalName"></h3>
+        <p class="wfc-profile-modal__designation" id="wfcModalDesignation"></p>
+      </div>
+    </div>
+    <div class="wfc-profile-modal__divider" aria-hidden="true"></div>
+    <div class="wfc-profile-modal__bio" id="wfcModalBio"></div>
+    <a class="btn btn--dark wfc-profile-modal__linkedin" id="wfcModalLinkedIn" href="#" target="_blank" rel="noopener noreferrer" hidden>
+      View LinkedIn profile <span class="btn__arrow">&rarr;</span>
+    </a>
+  </div>
+</div>
 
 
 <!-- ============ 06 · MISSION AND VISION ============ -->
@@ -394,6 +487,7 @@
   </div>
 </footer>
 
+<script src="js/leadership-profiles.js"></script>
 <script src="js/main-brand.js"></script>
 </body>
 </html>
