@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="fonts/google-fonts.css">
 <link rel="stylesheet" href="css/styles-brand.css" />
 <link rel="stylesheet" href="css/circle-footer.css" />
+<link rel="stylesheet" href="css/wefund-footer.css" />
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
@@ -59,7 +60,7 @@
         <div class="nav__dropdown">
           <a href="/startups">Startups</a>
           <a href="/investors">Investors</a>
-          <span class="nav__label nav__label--drop">Strategic Partners</span>
+          <a href="/partners">Strategic Partners</a>
         </div>
       </div>
       <a href="/events">Events</a>
@@ -75,8 +76,7 @@
 <!-- ============ 01 · HERO ============ -->
 <section class="inv-hero section ab-hero ab-hero--media">
   <div class="ab-hero__media" aria-hidden="true">
-    <img class="ab-hero__poster" src="Assets/events-hero.png" alt="" width="1920" height="1080" decoding="async" fetchpriority="high" />
-    <video class="ab-hero__video" src="Assets/video/events-hero.mp4" muted loop playsinline autoplay poster="Assets/events-hero.png"></video>
+    <video class="ab-hero__video" src="Assets/video/events-hero.mp4" muted loop playsinline autoplay></video>
   </div>
   <div class="ab-hero__scrim" aria-hidden="true"></div>
   <div class="container inv-hero__inner">
@@ -237,52 +237,85 @@
 </main>
 
 <!-- ============ FOOTER ============ -->
-<footer class="footer">
-  <div class="container footer__top footer__top--menu">
-    <div class="footer__brand">
-      <p class="footer__logo">
-        <img src="Assets/Wefundco-white.png" alt="WeFundCo" class="footer__logo-img" />
-      </p>
-      <p class="footer__tag">An investment readiness, intelligence and transaction platform connecting businesses and capital with greater clarity.</p>
+<footer class="wefund-footer">
+  <div class="wf-footer-bg">
+    <div class="wf-footer-inner">
+      <div class="wf-footer-top">
+        <div class="wf-brand">
+          <a href="/" class="wf-logo" aria-label="WeFundCo home">
+            <img src="Assets/Wefundco-white.png" alt="WeFundCo" class="wf-logo-img" width="160" height="52" decoding="async" />
+          </a>
+          <p class="wf-brand-description">
+            An investment readiness, intelligence and transaction platform connecting businesses and capital with greater clarity.
+          </p>
+        </div>
+
+        <div class="wf-footer-column">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><span class="wf-static-link">Resources</span></li>
+          </ul>
+        </div>
+
+        <div class="wf-footer-column">
+          <h4>Who We Serve</h4>
+          <ul>
+            <li><a href="/startups">Startups</a></li>
+            <li><a href="/investors">Investors</a></li>
+            <li><a href="/partners">Strategic Partners</a></li>
+          </ul>
+        </div>
+
+        <div class="wf-footer-column wf-connect-column">
+          <h4>Connect With Us</h4>
+          <div class="wf-socials">
+            <a href="https://www.linkedin.com/company/wefundco/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20.45 2H3.55C2.7 2 2 2.67 2 3.5v17c0 .83.7 1.5 1.55 1.5h16.9c.85 0 1.55-.67 1.55-1.5v-17c0-.83-.7-1.5-1.55-1.5zM8 19H5V9h3v10zM6.5 7.73a1.73 1.73 0 1 1 0-3.46 1.73 1.73 0 0 1 0 3.46zM19 19h-3v-4.87c0-1.16-.02-2.65-1.62-2.65-1.62 0-1.87 1.26-1.87 2.57V19h-3V9h2.88v1.37h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.6V19z"/>
+              </svg>
+            </a>
+            <a href="https://x.com/wefundco?s=11" target="_blank" rel="noopener noreferrer" aria-label="X">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 13.8 4.8 22H1.7l7.3-8.5L1.2 2h6.5l4.4 7.5L18.9 2zm-1.1 17.9h1.7L6.7 4H4.9z"/>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@Wefundco" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.8V8.2l6.3 3.8-6.3 3.8z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/wefundco" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-3.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61586702965400" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M24 12a12 12 0 1 0-13.875 11.85v-8.38H7.08V12h3.045V9.36c0-3.005 1.79-4.665 4.53-4.665 1.31 0 2.68.235 2.68.235v2.95h-1.51c-1.49 0-1.95.925-1.95 1.875V12h3.32l-.53 3.47h-2.79v8.38A12 12 0 0 0 24 12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-footer-bottom">
+        <div class="wf-legal-top">
+          <p class="wf-copyright">&copy; 2026 CapitalPrime Technologies Private Limited. All rights reserved.</p>
+          <div class="wf-legal-links">
+            <a href="/terms">Terms and Conditions</a>
+            <a href="/privacy">Privacy Policy</a>
+          </div>
+        </div>
+        <p class="wf-disclaimer">
+          WeFundCo is operated by CapitalPrime Technologies Private Limited and supports businesses preparing for capital while enabling investors to evaluate opportunities through structured discovery and investment intelligence.
+          WeFundCo does not provide investment advice, guarantee investment outcomes, or act as a broker, securities intermediary or placement agent. Verification and platform insights support structured discovery and evaluation but do not constitute endorsement, investment recommendation or assurance of transaction success. All investment decisions, diligence and documentation remain the responsibility of the relevant parties.
+        </p>
+      </div>
     </div>
-
-    <div class="footer__col">
-      <p class="footer__label">Company</p>
-      <a href="/">Home</a>
-      <a href="/about">About Us</a>
-      <a href="/events">Events</a>
-      <span class="footer__soon">Resources</span>
-    </div>
-
-    <div class="footer__col">
-      <p class="footer__label">Who We Serve</p>
-      <a href="/startups">Startups</a>
-      <a href="/investors">Investors</a>
-      <span class="footer__soon">Strategic Partners</span>
-    </div>
-
-    <div class="footer__col footer__aside">
-      <p class="footer__label">Connect With Us</p>
-      <a href="https://www.linkedin.com/company/wefundco/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://x.com/wefundco?s=11" target="_blank" rel="noopener noreferrer">X (formerly Twitter)</a>
-      <a href="https://www.youtube.com/@Wefundco" target="_blank" rel="noopener noreferrer">YouTube</a>
-      <a href="https://www.instagram.com/wefundco" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href="https://www.facebook.com/profile.php?id=61586702965400" target="_blank" rel="noopener noreferrer">Facebook</a>
-    </div>
-  </div>
-
-  <div class="container footer__bottom">
-    <p>&copy; 2026 CapitalPrime Technologies Private Limited. All rights reserved.</p>
-    <nav class="footer__legal-links" aria-label="Legal"><a href="/terms">Terms and Conditions</a><a href="/privacy">Privacy Policy</a></nav>
-  </div>
-
-  <div class="container footer__legal">
-    <p class="footer__disclaimer">
-      WeFundCo is operated by CapitalPrime Technologies Private Limited and supports businesses preparing for capital while enabling investors to evaluate opportunities through structured discovery and investment intelligence.
-    </p>
-    <p class="footer__disclaimer">
-      WeFundCo does not provide investment advice, guarantee investment outcomes, or act as a broker, securities intermediary or placement agent. Verification and platform insights support structured discovery and evaluation but do not constitute endorsement, investment recommendation or assurance of transaction success. All investment decisions, diligence and documentation remain the responsibility of the relevant parties.
-    </p>
+    <div class="wf-watermark" aria-hidden="true">WefundCo</div>
   </div>
 </footer>
 

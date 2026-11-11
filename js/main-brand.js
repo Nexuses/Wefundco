@@ -172,7 +172,7 @@
       if (target === '/resources/blogs') return here.indexOf('/resources') === 0;
       return here === target;
     };
-    $$('.nav__links a, .footer__col a').forEach((a) => {
+    $$('.nav__links a, .footer__col a, .wf-footer-column a').forEach((a) => {
       if (!isCurrent(a.getAttribute('href'))) return;
       a.classList.add('is-active');
       a.setAttribute('aria-current', 'page');
@@ -881,24 +881,23 @@
     ok: '#D4F4F8'
   });
 
-  /* Hero video — poster image until each video is ready */
-  if (!reduced) {
-    $$('.ab-hero--media .ab-hero__video').forEach((heroVideo) => {
-      const revealVideo = () => {
-        heroVideo.classList.add('is-ready');
-        const playPromise = heroVideo.play();
-        if (playPromise && typeof playPromise.catch === 'function') {
-          playPromise.catch(() => {});
-        }
-      };
-      if (heroVideo.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-        revealVideo();
-      } else {
-        heroVideo.addEventListener('canplay', revealVideo, { once: true });
-        heroVideo.addEventListener('loadeddata', revealVideo, { once: true });
+  /* Hero video — fade in when ready (no poster / fallback image) */
+  $$('.ab-hero--media .ab-hero__video').forEach((heroVideo) => {
+    const revealVideo = () => {
+      heroVideo.classList.add('is-ready');
+      if (reduced) return;
+      const playPromise = heroVideo.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {});
       }
-    });
-  }
+    };
+    if (heroVideo.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      revealVideo();
+    } else {
+      heroVideo.addEventListener('canplay', revealVideo, { once: true });
+      heroVideo.addEventListener('loadeddata', revealVideo, { once: true });
+    }
+  });
 
   /* ---------------------------------------------------------
      11. Image fallback — if a stock photo fails to load,

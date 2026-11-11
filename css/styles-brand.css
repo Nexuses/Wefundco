@@ -1733,14 +1733,15 @@ body.modal-open{overflow:hidden}
 .ab-hero--media .ab-hero__media{
   position:absolute;inset:0;z-index:0;pointer-events:none;
 }
-.ab-hero--media .ab-hero__poster,
+.ab-hero--media .ab-hero__poster{display:none !important}
 .ab-hero--media .ab-hero__video{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
-}
-.ab-hero--media .ab-hero__video{
-  opacity:0;transition:opacity .6s ease;
+  opacity:0;transition:opacity .6s ease;background:var(--white);
 }
 .ab-hero--media .ab-hero__video.is-ready{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .ab-hero--media .ab-hero__video{opacity:1}
+}
 .ab-hero--media .ab-hero__scrim{
   position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(rgba(255,255,255,.4),rgba(255,255,255,.4));
@@ -2590,6 +2591,36 @@ body:not(.page-waitlist-new) .home-capabilities .cap-hover-card:hover .cap-hover
 /* ---- investors page (layouts shared with home + startups) ---- */
 .inv-section--paper{background:var(--paper-2)}
 .page-investors-new #strip{display:none}
+
+/* Investor challenge (#context) — same type scale as rest of investors page */
+.page-investors-new .wf-challenge-copy .eyebrow{
+  color:rgba(255,255,255,.55);
+  margin-bottom:clamp(16px,2vw,20px);
+}
+.page-investors-new .wf-challenge-copy h2.display.display--lg{
+  font-family:var(--serif);
+  font-weight:400;
+  letter-spacing:-.04em;
+  font-size:clamp(36px,4.2vw,56px);
+  line-height:1.08;
+  max-width:min(22ch,100%);
+  text-align:left;
+  color:#fff;
+}
+.page-investors-new .wf-challenge-copy .lede{
+  color:rgba(255,255,255,.78);
+  max-width:min(58ch,100%);
+}
+.page-investors-new .wf-challenge-copy .inv-context__copy{
+  color:rgba(255,255,255,.72);
+  max-width:min(58ch,100%);
+  line-height:1.5;
+}
+.page-investors-new .wf-challenge-copy .inv-context__highlight{
+  color:var(--picton-blue);
+  font-weight:600;
+}
+
 .inv-context{padding:clamp(40px,5.5vw,64px) 0}
 .inv-context .problem__inner{max-width:min(var(--container),100%);text-align:left}
 .inv-context__split{
@@ -3076,7 +3107,7 @@ body:not(.page-waitlist-new) .home-close__cta-title{
 body:not(.page-waitlist-new) h4{font-size:28px;line-height:1.25}
 body:not(.page-waitlist-new) h5{font-size:24px;line-height:1.3}
 
-body:not(.page-waitlist-new) p,
+body:not(.page-waitlist-new) p:not(.wf-brand-description):not(.wf-copyright):not(.wf-disclaimer),
 body:not(.page-waitlist-new) .lede,
 body:not(.page-waitlist-new) .inv-context__copy,
 body:not(.page-waitlist-new) .home-audience__points li,
