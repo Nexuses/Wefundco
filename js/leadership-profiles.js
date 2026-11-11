@@ -48,19 +48,55 @@
 
   const photoFallback = document.getElementById('wfcModalPhotoFallback');
 
-  function setPhoto(profile) {
+  function resolveSrc(raw) {
+    if (!raw) return '';
+    try {
+      return new URL(raw, window.location.href).href;
+    } catch {
+      return raw;
+    }
+  }
+
+  function cardThumbnail(id) {
+    const card = document.querySelector(`.wfc-profile-card[data-wfc-profile="${id}"]`);
+    if (!card) return null;
+    const img = card.querySelector('.wfc-profile-photo');
+    const raw = img?.getAttribute('src') || '';
+    if (!img || !raw) return null;
+    return {
+      src: resolveSrc(raw),
+      alt: img.getAttribute('alt') || '',
+    };
+  }
+
+  function setPhoto(profile, id) {
     if (!photoEl || !photoFallback) return;
-    if (profile.image) {
-      photoEl.src = profile.image;
-      photoEl.alt = profile.imageAlt || profile.name;
-      photoEl.hidden = false;
-      photoFallback.hidden = true;
+    const thumb = cardThumbnail(id);
+    const src = thumb?.src || resolveSrc(profile.image || '');
+    const alt = thumb?.alt || profile.imageAlt || profile.name;
+
+    if (src) {
+      const showImg = () => {
+        photoEl.removeAttribute('hidden');
+        photoFallback.setAttribute('hidden', '');
+      };
+      photoEl.onerror = () => {
+        photoEl.setAttribute('hidden', '');
+        photoFallback.textContent = profile.initials || profile.name.slice(0, 2).toUpperCase();
+        photoFallback.removeAttribute('hidden');
+      };
+      photoEl.onload = showImg;
+      photoEl.alt = alt;
+      photoEl.src = src;
+      if (photoEl.complete && photoEl.naturalWidth > 0) {
+        showImg();
+      }
     } else {
       photoEl.removeAttribute('src');
       photoEl.alt = '';
-      photoEl.hidden = true;
+      photoEl.setAttribute('hidden', '');
       photoFallback.textContent = profile.initials || profile.name.slice(0, 2).toUpperCase();
-      photoFallback.hidden = false;
+      photoFallback.removeAttribute('hidden');
     }
   }
 
@@ -71,7 +107,7 @@
     labelEl.textContent = profile.label;
     nameEl.textContent = profile.name;
     designationEl.textContent = profile.designation;
-    setPhoto(profile);
+    setPhoto(profile, id);
 
     bioEl.innerHTML = '';
     profile.bio.forEach((text) => {

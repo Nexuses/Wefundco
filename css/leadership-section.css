@@ -74,7 +74,7 @@
 
 .wfc-profile-card--row {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: stretch;
   cursor: pointer;
 }
@@ -100,10 +100,28 @@
 }
 
 .wfc-profile-visual {
-  height: clamp(220px, 28vw, 290px);
+  --wfc-visual-pad: 20px;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  padding: var(--wfc-visual-pad);
   background: var(--paper);
+  min-height: 100%;
+  width: max-content;
+  max-width: min(46vw, 440px);
+}
+
+.wfc-profile-visual__frame {
   position: relative;
+  flex: 0 0 auto;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--r-md, 12px);
   overflow: hidden;
+  background: var(--paper-2);
 }
 
 .wfc-profile-photo {
@@ -138,8 +156,7 @@
 }
 
 .wfc-profile-card--row .wfc-profile-visual {
-  height: auto;
-  min-height: clamp(240px, 32vw, 340px);
+  align-self: stretch;
 }
 
 .wfc-profile-content {
@@ -202,9 +219,9 @@
 }
 
 .wfc-view-profile {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   width: 100%;
   margin-top: auto;
   padding: 20px 0 0;
@@ -224,32 +241,32 @@
   margin-top: clamp(22px, 3vw, 28px);
 }
 
-.wfc-view-profile span {
-  font-size: 18px;
+.wfc-view-profile__arrow {
+  font-size: 17px;
+  line-height: 1;
   color: var(--royal-blue);
   transition: transform 0.25s ease;
 }
 
-.wfc-view-profile:hover {
+.wfc-profile-card:hover .wfc-view-profile,
+.wfc-profile-card:focus-visible .wfc-view-profile {
   color: var(--royal-blue);
 }
 
-.wfc-view-profile:hover span {
-  transform: translate(3px, -3px);
+.wfc-profile-card:hover .wfc-view-profile__arrow,
+.wfc-profile-card:focus-visible .wfc-view-profile__arrow {
+  transform: translateX(4px);
 }
 
-/* Profile modal */
+/* Profile modal — Salient-style fullscreen bio */
 .wfc-profile-modal {
   position: fixed;
   inset: 0;
   z-index: 200;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
 }
 
 .wfc-profile-modal.is-open {
@@ -260,120 +277,165 @@
 .wfc-profile-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 20, 56, 0.72);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 20, 56, 0.35);
 }
 
-.wfc-profile-modal__panel {
+.wfc-profile-modal__shell {
   position: relative;
   z-index: 2;
+  flex: 1;
+  display: flex;
   width: 100%;
-  max-width: 720px;
-  max-height: min(90vh, 860px);
-  overflow-y: auto;
+  min-height: 100dvh;
   background: var(--white);
-  padding: clamp(32px, 5vw, 48px);
-  border-radius: var(--r-lg);
-  transform: translateY(16px);
-  transition: transform 0.3s ease;
+  transform: translateY(100%);
+  transition: transform 0.55s cubic-bezier(0.2, 1, 0.2, 1);
 }
 
-.wfc-profile-modal.is-open .wfc-profile-modal__panel {
+.wfc-profile-modal.is-open .wfc-profile-modal__shell {
   transform: translateY(0);
 }
 
 .wfc-profile-modal__close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
+  top: clamp(16px, 3vw, 28px);
+  right: clamp(16px, 3vw, 28px);
+  z-index: 4;
+  width: 48px;
+  height: 48px;
   border: 1px solid var(--line);
   background: var(--white);
   color: var(--ink);
   border-radius: 50%;
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1;
   cursor: pointer;
+  box-shadow: 0 8px 28px rgba(0, 20, 56, 0.08);
+  transition: border-color 0.25s ease, color 0.25s ease;
 }
 
-.wfc-profile-modal__hero {
+.wfc-profile-modal__close:hover {
+  border-color: var(--ink);
+  color: var(--royal-blue);
+}
+
+.wfc-profile-modal__inner-wrap {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 20px;
-  align-items: center;
-  margin-bottom: 8px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 46vw);
+  align-items: stretch;
+  width: 100%;
+  min-height: 100dvh;
+  flex: 1;
 }
 
-.wfc-profile-modal__photo-cell {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  flex-shrink: 0;
-}
-
-.wfc-profile-modal__photo-cell .wfc-profile-modal__photo {
-  position: absolute;
-  inset: 0;
-  width: 120px;
-  height: 120px;
-  border-radius: var(--r-md, 12px);
-  object-fit: cover;
-  object-position: center top;
-  background: var(--paper-2);
-}
-
-.wfc-profile-modal__photo.is-placeholder {
-  position: absolute;
-  inset: 0;
+.wfc-profile-modal__content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--sans);
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--ink-soft);
-  background: var(--paper-2);
-  border-radius: var(--r-md, 12px);
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: clamp(72px, 10vw, 120px) clamp(28px, 6vw, 88px) clamp(40px, 6vw, 72px);
 }
 
-.wfc-profile-modal__intro .eyebrow {
-  margin-bottom: 10px;
+.wfc-profile-modal__content .eyebrow {
+  margin-bottom: clamp(16px, 2vw, 24px);
 }
 
-.wfc-profile-modal__intro .statement {
-  margin: 0 0 8px;
+.wfc-profile-modal__name {
+  margin: 0 0 clamp(12px, 2vw, 18px);
+  max-width: 16ch;
 }
 
 .wfc-profile-modal__designation {
-  font-size: 15px;
+  font-size: clamp(16px, 1.6vw, 18px);
   line-height: 1.65;
   color: var(--muted);
-  margin: 0;
-}
-
-.wfc-profile-modal__divider {
-  height: 1px;
-  background: var(--line);
-  margin: 24px 0;
+  margin: 0 0 clamp(28px, 4vw, 40px);
+  max-width: 42ch;
 }
 
 .wfc-profile-modal__bio p {
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: clamp(16px, 1.5vw, 18px);
+  line-height: 1.75;
   color: var(--muted);
-  margin: 0 0 16px;
+  margin: 0 0 1.15em;
+  max-width: 52ch;
 }
 
 .wfc-profile-modal__bio p:last-child {
   margin-bottom: 0;
 }
 
-.wfc-profile-modal__linkedin {
-  margin-top: 28px;
+.wfc-profile-modal__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: clamp(32px, 5vw, 48px);
 }
 
-.wfc-profile-modal__linkedin[hidden] {
+.wfc-profile-modal__social:empty {
+  display: none;
+}
+
+.wfc-profile-modal__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--white);
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.wfc-profile-modal__social-link:hover {
+  color: var(--royal-blue);
+  border-color: var(--royal-blue);
+  transform: translateY(-2px);
+}
+
+.wfc-profile-modal__social-link[hidden] {
+  display: none !important;
+}
+
+.wfc-profile-modal__picture {
+  position: relative;
+  display: flex;
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+  background: var(--paper-2);
+  overflow: hidden;
+}
+
+.wfc-profile-modal__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  max-width: none;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.wfc-profile-modal__fallback.is-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-size: clamp(40px, 8vw, 72px);
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: linear-gradient(160deg, var(--paper-2), var(--paper));
+}
+
+.wfc-profile-modal__image[hidden],
+.wfc-profile-modal__fallback[hidden] {
   display: none !important;
 }
 
@@ -390,19 +452,42 @@
 
   .wfc-profile-card--row .wfc-profile-visual {
     order: -1;
-    min-height: clamp(220px, 55vw, 300px);
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .wfc-profile-visual__frame {
+    width: min(100%, calc(72vw - 40px));
+    height: auto;
+    max-height: none;
   }
 
   .wfc-profile-summary {
     max-width: none;
   }
 
-  .wfc-profile-modal__hero {
+  .wfc-profile-modal__inner-wrap {
     grid-template-columns: 1fr;
-    text-align: center;
+    grid-template-rows: auto 1fr;
   }
 
-  .wfc-profile-modal__photo-cell {
-    margin-inline: auto;
+  .wfc-profile-modal__picture {
+    order: -1;
+    min-height: clamp(260px, 58vw, 420px);
+    height: auto;
+  }
+
+  .wfc-profile-modal__image {
+    min-height: clamp(260px, 58vw, 420px);
+    height: 100%;
+  }
+
+  .wfc-profile-modal__content {
+    padding-top: clamp(40px, 8vw, 56px);
+  }
+
+  .wfc-profile-modal__name {
+    max-width: none;
   }
 }

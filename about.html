@@ -54,6 +54,7 @@
     </a>
     <nav class="nav__links" id="navLinks" aria-label="Primary">
       <a href="/">Home</a>
+      <a href="/about" aria-current="page">About Us</a>
       <div class="nav__item">
         <button type="button" class="nav__drop-btn" aria-expanded="false" aria-haspopup="true">Who We Serve <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="nav__dropdown">
@@ -288,11 +289,13 @@
               Over 17 years in legal and strategic advisory across corporate law, governance, transactions and startup advisory.
             </p>
             <span class="wfc-view-profile">
-              View profile <span aria-hidden="true">&rarr;</span>
+              View profile<span class="wfc-view-profile__arrow" aria-hidden="true">&rarr;</span>
             </span>
           </div>
           <div class="wfc-profile-visual">
-            <img class="wfc-profile-photo" src="Assets/navneet.jpg" alt="" width="800" height="600" loading="lazy" decoding="async" />
+            <div class="wfc-profile-visual__frame">
+              <img class="wfc-profile-photo" src="Assets/navneet.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" />
+            </div>
           </div>
         </article>
       </div>
@@ -329,11 +332,13 @@
               Cost and Management Accountant with 20 years across indirect taxation, regulatory compliance and corporate advisory.
             </p>
             <span class="wfc-view-profile">
-              View profile <span aria-hidden="true">&rarr;</span>
+              View profile<span class="wfc-view-profile__arrow" aria-hidden="true">&rarr;</span>
             </span>
           </div>
           <div class="wfc-profile-visual">
-            <img class="wfc-profile-photo" src="Assets/sunil.png" alt="" width="800" height="600" loading="lazy" decoding="async" />
+            <div class="wfc-profile-visual__frame">
+              <img class="wfc-profile-photo" src="Assets/sunil.png" alt="" width="800" height="800" loading="lazy" decoding="async" />
+            </div>
           </div>
         </article>
       </div>
@@ -343,24 +348,43 @@
 
 <div class="wfc-profile-modal" id="wfcProfileModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wfcModalName">
   <div class="wfc-profile-modal__backdrop" tabindex="-1"></div>
-  <div class="wfc-profile-modal__panel">
+  <div class="wfc-profile-modal__shell">
     <button type="button" class="wfc-profile-modal__close" aria-label="Close profile">&times;</button>
-    <div class="wfc-profile-modal__hero">
-      <div class="wfc-profile-modal__photo-cell">
-        <img class="wfc-profile-modal__photo" id="wfcModalPhoto" width="120" height="120" alt="" decoding="async" />
-        <div class="wfc-profile-modal__photo is-placeholder" id="wfcModalPhotoFallback" hidden></div>
-      </div>
-      <div class="wfc-profile-modal__intro">
+    <div class="wfc-profile-modal__inner-wrap">
+      <div class="wfc-profile-modal__content">
         <p class="eyebrow" id="wfcModalLabel"></p>
-        <h3 class="statement" id="wfcModalName"></h3>
+        <h2 class="display display--lg wfc-profile-modal__name" id="wfcModalName"></h2>
         <p class="wfc-profile-modal__designation" id="wfcModalDesignation"></p>
+        <div class="wfc-profile-modal__bio" id="wfcModalBio"></div>
+        <div class="wfc-profile-modal__social" id="wfcModalSocial">
+          <a
+            class="wfc-profile-modal__social-link"
+            id="wfcModalLinkedIn"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn profile"
+            hidden
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+        </div>
       </div>
+      <figure class="wfc-profile-modal__picture">
+        <img
+          class="wfc-profile-modal__image"
+          id="wfcModalPhoto"
+          width="1200"
+          height="1200"
+          alt=""
+          decoding="async"
+          loading="eager"
+        />
+        <div class="wfc-profile-modal__fallback is-placeholder" id="wfcModalPhotoFallback" hidden></div>
+      </figure>
     </div>
-    <div class="wfc-profile-modal__divider" aria-hidden="true"></div>
-    <div class="wfc-profile-modal__bio" id="wfcModalBio"></div>
-    <a class="btn btn--dark wfc-profile-modal__linkedin" id="wfcModalLinkedIn" href="#" target="_blank" rel="noopener noreferrer" hidden>
-      View LinkedIn profile <span class="btn__arrow">&rarr;</span>
-    </a>
   </div>
 </div>
 
@@ -451,6 +475,7 @@
     <div class="footer__col">
       <p class="footer__label">Company</p>
       <a href="/">Home</a>
+      <a href="/about" aria-current="page">About Us</a>
       <a href="/events">Events</a>
       <span class="footer__soon">Resources</span>
     </div>
