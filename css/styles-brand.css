@@ -1604,6 +1604,67 @@ body.modal-open{overflow:hidden}
   .page-events-new .ev-types .home-capabilities__grid{grid-template-columns:1fr}
 }
 
+/* Resources — blurred article preview (events upcoming pattern) */
+.page-resources-new .visually-hidden{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+.page-resources-new{background:var(--white)}
+.page-resources-new .res-upcoming{
+  padding-top:clamp(56px,8vw,96px);
+  padding-bottom:clamp(48px,6vw,72px);
+}
+.page-resources-new .ev-upcoming__wrap{
+  max-width:min(1200px,100%);margin-inline:auto;text-align:center;
+}
+.page-resources-new .res-upcoming .eyebrow{color:var(--royal-blue);margin-bottom:clamp(16px,2vw,24px)}
+.page-resources-new .ev-upcoming__lede{
+  max-width:min(72ch,100%);margin-inline:auto;
+}
+.page-resources-new .ev-upcoming__preview{
+  position:relative;margin-top:clamp(36px,5vw,52px);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.page-resources-new .res-upcoming__cards{
+  margin-top:0;
+  filter:blur(7px);transform:scale(1.02);pointer-events:none;user-select:none;
+}
+.page-resources-new .res-upcoming__cards .blog-card{pointer-events:none}
+.page-resources-new .blog-card__meta{
+  margin:0;font-family:var(--mono);font-size:14px;font-weight:500;line-height:1.4;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--medium-gray);
+}
+.page-resources-new .blog-card__meta time{color:var(--teal)}
+.page-resources-new .blog-card__author{color:var(--royal-blue)}
+.page-resources-new .blog-card__meta time::after{
+  content:"";display:inline-block;width:4px;height:4px;border-radius:50%;
+  background:var(--timberwolf);margin:0 clamp(10px,1.2vw,14px);vertical-align:middle;
+}
+.page-resources-new .blog-card__title{
+  font-family:var(--sans);font-size:clamp(20px,2.2vw,28px);font-weight:600;
+  letter-spacing:-.02em;line-height:1.25;margin:0;color:var(--ink);
+}
+.page-resources-new .ev-upcoming__veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(
+    180deg,
+    rgba(255,255,255,.55) 0%,
+    rgba(255,255,255,.82) 42%,
+    rgba(255,255,255,.94) 100%
+  );
+}
+.page-resources-new .res-upcoming__gate{
+  position:absolute;inset:0;z-index:2;display:flex;
+  align-items:center;justify-content:center;padding:clamp(24px,4vw,40px);
+  text-align:center;pointer-events:none;
+}
+.page-resources-new .res-upcoming__soon{
+  margin:0;line-height:1.08;color:var(--ink);
+}
+@media (max-width:768px){
+  .page-resources-new .res-upcoming__cards{grid-template-columns:1fr}
+}
+
 /* =========================================================
    ABOUT US PAGE
    ========================================================= */
