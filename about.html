@@ -359,7 +359,7 @@
           </a>
         </div>
       </div>
-      <figure class="wfc-profile-modal__picture">
+      <figure class="wfc-profile-modal__picture" hidden aria-hidden="true">
         <img
           class="wfc-profile-modal__image"
           id="wfcModalPhoto"
@@ -367,7 +367,8 @@
           height="1200"
           alt=""
           decoding="async"
-          loading="eager"
+          loading="lazy"
+          hidden
         />
         <div class="wfc-profile-modal__fallback is-placeholder" id="wfcModalPhotoFallback" hidden></div>
       </figure>

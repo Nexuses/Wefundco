@@ -107,8 +107,6 @@
     labelEl.textContent = profile.label;
     nameEl.textContent = profile.name;
     designationEl.textContent = profile.designation;
-    setPhoto(profile, id);
-
     bioEl.innerHTML = '';
     profile.bio.forEach((text) => {
       const p = document.createElement('p');
