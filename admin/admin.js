@@ -192,12 +192,18 @@
     if ($('#nextBtn')) $('#nextBtn').disabled = data.page >= data.pages;
   }
 
-  const obState = { page: 1, pages: 1, items: [], q: '', role: 'all' };
+  const obState = { page: 1, pages: 1, items: [], q: '', role: 'all', status: 'complete' };
+
+  function onboardingStatusLabel(status) {
+    if (status === 'complete') return 'Complete';
+    if (status === 'in_progress' || status === 'uploading') return 'Incomplete';
+    return status || '—';
+  }
 
   function renderOnboardingRows(items) {
     if (!onboardingRowsEl) return;
     if (!items.length) {
-      onboardingRowsEl.innerHTML = '<tr><td class="empty" colspan="7">No onboarding submissions yet.</td></tr>';
+      onboardingRowsEl.innerHTML = '<tr><td class="empty" colspan="8">No onboarding submissions yet.</td></tr>';
       return;
     }
     onboardingRowsEl.innerHTML = items.map((item) => `
@@ -206,7 +212,8 @@
         <td class="email">${escapeHtml(item.contactEmail)}</td>
         <td class="muted">${escapeHtml(item.contactPhone || '—')}</td>
         <td><span class="pill">${escapeHtml(item.role || '—')}</span></td>
-        <td>${escapeHtml(fmtDate(item.createdAt))}</td>
+        <td><span class="pill">${escapeHtml(onboardingStatusLabel(item.status))}</span></td>
+        <td>${escapeHtml(fmtDate(item.status === 'complete' ? item.createdAt : item.updatedAt))}</td>
         <td>${escapeHtml(String(item.fileCount || 0))}</td>
         <td class="col-actions col-actions--split">
           <button type="button" class="btn btn--ghost btn--sm" data-ob-view="${escapeHtml(item.id)}">View</button>
@@ -223,7 +230,8 @@
       page: String(obState.page),
       limit: '50',
       q: obState.q,
-      role: obState.role
+      role: obState.role,
+      status: obState.status
     });
     const data = await api('/api/admin/onboarding?' + params.toString());
     obState.items = data.items;
@@ -234,6 +242,7 @@
     if ($('#obStatWeek')) $('#obStatWeek').textContent = data.stats.thisWeek;
     if ($('#obStatStartup')) $('#obStatStartup').textContent = data.stats.byRole.startup || 0;
     if ($('#obStatInvestor')) $('#obStatInvestor').textContent = data.stats.byRole.investor || 0;
+    if ($('#obStatIncomplete')) $('#obStatIncomplete').textContent = data.stats.incompleteTotal ?? '—';
     if ($('#obPageInfo')) $('#obPageInfo').textContent = `Page ${data.page} of ${data.pages} · ${data.total} shown by filter`;
     if ($('#obPrevBtn')) $('#obPrevBtn').disabled = data.page <= 1;
     if ($('#obNextBtn')) $('#obNextBtn').disabled = data.page >= data.pages;
@@ -276,7 +285,11 @@
     const item = data.item;
     if (!item) throw new Error('Submission not found');
 
-    modalTitle.textContent = item.contactName || item.contactEmail || 'Submission';
+    modalTitle.textContent = (item.contactName || item.contactEmail || 'Submission')
+      + ' · ' + onboardingStatusLabel(item.status);
+    if (item.status !== 'complete' && item.currentStepId) {
+      modalTitle.textContent += ' (step: ' + item.currentStepId + ')';
+    }
     const answers = item.answers || {};
     const answerRows = Object.keys(answers).sort().map((key) => `
       <tr><th scope="row">${escapeHtml(key)}</th><td>${escapeHtml(formatAnswer(answers[key]))}</td></tr>
@@ -358,7 +371,7 @@
     if (onboardingRowsEl) {
       loads.push(
         loadOnboarding().catch((err) => {
-          onboardingRowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message || 'Could not load onboarding.')}</td></tr>`;
+          onboardingRowsEl.innerHTML = `<tr><td class="empty" colspan="8">${escapeHtml(err.message || 'Could not load onboarding.')}</td></tr>`;
         })
       );
     }
@@ -412,7 +425,7 @@
         obState.q = e.target.value.trim();
         obState.page = 1;
         loadOnboarding().catch((err) => {
-          onboardingRowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message)}</td></tr>`;
+          onboardingRowsEl.innerHTML = `<tr><td class="empty" colspan="8">${escapeHtml(err.message)}</td></tr>`;
         });
       }, 250);
     });
@@ -421,6 +434,14 @@
   if ($('#obRoleFilter')) {
     $('#obRoleFilter').addEventListener('change', (e) => {
       obState.role = e.target.value;
+      obState.page = 1;
+      loadOnboarding().catch(() => {});
+    });
+  }
+
+  if ($('#obStatusFilter')) {
+    $('#obStatusFilter').addEventListener('change', (e) => {
+      obState.status = e.target.value;
       obState.page = 1;
       loadOnboarding().catch(() => {});
     });
@@ -470,9 +491,15 @@
 
   if ($('#obExportBtn')) {
     $('#obExportBtn').addEventListener('click', async () => {
-      const params = new URLSearchParams({ page: '1', limit: '500', q: obState.q, role: obState.role });
+      const params = new URLSearchParams({
+        page: '1',
+        limit: '500',
+        q: obState.q,
+        role: obState.role,
+        status: obState.status
+      });
       const data = await api('/api/admin/onboarding?' + params.toString());
-      const header = ['contactName', 'contactEmail', 'contactPhone', 'role', 'fileCount', 'createdAt'];
+      const header = ['contactName', 'contactEmail', 'contactPhone', 'role', 'status', 'currentStepId', 'fileCount', 'createdAt', 'updatedAt'];
       const lines = [header.join(',')].concat(
         data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
       );

@@ -5,13 +5,15 @@ const { allowMethods, escapeRegex, getQuery, getBody } = require('../../lib/http
 const { deleteSubmission, openFileStream, getSubmission, fileUrl } = require('../../lib/onboarding-store');
 
 function mapItem(item) {
+  const status = item.status || '';
   return {
     id: String(item._id),
     contactName: item.contactName || '',
     contactEmail: item.contactEmail || '',
     contactPhone: item.contactPhone || '',
     role: item.role || 'unknown',
-    status: item.status || '',
+    status,
+    currentStepId: item.currentStepId || '',
     fileCount: (item.files || []).length,
     createdAt: item.createdAt,
     updatedAt: item.updatedAt
@@ -33,7 +35,15 @@ async function handleList(req, res) {
   const page = Math.max(1, parseInt(query.page, 10) || 1);
   const limit = Math.min(500, Math.max(1, parseInt(query.limit, 10) || 50));
 
-  const filter = { status: 'complete' };
+  const statusParam = String(query.status || 'complete').trim().toLowerCase();
+  const filter = {};
+  if (statusParam === 'incomplete') {
+    filter.status = { $in: ['in_progress', 'uploading'] };
+  } else if (statusParam === 'all') {
+    /* no status filter */
+  } else {
+    filter.status = 'complete';
+  }
   if (q) {
     const rx = { $regex: escapeRegex(q), $options: 'i' };
     filter.$or = [{ contactEmail: rx }, { contactName: rx }];
@@ -43,14 +53,16 @@ async function handleList(req, res) {
   const db = await getDb();
   const col = db.collection('onboarding');
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const incompleteMatch = { status: { $in: ['in_progress', 'uploading'] } };
 
-  const [items, total, allTotal, thisWeek, roleGroups] = await Promise.all([
-    col.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).toArray(),
+  const [items, total, allTotal, incompleteTotal, thisWeek, roleGroups] = await Promise.all([
+    col.find(filter).sort({ updatedAt: -1, createdAt: -1 }).skip((page - 1) * limit).limit(limit).toArray(),
     col.countDocuments(filter),
     col.countDocuments({ status: 'complete' }),
+    col.countDocuments(incompleteMatch),
     col.countDocuments({ status: 'complete', createdAt: { $gte: weekAgo } }),
     col.aggregate([
-      { $match: { status: 'complete' } },
+      { $match: filter },
       { $group: { _id: '$role', count: { $sum: 1 } } }
     ]).toArray()
   ]);
@@ -67,13 +79,13 @@ async function handleList(req, res) {
     limit,
     total,
     pages: Math.max(1, Math.ceil(total / limit)),
-    stats: { allTotal, thisWeek, byRole }
+    stats: { allTotal, incompleteTotal, thisWeek, byRole }
   });
 }
 
 async function handleDetail(req, res, id) {
   const item = await getSubmission(id);
-  if (!item || item.status !== 'complete') {
+  if (!item) {
     return res.status(404).json({ error: 'Submission not found.' });
   }
   return res.status(200).json({ ok: true, item: mapDetail(item) });

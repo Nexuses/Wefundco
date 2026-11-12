@@ -11,6 +11,7 @@ const adminLogout = require('./api/admin/logout');
 const adminMe = require('./api/admin/me');
 const adminWaitlist = require('./api/admin/waitlist');
 const onboardingCreate = require('./api/onboarding');
+const onboardingById = require('./api/onboarding/[id]');
 const onboardingFiles = require('./api/onboarding/[id]/files');
 const onboardingComplete = require('./api/onboarding/[id]/complete');
 const adminOnboarding = require('./api/admin/onboarding');
@@ -21,10 +22,13 @@ const root = __dirname;
 
 app.set('query parser', 'simple');
 app.set('trust proxy', 1);
-app.use(express.json({ limit: '32kb' }));
+app.use(express.json({ limit: '256kb' }));
 
 app.all('/api/waitlist', waitlist);
 app.post('/api/onboarding', onboardingCreate);
+app.route('/api/onboarding/:id')
+  .get(onboardingById)
+  .patch(onboardingById);
 app.post('/api/onboarding/:id/files', onboardingFiles);
 app.post('/api/onboarding/:id/complete', onboardingComplete);
 app.all('/api/admin/onboarding', adminOnboarding);

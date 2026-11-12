@@ -1,5 +1,5 @@
 const { allowMethods, getBody } = require('../lib/http');
-const { createSubmission } = require('../lib/onboarding-store');
+const { createSubmission, createOrUpdateDraft } = require('../lib/onboarding-store');
 
 module.exports = async function handler(req, res) {
   if (!allowMethods(req, res, ['POST', 'OPTIONS'])) return;
@@ -9,6 +9,11 @@ module.exports = async function handler(req, res) {
     const answers = body.answers && typeof body.answers === 'object' ? body.answers : body;
     if (!answers || typeof answers !== 'object') {
       return res.status(400).json({ error: 'answers object is required.' });
+    }
+
+    if (body.draft) {
+      const { id, resumeToken } = await createOrUpdateDraft(req, answers, body.currentStepId);
+      return res.status(200).json({ ok: true, id, resumeToken });
     }
 
     const { id } = await createSubmission(req, answers);
