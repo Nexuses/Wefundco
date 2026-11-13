@@ -842,12 +842,21 @@
     });
   }
 
+  function isInvitationCta(el) {
+    const text = (el.textContent || '').toLowerCase();
+    return /\binvitation\b/.test(text);
+  }
+
   function bindWaitlistOpeners() {
     $$('[data-invite-open]').forEach((btn) => {
       if (btn.dataset.waitlistBound === '1') return;
       btn.dataset.waitlistBound = '1';
       btn.addEventListener('click', (e) => {
         e.preventDefault();
+        if (isInvitationCta(btn)) {
+          window.location.href = '/onboarding';
+          return;
+        }
         openInviteModal();
       });
     });
@@ -871,14 +880,6 @@
   bindWaitlist($('#waitlistForm'), $('#wlEmail'), $('#wlMsg'), {
     error: '#B42318',
     ok: '#0AAFC8'
-  });
-  bindWaitlist($('#heroWaitlistForm'), $('#heroEmail'), $('#heroMsg'), {
-    error: '#B42318',
-    ok: '#0AAFC8'
-  });
-  bindWaitlist($('#closeWaitlistForm'), $('#closeEmail'), $('#closeMsg'), {
-    error: '#FFB4B4',
-    ok: '#D4F4F8'
   });
 
   /* Hero video — fade in when ready (no poster / fallback image) */

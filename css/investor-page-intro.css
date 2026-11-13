@@ -20,20 +20,20 @@
 .page-investors-new .wf-investor-hero {
   position: relative;
   width: 100%;
-  min-height: 510px;
+  min-height: 612px;
   padding: 75px 8%;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 88% 55%, rgba(10, 175, 200, 0.2), transparent 32%),
-    linear-gradient(120deg, #001128 0%, #00285f 52%, #1357a8 100%);
+  background: #01279f;
 }
 
 .page-investors-new .wf-investor-hero-content {
   position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 1500px;
+  min-height: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -52,14 +52,9 @@
 }
 
 .page-investors-new .wf-investor-hero .wf-investor-title {
-  margin: 0 0 clamp(20px, 3vw, 28px);
-  max-width: min(18ch, 100%);
+  margin: 0 0 clamp(8px, 1.2vw, 12px);
   color: #fff;
-  font-family: var(--serif);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  font-size: clamp(38px, 5.3vw, 76px);
-  line-height: 1.08;
+  font-size: clamp(30px, 4.24vw, 61px);
 }
 
 .page-investors-new .wf-investor-hero .wf-investor-title .display__accent {
@@ -67,21 +62,23 @@
 }
 
 .page-investors-new .wf-investor-hero .wf-investor-lede {
+  margin: 0;
   color: rgba(255, 255, 255, 0.78);
   max-width: min(56ch, 100%);
 }
 
-.page-investors-new .wf-investor-hero-btn {
-  margin-top: clamp(24px, 3vw, 32px);
+.page-investors-new .wf-challenge-cta {
+  align-self: flex-start;
+  margin-top: clamp(12px, 1.6vw, 18px);
 }
 
 .page-investors-new .wf-investor-hero-graphic {
   position: absolute;
-  right: -2%;
-  top: 50%;
-  width: min(330px, 28vw);
-  height: min(330px, 28vw);
-  transform: translateY(-50%);
+  right: 0;
+  top: calc(50% + 15%);
+  width: min(420px, 36vw);
+  height: min(420px, 36vw);
+  transform: translate(20%, -50%);
   pointer-events: none;
   z-index: 1;
 }
@@ -120,16 +117,17 @@
   padding: 65px 10% 65px 16%;
   background:
     radial-gradient(circle at 0% 100%, rgba(19, 87, 168, 0.24), transparent 45%),
-    #001128;
+    #001438;
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-eyebrow {
   color: rgba(255, 255, 255, 0.55);
-  margin-bottom: clamp(16px, 2vw, 20px);
+  margin-bottom: clamp(10px, 1.2vw, 14px);
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-title {
-  margin: 0 0 clamp(18px, 2.2vw, 24px);
+  margin: 0 0 clamp(10px, 1.3vw, 14px);
+  color: #fff;
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-title .display__accent {
@@ -137,12 +135,12 @@
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-intro {
-  margin: 0 0 clamp(14px, 1.8vw, 18px);
+  margin: 0 0 clamp(8px, 1vw, 12px);
   max-width: min(58ch, 100%);
 }
 
 .page-investors-new .wf-challenge-copy .inv-context__copy {
-  margin: 0 0 clamp(14px, 1.8vw, 18px);
+  margin: 0 0 clamp(8px, 1vw, 12px);
   max-width: min(58ch, 100%);
   text-align: left;
 }
@@ -171,7 +169,7 @@
 
 @media (max-width: 1000px) {
   .page-investors-new .wf-investor-hero {
-    min-height: 450px;
+    min-height: 540px;
     padding: 65px 6%;
   }
 
@@ -186,7 +184,7 @@
 
 @media (max-width: 700px) {
   .page-investors-new .wf-investor-hero {
-    min-height: 440px;
+    min-height: 528px;
     padding: 65px 25px;
   }
 
@@ -194,14 +192,12 @@
     width: 100%;
   }
 
-  .page-investors-new .wf-investor-hero .wf-investor-title {
-    max-width: 100%;
-  }
-
   .page-investors-new .wf-investor-hero-graphic {
-    right: -18%;
-    width: min(260px, 55vw);
-    height: min(260px, 55vw);
+    right: 0;
+    top: calc(50% + 15%);
+    width: min(300px, 62vw);
+    height: min(300px, 62vw);
+    transform: translate(20%, -50%);
   }
 
   .page-investors-new .wf-graphic-mark {
@@ -214,10 +210,6 @@
 
   .page-investors-new .wf-challenge-copy {
     padding: 55px 25px;
-  }
-
-  .page-investors-new .wf-challenge-copy .wf-challenge-title {
-    max-width: min(22ch, 100%);
   }
 
   .page-investors-new .wf-challenge-image {
