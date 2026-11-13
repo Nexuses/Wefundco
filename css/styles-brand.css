@@ -723,6 +723,14 @@ ul{margin:0;padding:0;list-style:none}
    09 · FAQ
    ========================================================= */
 .faq{background:var(--white)}
+@media (max-width:680px){
+  .faq .faq__headline{
+    font-size:clamp(22px,5.2vw,32px);
+    letter-spacing:-0.03em;
+    text-wrap:balance;
+  }
+  .faq .faq__headline-br{display:none}
+}
 .faq__list{margin-top:48px;display:flex;flex-direction:column;gap:12px}
 .faq__item{background:var(--paper);border-radius:var(--r-md);padding:4px 26px;transition:background .3s}
 .faq__item:hover{background:#E8E8E8}
@@ -2508,6 +2516,14 @@ body.modal-open{overflow:hidden}
 .home-audience__media img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
 
 .home-journey{background:var(--paper-2)}
+@media (max-width:680px){
+  .home-journey .home-journey__headline{
+    font-size:clamp(22px,5.2vw,32px);
+    letter-spacing:-0.03em;
+    text-wrap:balance;
+  }
+  .home-journey .home-journey__headline-br{display:none}
+}
 .home-journey__grid{
   list-style:none;margin:48px 0 0;padding:0;
   display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
@@ -3535,6 +3551,14 @@ body.page-blog .blog-card__title{
 
 @media (max-width:1080px){
   .nav__links.is-open{max-height:calc(100vh - 80px);overflow-y:auto;align-items:stretch;gap:2px}
+  .nav__links.is-open > a,
+  .nav__links.is-open .nav__drop-btn,
+  .nav__links.is-open > .nav__label{
+    color:var(--ink)!important;
+  }
+  .nav__links.is-open .nav__dropdown a{color:var(--ink-soft)}
+  .nav__links.is-open .nav__dropdown a.is-active{color:var(--ink);font-weight:600}
+  .nav__links.is-open a::after{background:var(--ink)}
   .nav__links > a,.nav__drop-btn{padding:12px 0;font-size:16px}
   .nav__drop-btn svg{display:none}
   .nav__item{display:flex;flex-direction:column}
