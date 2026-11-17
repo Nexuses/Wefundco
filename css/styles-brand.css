@@ -2742,18 +2742,32 @@ body:not(.page-waitlist-new) .home-capabilities .cap-hover-card:hover .cap-hover
 .page-investors-new .wf-challenge-copy .eyebrow{
   color:rgba(255,255,255,.55);
   margin-bottom:clamp(10px,1.2vw,14px);
+  text-align:center;
+  width:100%;
 }
 .page-investors-new .wf-challenge-copy h2.display.display--lg{
-  text-align:left;
+  text-align:center;
 }
 .page-investors-new .wf-challenge-copy .lede{
   color:rgba(255,255,255,.78);
-  max-width:min(58ch,100%);
+  margin-inline:auto;
+  text-align:center;
 }
+.page-investors-new .wf-challenge-copy .lede.wf-challenge-intro{max-width:none}
 .page-investors-new .wf-challenge-copy .inv-context__copy{
   color:rgba(255,255,255,.72);
   max-width:min(58ch,100%);
   line-height:1.5;
+  margin-inline:auto;
+  text-align:center;
+}
+.page-investors-new #context .wf-challenge-copy .inv-context__copy{
+  text-align:center;
+}
+.page-investors-new .wf-challenge-copy .inv-context__copy--wide{
+  max-width:min(96ch,100%);
+  margin-inline:auto;
+  text-align:center;
 }
 .page-investors-new .wf-challenge-copy .inv-context__highlight{
   color:var(--picton-blue);

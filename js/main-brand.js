@@ -878,7 +878,7 @@
   });
 
   /* Hero video — fade in when ready (no poster / fallback image) */
-  $$('.ab-hero--media .ab-hero__video').forEach((heroVideo) => {
+  $$('.ab-hero--media .ab-hero__video, .wf-investor-hero__video').forEach((heroVideo) => {
     const revealVideo = () => {
       heroVideo.classList.add('is-ready');
       if (reduced) return;
