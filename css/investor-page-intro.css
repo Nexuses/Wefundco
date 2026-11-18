@@ -20,7 +20,7 @@
 .page-investors-new .wf-investor-hero {
   position: relative;
   width: 100%;
-  min-height: clamp(520px, 75vh, 680px);
+  min-height: clamp(580px, 78vh, 740px);
   padding: clamp(64px, 9vw, 100px) 8%;
   display: flex;
   align-items: center;
@@ -171,57 +171,45 @@
   margin-top: clamp(24px, 3vw, 36px);
 }
 
-/* —— Challenge (centered, no image) —— */
+/* —— Challenge (copy left, image right) —— */
 
 .page-investors-new .wf-investor-challenge {
   position: relative;
   width: 100%;
   padding: 0;
-  background: #001438;
+  background: var(--paper-2);
   overflow: hidden;
 }
 
 .page-investors-new .wf-challenge-content {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  background: #001438;
+  min-height: 490px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  background: var(--paper-2);
 }
 
 .page-investors-new .wf-challenge-copy {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: none;
+  align-items: flex-start;
   min-width: 0;
-  padding: clamp(56px, 8vw, 88px) clamp(24px, 8%, 48px);
-  text-align: center;
-  background: #001438;
-}
-
-.page-investors-new .wf-challenge-copy .wf-challenge-eyebrow,
-.page-investors-new .wf-challenge-copy .wf-challenge-title,
-.page-investors-new .wf-challenge-copy .wf-challenge-intro,
-.page-investors-new .wf-challenge-copy .inv-context__copy,
-.page-investors-new .wf-challenge-copy .wf-challenge-intro-line,
-.page-investors-new .wf-challenge-copy .wf-challenge-copy-line,
-.page-investors-new .wf-challenge-copy .inv-context__highlight {
-  text-align: center;
-  margin-inline: auto;
+  padding: clamp(48px, 6vw, 65px) 10% clamp(48px, 6vw, 65px) clamp(6%, 8vw, 16%);
+  text-align: left;
+  background: var(--paper-2);
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-eyebrow {
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--muted);
   margin-bottom: clamp(10px, 1.2vw, 14px);
-  width: 100%;
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-title {
   margin: 0 0 clamp(10px, 1.3vw, 14px);
-  color: #fff;
-  width: 100%;
+  color: var(--ink);
+  text-align: left;
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-title .display__accent {
@@ -229,59 +217,67 @@
 }
 
 .page-investors-new .wf-challenge-copy .wf-challenge-intro {
-  margin: 0 auto clamp(8px, 1vw, 12px);
-  max-width: min(96ch, 100%);
-  width: 100%;
+  margin: 0 0 clamp(8px, 1vw, 12px);
+  max-width: min(58ch, 100%);
+  color: var(--muted);
+  text-align: left;
 }
 
 .page-investors-new .wf-challenge-copy .inv-context__copy {
   margin: 0 0 clamp(8px, 1vw, 12px);
   max-width: min(58ch, 100%);
-}
-
-.page-investors-new .wf-challenge-copy .inv-context__copy--wide {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  width: 100%;
-  max-width: min(96ch, 100%);
-  min-width: 0;
-}
-
-.page-investors-new .wf-challenge-copy-line {
-  line-height: 1.5;
-}
-
-.page-investors-new .wf-challenge-copy .wf-challenge-intro {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-}
-
-.page-investors-new .wf-challenge-copy > * {
-  min-width: 0;
-  max-width: 100%;
+  text-align: left;
+  color: var(--muted);
 }
 
 .page-investors-new .wf-challenge-copy .inv-context__copy:last-child {
   margin-bottom: 0;
 }
 
+.page-investors-new .wf-challenge-image {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background: var(--paper-3);
+}
+
+.page-investors-new .wf-challenge-image img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 @media (max-width: 1000px) {
   .page-investors-new .wf-investor-hero {
     padding: clamp(56px, 8vw, 72px) 6%;
+  }
+
+  .page-investors-new .wf-challenge-copy {
+    padding: 55px 9%;
   }
 }
 
 @media (max-width: 700px) {
   .page-investors-new .wf-investor-hero {
-    min-height: clamp(480px, 70vh, 600px);
+    min-height: clamp(520px, 72vh, 650px);
     padding: 56px 25px;
+  }
+
+  .page-investors-new .wf-challenge-content {
+    grid-template-columns: 1fr;
   }
 
   .page-investors-new .wf-challenge-copy {
     padding: 55px 25px;
+  }
+
+  .page-investors-new .wf-challenge-image {
+    min-height: 320px;
   }
 }
 
@@ -292,5 +288,9 @@
 
   .page-investors-new .wf-challenge-copy {
     padding: 45px 20px;
+  }
+
+  .page-investors-new .wf-challenge-image {
+    min-height: 270px;
   }
 }
