@@ -842,8 +842,9 @@
     });
   }
 
-  function goToOnboarding() {
-    window.location.href = '/onboarding';
+  function isInvitationCta(el) {
+    const text = (el.textContent || '').toLowerCase();
+    return /\binvitation\b/.test(text);
   }
 
   function bindWaitlistOpeners() {
@@ -852,7 +853,11 @@
       btn.dataset.waitlistBound = '1';
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        goToOnboarding();
+        if (isInvitationCta(btn)) {
+          window.location.href = '/onboarding';
+          return;
+        }
+        openInviteModal();
       });
     });
     $$('.nav a.btn--pill[href="/startups"], .nav a.btn--nav[href="/startups"]').forEach((el) => {
@@ -860,7 +865,7 @@
       el.dataset.waitlistBound = '1';
       el.addEventListener('click', (e) => {
         e.preventDefault();
-        goToOnboarding();
+        openInviteModal();
       });
     });
   }
