@@ -213,6 +213,9 @@
 .wfc-modal__follow-social a svg{
   width:16px;height:16px;display:block;fill:currentColor;
 }
+.wfc-modal__follow-social a svg path{
+  fill:currentColor;
+}
 .wfc-modal__follow-social a:hover{
   background:var(--oxford,#001438);
   border-color:var(--oxford,#001438);
