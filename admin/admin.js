@@ -165,11 +165,11 @@
     }
     rowsEl.innerHTML = items.map((item) => `
       <tr data-id="${escapeHtml(item.id)}">
+        <td>${escapeHtml(item.companyName || item.company || '—')}</td>
         <td class="email" title="${escapeHtml(item.userAgent || '')}">${escapeHtml(item.email)}</td>
-        <td class="muted">${escapeHtml(item.phone || '—')}</td>
+        <td class="muted">${item.linkedin ? `<a href="${escapeHtml(item.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a>` : '—'}</td>
         <td><span class="pill">${escapeHtml(item.role || 'general')}</span></td>
         <td>${escapeHtml(item.source || '—')}</td>
-        <td class="muted">${escapeHtml(item.page || '—')}</td>
         <td>${escapeHtml(fmtDate(item.createdAt))}</td>
         <td class="col-actions">
           <button type="button" class="btn-delete" data-wl-delete-id="${escapeHtml(item.id)}" data-wl-delete-email="${escapeHtml(item.email)}" aria-label="Delete ${escapeHtml(item.email)}" title="Delete">
@@ -1031,7 +1031,7 @@
     $('#exportBtn').addEventListener('click', async () => {
       const params = new URLSearchParams({ page: '1', limit: '500', q: waitlistState.q, role: waitlistState.role });
       const data = await api('/api/admin/waitlist?' + params.toString());
-      const header = ['email', 'phone', 'role', 'source', 'page', 'createdAt'];
+      const header = ['companyName', 'email', 'linkedin', 'role', 'source', 'page', 'createdAt'];
       const lines = [header.join(',')].concat(
         data.items.map((item) => header.map((key) => `"${String(item[key] || '').replace(/"/g, '""')}"`).join(','))
       );

@@ -578,7 +578,7 @@ input[type="file"]{
 .rich-editor{
   border:1px solid var(--line);
   border-radius:12px;
-  overflow:hidden;
+  overflow:visible;
   background:#fff;
 }
 .rich-editor__toolbar{
@@ -588,7 +588,12 @@ input[type="file"]{
   gap:4px;
   padding:8px;
   border-bottom:1px solid #eef1f5;
+  border-radius:12px 12px 0 0;
   background:#fbfcfe;
+  position:sticky;
+  top:82px; /* sit just under the admin topbar */
+  z-index:15;
+  box-shadow:0 8px 16px -12px rgba(0,20,56,.18);
 }
 .rich-editor__toolbar button{
   border:1px solid transparent;

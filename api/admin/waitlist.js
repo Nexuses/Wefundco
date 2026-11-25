@@ -11,7 +11,16 @@ async function handleList(req, res) {
   const limit = Math.min(500, Math.max(1, parseInt(query.limit, 10) || 50));
 
   const filter = {};
-  if (q) filter.email = { $regex: escapeRegex(q), $options: 'i' };
+  if (q) {
+    const rx = { $regex: escapeRegex(q), $options: 'i' };
+    filter.$or = [
+      { email: rx },
+      { companyName: rx },
+      { company: rx },
+      { linkedin: rx },
+      { phone: rx }
+    ];
+  }
   if (role && role !== 'all') filter.role = role;
 
   const db = await getDb();
@@ -36,6 +45,9 @@ async function handleList(req, res) {
     items: items.map((item) => ({
       id: String(item._id),
       email: item.email,
+      companyName: item.companyName || item.company || '',
+      company: item.companyName || item.company || '',
+      linkedin: item.linkedin || '',
       phone: item.phone || '',
       role: item.role,
       source: item.source,

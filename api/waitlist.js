@@ -1,16 +1,25 @@
 const { getDb } = require('../lib/db');
-const { sendWaitlistEmails } = require('../lib/mail');
+const { sendWaitlistEmails, sendWaitlistProfileEmails } = require('../lib/mail');
 const { allowMethods, getBody, isValidEmail } = require('../lib/http');
 
 const ROLES = new Set(['startup', 'investor', 'partner', 'general']);
 
-function normalizePhone(value) {
+function normalizeLinkedIn(value) {
   const raw = String(value || '').trim();
   if (!raw) return '';
-  const cleaned = raw.replace(/[^\d+]/g, '');
-  const digits = cleaned.replace(/\D/g, '');
-  if (digits.length < 8 || digits.length > 15) return null;
-  return cleaned;
+  if (/^https?:\/\//i.test(raw)) return raw.slice(0, 300);
+  if (/^(www\.)?linkedin\.com\//i.test(raw)) return `https://${raw.replace(/^https?:\/\//i, '')}`.slice(0, 300);
+  if (/^[a-z0-9\-_%]+$/i.test(raw)) return `https://www.linkedin.com/in/${raw}`.slice(0, 300);
+  return raw.slice(0, 300);
+}
+
+function hasProfileDetails(entry) {
+  if (!entry) return false;
+  return Boolean(
+    (entry.companyName && String(entry.companyName).trim()) ||
+    (entry.company && String(entry.company).trim()) ||
+    (entry.linkedin && String(entry.linkedin).trim())
+  );
 }
 
 async function handleJoin(req, res) {
@@ -31,7 +40,8 @@ async function handleJoin(req, res) {
     return res.status(409).json({
       error: 'This email is already on the waitlist.',
       alreadyJoined: true,
-      hasPhone: !!(existing.phone && String(existing.phone).trim())
+      hasPhone: !!(existing.phone && String(existing.phone).trim()),
+      hasProfile: hasProfileDetails(existing)
     });
   }
 
@@ -53,7 +63,8 @@ async function handleJoin(req, res) {
       return res.status(409).json({
         error: 'This email is already on the waitlist.',
         alreadyJoined: true,
-        hasPhone: !!(dup && dup.phone && String(dup.phone).trim())
+        hasPhone: !!(dup && dup.phone && String(dup.phone).trim()),
+        hasProfile: hasProfileDetails(dup)
       });
     }
     throw err;
@@ -72,22 +83,38 @@ async function handleJoin(req, res) {
   });
 }
 
-async function handlePhoneUpdate(req, res) {
+async function handleProfileUpdate(req, res) {
   const body = getBody(req);
+  const lookupEmail = String(body.lookupEmail || body.email || '').trim().toLowerCase();
   const email = String(body.email || '').trim().toLowerCase();
-  const phone = normalizePhone(body.phone);
+  const companyName = String(body.companyName || body.company || '').trim().slice(0, 160);
+  const linkedin = normalizeLinkedIn(body.linkedin);
 
+  if (!isValidEmail(lookupEmail) && !isValidEmail(email)) {
+    return res.status(400).json({ error: 'Please enter a valid email address.' });
+  }
+  if (!companyName) {
+    return res.status(400).json({ error: 'Please enter your company name.' });
+  }
   if (!isValidEmail(email)) {
     return res.status(400).json({ error: 'Please enter a valid email address.' });
   }
-  if (!phone) {
-    return res.status(400).json({ error: 'Please enter a valid phone number.' });
+  if (!linkedin) {
+    return res.status(400).json({ error: 'Please enter your LinkedIn profile.' });
   }
 
   const db = await getDb();
   const result = await db.collection('waitlist').findOneAndUpdate(
-    { email },
-    { $set: { phone, phoneUpdatedAt: new Date() } },
+    { email: lookupEmail || email },
+    {
+      $set: {
+        companyName,
+        company: companyName,
+        linkedin,
+        profileEmail: email,
+        profileUpdatedAt: new Date()
+      }
+    },
     { returnDocument: 'after' }
   );
 
@@ -96,9 +123,15 @@ async function handlePhoneUpdate(req, res) {
     return res.status(404).json({ error: 'Waitlist entry not found for that email.' });
   }
 
+  try {
+    await sendWaitlistProfileEmails(updated);
+  } catch (err) {
+    console.error('[WeFundCo] waitlist profile email failed:', err);
+  }
+
   return res.status(200).json({
     ok: true,
-    message: "Got it. We'll send updates to your number."
+    message: 'Thanks — your details are saved.'
   });
 }
 
@@ -107,7 +140,7 @@ module.exports = async function handler(req, res) {
 
   try {
     if (req.method === 'PATCH') {
-      return await handlePhoneUpdate(req, res);
+      return await handleProfileUpdate(req, res);
     }
     return await handleJoin(req, res);
   } catch (err) {
