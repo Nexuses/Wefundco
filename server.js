@@ -15,6 +15,9 @@ const onboardingById = require('./api/onboarding/[id]');
 const onboardingFiles = require('./api/onboarding/[id]/files');
 const onboardingComplete = require('./api/onboarding/[id]/complete');
 const adminOnboarding = require('./api/admin/onboarding');
+const adminBlogs = require('./api/admin/blogs');
+const blogsList = require('./api/blogs');
+const blogBySlug = require('./api/blogs/[slug]');
 const { parseCookies } = require('./lib/http');
 
 const app = express();
@@ -32,6 +35,9 @@ app.route('/api/onboarding/:id')
 app.post('/api/onboarding/:id/files', onboardingFiles);
 app.post('/api/onboarding/:id/complete', onboardingComplete);
 app.all('/api/admin/onboarding', adminOnboarding);
+app.all('/api/admin/blogs', adminBlogs);
+app.get('/api/blogs', blogsList);
+app.get('/api/blogs/:slug', blogBySlug);
 app.all('/api/admin/signup', adminSignup);
 app.all('/api/admin/login', adminLogin);
 app.all('/api/admin/logout', adminLogout);
@@ -52,9 +58,9 @@ app.get('/admin/signup', (_req, res) => res.sendFile(path.join(root, 'admin', 's
 
 app.get('/favicon.ico', (_req, res) => res.sendFile(path.join(root, 'Assets', 'WeFundCo favicon.png')));
 
-const comingSoonResources = path.join(root, 'resources', 'coming-soon.html');
-app.get('/resources/blogs', (_req, res) => res.sendFile(comingSoonResources));
-app.get('/resources/blogs/:slug', (_req, res) => res.sendFile(comingSoonResources));
+app.get('/resources/blogs/:slug', (_req, res) => {
+  res.sendFile(path.join(root, 'resources', 'blog.html'));
+});
 
 // Match Vercel: homepage serves index.html; clean URLs map /page → page.html
 app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html')));

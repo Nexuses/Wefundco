@@ -33,8 +33,7 @@
     { "source": "/package-lock.json", "destination": "/", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/resources/blogs", "destination": "/resources.html" },
-    { "source": "/resources/blogs/:slug", "destination": "/resources.html" },
+    { "source": "/resources/blogs/:slug", "destination": "/resources/blog.html" },
     { "source": "/favicon.ico", "destination": "/Assets/WeFundCo%20favicon.png" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/admin/login", "destination": "/admin/login.html" },

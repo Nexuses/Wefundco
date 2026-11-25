@@ -1,6 +1,7 @@
 const { allowMethods } = require('../../../lib/http');
 const { completeSubmission } = require('../../../lib/onboarding-store');
 const { submissionIdFromRequest, sendError } = require('../../../lib/onboarding-http');
+const { sendOnboardingEmails } = require('../../../lib/mail');
 
 module.exports = async function handler(req, res) {
   if (!allowMethods(req, res, ['POST', 'OPTIONS'])) return;
@@ -11,7 +12,12 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    await completeSubmission(id);
+    const submission = await completeSubmission(id);
+    try {
+      await sendOnboardingEmails(submission);
+    } catch (mailErr) {
+      console.error('[WeFundCo] onboarding email failed:', mailErr);
+    }
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('[WeFundCo] onboarding complete error:', err);

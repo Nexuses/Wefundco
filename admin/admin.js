@@ -118,12 +118,14 @@
 
   const rowsEl = $('#rows');
   const onboardingRowsEl = $('#onboardingRows');
-  if (!rowsEl && !onboardingRowsEl) return;
+  const blogRowsEl = $('#blogRows');
+  if (!rowsEl && !onboardingRowsEl && !blogRowsEl) return;
 
   function initTabs() {
     const tabs = document.querySelectorAll('.admin-tabs__btn');
     const panelWaitlist = $('#panelWaitlist');
     const panelOnboarding = $('#panelOnboarding');
+    const panelBlogs = $('#panelBlogs');
     if (!tabs.length) return;
 
     tabs.forEach((tab) => {
@@ -139,6 +141,12 @@
           const show = name === 'onboarding';
           panelOnboarding.classList.toggle('is-active', show);
           panelOnboarding.hidden = !show;
+        }
+        if (panelBlogs) {
+          const show = name === 'blogs';
+          panelBlogs.classList.toggle('is-active', show);
+          panelBlogs.hidden = !show;
+          if (show && typeof showBlogList === 'function') showBlogList();
         }
       });
     });
@@ -341,6 +349,236 @@
     });
   }
 
+  const blogState = {
+    page: 1,
+    pages: 1,
+    items: [],
+    q: '',
+    editingId: '',
+    slugTouched: false,
+    view: 'list',
+    htmlMode: false,
+    savedRange: null
+  };
+
+  function todayInputValue() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function slugifyClient(value) {
+    return String(value || '')
+      .toLowerCase()
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 80);
+  }
+
+  function showBlogList() {
+    blogState.view = 'list';
+    if ($('#blogListView')) $('#blogListView').hidden = false;
+    if ($('#blogEditorView')) $('#blogEditorView').hidden = true;
+  }
+
+  function showBlogEditor() {
+    blogState.view = 'editor';
+    if ($('#blogListView')) $('#blogListView').hidden = true;
+    if ($('#blogEditorView')) $('#blogEditorView').hidden = false;
+  }
+
+  function getEditorHtml() {
+    if (blogState.htmlMode && $('#blogHtmlSource')) {
+      return String($('#blogHtmlSource').value || '').trim();
+    }
+    const editor = $('#blogContentEditor');
+    if (!editor) return '';
+    const html = editor.innerHTML.trim();
+    if (!html || html === '<br>' || html === '<p><br></p>') return '';
+    return html;
+  }
+
+  function setEditorHtml(html) {
+    const editor = $('#blogContentEditor');
+    if (editor) editor.innerHTML = html || '';
+    if ($('#blogHtmlSource')) $('#blogHtmlSource').value = html || '';
+  }
+
+  function setHtmlMode(on) {
+    blogState.htmlMode = !!on;
+    const editor = $('#blogContentEditor');
+    const source = $('#blogHtmlSource');
+    const toggle = $('#blogHtmlToggle');
+    if (!editor || !source) return;
+    if (blogState.htmlMode) {
+      source.value = editor.innerHTML;
+      editor.hidden = true;
+      source.hidden = false;
+      source.classList.add('is-open');
+      if (toggle) toggle.classList.add('is-active');
+    } else {
+      editor.innerHTML = source.value;
+      source.hidden = true;
+      source.classList.remove('is-open');
+      editor.hidden = false;
+      if (toggle) toggle.classList.remove('is-active');
+    }
+  }
+
+  function saveEditorSelection() {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const editor = $('#blogContentEditor');
+    if (!editor) return;
+    const range = sel.getRangeAt(0);
+    if (editor.contains(range.commonAncestorContainer)) {
+      blogState.savedRange = range.cloneRange();
+    }
+  }
+
+  function restoreEditorSelection() {
+    const editor = $('#blogContentEditor');
+    if (!editor) return;
+    editor.focus();
+    const sel = window.getSelection();
+    if (!sel) return;
+    sel.removeAllRanges();
+    if (blogState.savedRange) {
+      sel.addRange(blogState.savedRange);
+    }
+  }
+
+  function insertHtmlAtCursor(html) {
+    const editor = $('#blogContentEditor');
+    if (!editor) return;
+    if (blogState.htmlMode && $('#blogHtmlSource')) {
+      const source = $('#blogHtmlSource');
+      const start = source.selectionStart || source.value.length;
+      const end = source.selectionEnd || start;
+      source.value = source.value.slice(0, start) + html + source.value.slice(end);
+      return;
+    }
+    editor.focus();
+    restoreEditorSelection();
+    const ok = document.execCommand('insertHTML', false, html);
+    if (!ok) {
+      editor.insertAdjacentHTML('beforeend', html);
+    }
+  }
+
+  function resetBlogForm() {
+    blogState.editingId = '';
+    blogState.slugTouched = false;
+    blogState.savedRange = null;
+    const form = $('#blogForm');
+    if (form) form.reset();
+    if ($('#blogId')) $('#blogId').value = '';
+    if ($('#blogBodyHtml')) $('#blogBodyHtml').value = '';
+    if ($('#blogPublishedAt')) $('#blogPublishedAt').value = todayInputValue();
+    if ($('#blogStatus')) $('#blogStatus').value = 'published';
+    if ($('#blogAuthor')) $('#blogAuthor').value = 'WeFundCo Editorial';
+    if ($('#blogFormHeading')) $('#blogFormHeading').textContent = 'Create New Blog';
+    if ($('#blogSubmitBtn')) $('#blogSubmitBtn').textContent = 'Save';
+    if ($('#blogImageUrl')) $('#blogImageUrl').required = true;
+    if ($('#blogBlockStyle')) $('#blogBlockStyle').value = 'P';
+    setHtmlMode(false);
+    setEditorHtml('');
+    const preview = $('#blogCoverPreview');
+    if (preview) preview.hidden = true;
+    setMsg($('#blogMsg'), '', true);
+  }
+
+  function renderBlogRows(items) {
+    if (!blogRowsEl) return;
+    if (!items.length) {
+      blogRowsEl.innerHTML = '<tr><td class="empty" colspan="7">No blogs yet. Click Create New to add one.</td></tr>';
+      return;
+    }
+    blogRowsEl.innerHTML = items.map((item) => {
+      const status = item.status === 'draft' ? 'draft' : 'published';
+      return `
+      <tr data-id="${escapeHtml(item.id)}">
+        <td><strong>${escapeHtml(item.title)}</strong></td>
+        <td class="muted">${escapeHtml(item.slug)}</td>
+        <td>${escapeHtml(item.author || '—')}</td>
+        <td><span class="pill pill--${status}">${status}</span></td>
+        <td>${escapeHtml(item.publishedAtLabel || fmtDate(item.publishedAt))}</td>
+        <td class="muted">${escapeHtml(fmtDate(item.updatedAt))}</td>
+        <td class="col-actions col-actions--split">
+          <button type="button" class="btn-icon btn-icon--edit" data-blog-edit="${escapeHtml(item.id)}" title="Edit" aria-label="Edit blog">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 17.25V20h2.75L17.8 8.95l-2.75-2.75L4 17.25zM20.7 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          </button>
+          <a class="btn-icon btn-icon--view" href="/resources/blogs/${encodeURIComponent(item.slug)}" target="_blank" rel="noopener" title="View" aria-label="View blog">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5c-5 0-9.27 3.11-11 7 1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 .001 6.001A3 3 0 0 0 12 9z"/></svg>
+          </a>
+          <button type="button" class="btn-icon btn-icon--delete" data-blog-delete-id="${escapeHtml(item.id)}" data-blog-delete-title="${escapeHtml(item.title)}" title="Delete" aria-label="Delete blog">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9zm-1 12h12l1-12H5l1 12z"/></svg>
+          </button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  async function loadBlogs() {
+    if (!blogRowsEl) return;
+    const params = new URLSearchParams({
+      page: String(blogState.page),
+      limit: '50',
+      q: blogState.q
+    });
+    const data = await api('/api/admin/blogs?' + params.toString());
+    blogState.items = data.items;
+    blogState.pages = data.pages;
+    blogState.page = data.page;
+    renderBlogRows(data.items);
+    if ($('#blogPageInfo')) {
+      $('#blogPageInfo').textContent = `Page ${data.page} of ${data.pages} · ${data.total} blogs`;
+    }
+    if ($('#blogPrevBtn')) $('#blogPrevBtn').disabled = data.page <= 1;
+    if ($('#blogNextBtn')) $('#blogNextBtn').disabled = data.page >= data.pages;
+  }
+
+  async function openCreateBlog() {
+    resetBlogForm();
+    showBlogEditor();
+  }
+
+  async function fillBlogForm(id) {
+    const data = await api('/api/admin/blogs?id=' + encodeURIComponent(id));
+    const item = data.item;
+    if (!item) throw new Error('Blog not found');
+
+    resetBlogForm();
+    blogState.editingId = item.id;
+    blogState.slugTouched = true;
+    if ($('#blogId')) $('#blogId').value = item.id;
+    if ($('#blogTitle')) $('#blogTitle').value = item.title || '';
+    if ($('#blogSlug')) $('#blogSlug').value = item.slug || '';
+    if ($('#blogAuthor')) $('#blogAuthor').value = item.author || '';
+    if ($('#blogStatus')) $('#blogStatus').value = item.status === 'draft' ? 'draft' : 'published';
+    if ($('#blogPublishedAt')) $('#blogPublishedAt').value = item.publishedAtIso || todayInputValue();
+    if ($('#blogImageUrl')) $('#blogImageUrl').value = item.imageUrl || item.coverImageUrl || '';
+    if ($('#blogSeoTitle')) $('#blogSeoTitle').value = item.seoTitle || '';
+    if ($('#blogSeoDescription')) $('#blogSeoDescription').value = item.seoDescription || item.excerpt || '';
+    setHtmlMode(false);
+    setEditorHtml(item.bodyHtml || '');
+    if ($('#blogBodyHtml')) $('#blogBodyHtml').value = item.bodyHtml || '';
+    if ($('#blogFormHeading')) $('#blogFormHeading').textContent = 'Edit Blog';
+    if ($('#blogSubmitBtn')) $('#blogSubmitBtn').textContent = 'Save changes';
+
+    const preview = $('#blogCoverPreview');
+    const previewImg = $('#blogCoverPreviewImg');
+    if (preview && previewImg && (item.imageUrl || item.coverImageUrl)) {
+      previewImg.src = item.imageUrl || item.coverImageUrl;
+      preview.hidden = false;
+    }
+    showBlogEditor();
+  }
+
   (async () => {
     let me;
     try {
@@ -359,6 +597,7 @@
 
     if ($('#adminEmail')) $('#adminEmail').textContent = me.email;
     document.body.classList.remove('auth-pending');
+    showBlogList();
 
     const loads = [];
     if (rowsEl) {
@@ -372,6 +611,13 @@
       loads.push(
         loadOnboarding().catch((err) => {
           onboardingRowsEl.innerHTML = `<tr><td class="empty" colspan="8">${escapeHtml(err.message || 'Could not load onboarding.')}</td></tr>`;
+        })
+      );
+    }
+    if (blogRowsEl) {
+      loads.push(
+        loadBlogs().catch((err) => {
+          blogRowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message || 'Could not load blogs.')}</td></tr>`;
         })
       );
     }
@@ -556,6 +802,316 @@
       } catch (err) {
         delBtn.disabled = false;
         window.alert(err.message || 'Could not delete that submission.');
+      }
+    });
+  }
+
+  let blogTimer;
+  if ($('#blogSearch')) {
+    $('#blogSearch').addEventListener('input', (e) => {
+      clearTimeout(blogTimer);
+      blogTimer = setTimeout(() => {
+        blogState.q = e.target.value.trim();
+        blogState.page = 1;
+        loadBlogs().catch((err) => {
+          if (blogRowsEl) {
+            blogRowsEl.innerHTML = `<tr><td class="empty" colspan="7">${escapeHtml(err.message)}</td></tr>`;
+          }
+        });
+      }, 250);
+    });
+  }
+
+  if ($('#blogPrevBtn')) {
+    $('#blogPrevBtn').addEventListener('click', () => {
+      if (blogState.page > 1) {
+        blogState.page -= 1;
+        loadBlogs();
+      }
+    });
+  }
+  if ($('#blogNextBtn')) {
+    $('#blogNextBtn').addEventListener('click', () => {
+      if (blogState.page < blogState.pages) {
+        blogState.page += 1;
+        loadBlogs();
+      }
+    });
+  }
+
+  if ($('#blogCreateBtn')) {
+    $('#blogCreateBtn').addEventListener('click', () => openCreateBlog());
+  }
+  if ($('#blogBackBtn')) {
+    $('#blogBackBtn').addEventListener('click', () => {
+      resetBlogForm();
+      showBlogList();
+    });
+  }
+  if ($('#blogCancelBtn')) {
+    $('#blogCancelBtn').addEventListener('click', () => {
+      resetBlogForm();
+      showBlogList();
+    });
+  }
+
+  if ($('#blogTitle')) {
+    $('#blogTitle').addEventListener('input', (e) => {
+      if (blogState.slugTouched) return;
+      if ($('#blogSlug')) $('#blogSlug').value = slugifyClient(e.target.value);
+    });
+  }
+  if ($('#blogSlug')) {
+    $('#blogSlug').addEventListener('input', () => {
+      blogState.slugTouched = true;
+    });
+  }
+
+  if ($('#blogContentEditor')) {
+    $('#blogContentEditor').addEventListener('mouseup', saveEditorSelection);
+    $('#blogContentEditor').addEventListener('keyup', saveEditorSelection);
+  }
+
+  if ($('#blogBlockStyle')) {
+    $('#blogBlockStyle').addEventListener('mousedown', saveEditorSelection);
+    $('#blogBlockStyle').addEventListener('change', (e) => {
+      const tag = e.target.value || 'P';
+      if (blogState.htmlMode) return;
+      const editor = $('#blogContentEditor');
+      if (!editor) return;
+      editor.focus();
+      restoreEditorSelection();
+      document.execCommand('formatBlock', false, '<' + tag + '>');
+    });
+  }
+
+  function openBlogImageModal() {
+    const modal = $('#blogImageModal');
+    if (!modal) return;
+    if ($('#blogInlineImageUrl')) $('#blogInlineImageUrl').value = '';
+    if ($('#blogInlineImageFile')) $('#blogInlineImageFile').value = '';
+    if ($('#blogInlineImageAlt')) $('#blogInlineImageAlt').value = '';
+    setMsg($('#blogImageModalMsg'), '', true);
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeBlogImageModal() {
+    const modal = $('#blogImageModal');
+    if (!modal) return;
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  document.querySelectorAll('.rich-editor__toolbar [data-cmd]').forEach((btn) => {
+    btn.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      saveEditorSelection();
+    });
+    btn.addEventListener('click', () => {
+      const cmd = btn.getAttribute('data-cmd');
+      const editor = $('#blogContentEditor');
+      if (!editor && cmd !== 'toggleHtml') return;
+
+      if (cmd === 'toggleHtml') {
+        if (blogState.htmlMode) setHtmlMode(false);
+        else setHtmlMode(true);
+        return;
+      }
+
+      if (blogState.htmlMode && cmd !== 'insertImage') {
+        setMsg($('#blogMsg'), 'Switch off HTML mode to use formatting tools.', false);
+        return;
+      }
+
+      editor.focus();
+      restoreEditorSelection();
+
+      if (cmd === 'createLink') {
+        const url = window.prompt('Enter link URL');
+        if (url) document.execCommand('createLink', false, url);
+        return;
+      }
+      if (cmd === 'blockquote') {
+        document.execCommand('formatBlock', false, 'BLOCKQUOTE');
+        return;
+      }
+      if (cmd === 'checklist') {
+        insertHtmlAtCursor(
+          '<ul class="blog-checklist"><li><label><input type="checkbox" /> Checklist item</label></li></ul><p><br></p>'
+        );
+        return;
+      }
+      if (cmd === 'insertImage') {
+        openBlogImageModal();
+        return;
+      }
+      document.execCommand(cmd, false, null);
+    });
+  });
+
+  if ($('#blogImageModal')) {
+    $('#blogImageModal').querySelectorAll('[data-blog-image-close]').forEach((el) => {
+      el.addEventListener('click', closeBlogImageModal);
+    });
+  }
+
+  if ($('#blogInlineImageInsert')) {
+    $('#blogInlineImageInsert').addEventListener('click', async () => {
+      const msg = $('#blogImageModalMsg');
+      const alt = ($('#blogInlineImageAlt') && $('#blogInlineImageAlt').value.trim()) || '';
+      const fileInput = $('#blogInlineImageFile');
+      const file = fileInput && fileInput.files && fileInput.files[0];
+      let url = ($('#blogInlineImageUrl') && $('#blogInlineImageUrl').value.trim()) || '';
+
+      try {
+        if (file) {
+          setMsg(msg, 'Uploading…', true);
+          const fd = new FormData();
+          fd.append('cover', file);
+          const res = await fetch('/api/admin/blogs?action=upload-image', {
+            method: 'POST',
+            credentials: 'include',
+            body: fd
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(data.error || 'Upload failed');
+          url = data.url;
+        }
+        if (!url) {
+          setMsg(msg, 'Provide an Image URL or upload a file.', false);
+          return;
+        }
+        const safeAlt = escapeHtml(alt);
+        const safeUrl = escapeHtml(url);
+        insertHtmlAtCursor(
+          `<figure class="blog-inline-image"><img src="${safeUrl}" alt="${safeAlt}" loading="lazy" /></figure><p><br></p>`
+        );
+        closeBlogImageModal();
+      } catch (err) {
+        setMsg(msg, err.message || 'Could not insert image.', false);
+      }
+    });
+  }
+
+  if ($('#blogImageUrl')) {
+    $('#blogImageUrl').addEventListener('input', (e) => {
+      const url = e.target.value.trim();
+      const preview = $('#blogCoverPreview');
+      const previewImg = $('#blogCoverPreviewImg');
+      if (!preview || !previewImg) return;
+      if (!url) {
+        preview.hidden = true;
+        return;
+      }
+      previewImg.src = url;
+      preview.hidden = false;
+    });
+  }
+
+  if ($('#blogCover')) {
+    $('#blogCover').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      const preview = $('#blogCoverPreview');
+      const previewImg = $('#blogCoverPreviewImg');
+      if (!file || !preview || !previewImg) return;
+      const url = URL.createObjectURL(file);
+      previewImg.onload = () => URL.revokeObjectURL(url);
+      previewImg.src = url;
+      preview.hidden = false;
+      // Temporary local preview; Image URL stays until upload saves a public URL
+      if ($('#blogImageUrl') && !$('#blogImageUrl').value) {
+        $('#blogImageUrl').required = false;
+      }
+    });
+  }
+
+  if ($('#blogForm')) {
+    $('#blogForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = $('#blogSubmitBtn');
+      const msg = $('#blogMsg');
+      const form = $('#blogForm');
+      const editing = !!blogState.editingId;
+      const contentHtml = getEditorHtml();
+      const hasUpload = !!( $('#blogCover') && $('#blogCover').files && $('#blogCover').files[0] );
+      const imageUrl = ($('#blogImageUrl') && $('#blogImageUrl').value.trim()) || '';
+
+      if (!contentHtml) {
+        setMsg(msg, 'Content Editor is required.', false);
+        return;
+      }
+      if (!imageUrl && !hasUpload) {
+        setMsg(msg, 'Image URL is required (or upload an image).', false);
+        return;
+      }
+
+      if ($('#blogBodyHtml')) $('#blogBodyHtml').value = contentHtml;
+      if ($('#blogSlug') && !$('#blogSlug').value.trim() && $('#blogTitle')) {
+        $('#blogSlug').value = slugifyClient($('#blogTitle').value);
+      }
+
+      const fd = new FormData(form);
+      fd.set('bodyHtml', contentHtml);
+      fd.set('content', contentHtml);
+      if (!hasUpload && imageUrl) {
+        fd.set('imageUrl', imageUrl);
+        fd.delete('cover');
+      }
+
+      if (btn) btn.disabled = true;
+      setMsg(msg, 'Saving…', true);
+
+      try {
+        const url = editing
+          ? '/api/admin/blogs?id=' + encodeURIComponent(blogState.editingId)
+          : '/api/admin/blogs';
+        const res = await fetch(url, {
+          method: editing ? 'PATCH' : 'POST',
+          credentials: 'include',
+          body: fd
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+        resetBlogForm();
+        showBlogList();
+        await loadBlogs();
+      } catch (err) {
+        setMsg(msg, err.message || 'Could not save blog.', false);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+  }
+
+  if (blogRowsEl) {
+    blogRowsEl.addEventListener('click', async (e) => {
+      const editBtn = e.target.closest('[data-blog-edit]');
+      if (editBtn) {
+        try {
+          await fillBlogForm(editBtn.getAttribute('data-blog-edit'));
+        } catch (err) {
+          window.alert(err.message || 'Could not load blog.');
+        }
+        return;
+      }
+      const delBtn = e.target.closest('[data-blog-delete-id]');
+      if (!delBtn) return;
+      const id = delBtn.getAttribute('data-blog-delete-id');
+      const title = delBtn.getAttribute('data-blog-delete-title') || 'this blog';
+      if (!id) return;
+      if (!window.confirm(`Delete “${title}”? This cannot be undone.`)) return;
+      delBtn.disabled = true;
+      try {
+        await api('/api/admin/blogs?id=' + encodeURIComponent(id), { method: 'DELETE' });
+        if (blogState.editingId === id) {
+          resetBlogForm();
+          showBlogList();
+        }
+        await loadBlogs();
+      } catch (err) {
+        delBtn.disabled = false;
+        window.alert(err.message || 'Could not delete that blog.');
       }
     });
   }
