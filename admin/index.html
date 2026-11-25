@@ -199,18 +199,21 @@
                     <button type="button" data-cmd="italic" title="Italic"><i>I</i></button>
                     <button type="button" data-cmd="underline" title="Underline"><u>U</u></button>
                     <span class="rich-editor__sep"></span>
-                    <label class="rich-editor__select-wrap" title="Text style">
-                      <span class="visually-hidden">Text style</span>
-                      <select id="blogBlockStyle" class="rich-editor__select" aria-label="Text style">
-                        <option value="P">Paragraph</option>
-                        <option value="H1">Heading 1</option>
-                        <option value="H2">Heading 2</option>
-                        <option value="H3">Heading 3</option>
-                        <option value="H4">Heading 4</option>
-                        <option value="H5">Heading 5</option>
-                        <option value="H6">Heading 6</option>
-                      </select>
-                    </label>
+                    <div class="rich-editor__block-menu" id="blogBlockMenu">
+                      <button type="button" class="rich-editor__block-toggle" id="blogBlockToggle" aria-haspopup="listbox" aria-expanded="false" title="Text style">
+                        <span id="blogBlockLabel">Paragraph</span>
+                        <span class="rich-editor__block-caret" aria-hidden="true"></span>
+                      </button>
+                      <div class="rich-editor__block-list" id="blogBlockList" role="listbox" hidden>
+                        <button type="button" role="option" data-block="P" class="is-active">Paragraph</button>
+                        <button type="button" role="option" data-block="H1">Heading 1</button>
+                        <button type="button" role="option" data-block="H2">Heading 2</button>
+                        <button type="button" role="option" data-block="H3">Heading 3</button>
+                        <button type="button" role="option" data-block="H4">Heading 4</button>
+                        <button type="button" role="option" data-block="H5">Heading 5</button>
+                        <button type="button" role="option" data-block="H6">Heading 6</button>
+                      </div>
+                    </div>
                     <span class="rich-editor__sep"></span>
                     <button type="button" data-cmd="insertUnorderedList" title="Bullet list">• List</button>
                     <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>

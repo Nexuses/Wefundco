@@ -2,6 +2,7 @@
   'use strict';
 
   const $ = (s, c) => (c || document).querySelector(s);
+  const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
 
   function setMsg(el, text, ok) {
     if (!el) return;
@@ -358,8 +359,20 @@
     slugTouched: false,
     view: 'list',
     htmlMode: false,
-    savedRange: null
+    savedRange: null,
+    savedBookmark: null,
+    blockMenuOpen: false
   };
+
+  const BLOCK_STYLE_OPTIONS = [
+    { tag: 'P', label: 'Paragraph' },
+    { tag: 'H1', label: 'Heading 1' },
+    { tag: 'H2', label: 'Heading 2' },
+    { tag: 'H3', label: 'Heading 3' },
+    { tag: 'H4', label: 'Heading 4' },
+    { tag: 'H5', label: 'Heading 5' },
+    { tag: 'H6', label: 'Heading 6' }
+  ];
 
   function todayInputValue() {
     const d = new Date();
@@ -391,6 +404,9 @@
     if ($('#blogEditorView')) $('#blogEditorView').hidden = false;
   }
 
+  const BLOCK_TAGS = new Set(['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'BLOCKQUOTE', 'LI', 'PRE']);
+  const HEADING_TAGS = new Set(['H1', 'H2', 'H3', 'H4', 'H5', 'H6']);
+
   function getEditorHtml() {
     if (blogState.htmlMode && $('#blogHtmlSource')) {
       return String($('#blogHtmlSource').value || '').trim();
@@ -398,14 +414,21 @@
     const editor = $('#blogContentEditor');
     if (!editor) return '';
     const html = editor.innerHTML.trim();
-    if (!html || html === '<br>' || html === '<p><br></p>') return '';
+    if (!html || html === '<br>' || html === '<p><br></p>' || html === '<div><br></div>') return '';
     return html;
   }
 
   function setEditorHtml(html) {
     const editor = $('#blogContentEditor');
-    if (editor) editor.innerHTML = html || '';
-    if ($('#blogHtmlSource')) $('#blogHtmlSource').value = html || '';
+    const value = String(html || '').trim();
+    if (editor) {
+      editor.innerHTML = value || '';
+      ensureEditorParagraph(editor);
+    }
+    if ($('#blogHtmlSource')) $('#blogHtmlSource').value = value || '';
+    blogState.savedRange = null;
+    blogState.savedBookmark = null;
+    syncBlockStyleSelect();
   }
 
   function setHtmlMode(on) {
@@ -414,6 +437,7 @@
     const source = $('#blogHtmlSource');
     const toggle = $('#blogHtmlToggle');
     if (!editor || !source) return;
+    closeBlockMenu();
     if (blogState.htmlMode) {
       source.value = editor.innerHTML;
       editor.hidden = true;
@@ -422,34 +446,318 @@
       if (toggle) toggle.classList.add('is-active');
     } else {
       editor.innerHTML = source.value;
+      ensureEditorParagraph(editor);
       source.hidden = true;
       source.classList.remove('is-open');
       editor.hidden = false;
       if (toggle) toggle.classList.remove('is-active');
+      syncBlockStyleSelect();
     }
   }
 
+  function pathFromNode(editor, node, offset) {
+    const path = [];
+    let current = node;
+    let currentOffset = offset;
+    if (current && current.nodeType === 1) {
+      // Caret positioned on an element boundary — prefer a text/child anchor.
+      if (current.childNodes[offset]) {
+        current = current.childNodes[offset];
+        currentOffset = 0;
+      } else if (current.childNodes.length) {
+        current = current.childNodes[current.childNodes.length - 1];
+        currentOffset = current.nodeType === 3 ? current.textContent.length : current.childNodes.length;
+      }
+    }
+    while (current && current !== editor) {
+      const parent = current.parentNode;
+      if (!parent) return null;
+      path.unshift(Array.prototype.indexOf.call(parent.childNodes, current));
+      current = parent;
+    }
+    if (current !== editor) return null;
+    return { path, offset: currentOffset };
+  }
+
+  function nodeFromPath(editor, path) {
+    let node = editor;
+    for (let i = 0; i < path.length; i += 1) {
+      if (!node || !node.childNodes || !node.childNodes[path[i]]) return null;
+      node = node.childNodes[path[i]];
+    }
+    return node;
+  }
+
   function saveEditorSelection() {
+    const editor = $('#blogContentEditor');
+    if (!editor || blogState.htmlMode) return;
     const sel = window.getSelection();
     if (!sel || !sel.rangeCount) return;
-    const editor = $('#blogContentEditor');
-    if (!editor) return;
     const range = sel.getRangeAt(0);
-    if (editor.contains(range.commonAncestorContainer)) {
-      blogState.savedRange = range.cloneRange();
+    if (!editor.contains(range.commonAncestorContainer)) return;
+    blogState.savedRange = range.cloneRange();
+    const start = pathFromNode(editor, range.startContainer, range.startOffset);
+    const end = pathFromNode(editor, range.endContainer, range.endOffset);
+    if (start && end) {
+      blogState.savedBookmark = { start, end };
     }
   }
 
   function restoreEditorSelection() {
     const editor = $('#blogContentEditor');
-    if (!editor) return;
+    if (!editor) return false;
     editor.focus();
+    const sel = window.getSelection();
+    if (!sel) return false;
+
+    if (blogState.savedBookmark) {
+      const startNode = nodeFromPath(editor, blogState.savedBookmark.start.path);
+      const endNode = nodeFromPath(editor, blogState.savedBookmark.end.path);
+      if (startNode && endNode) {
+        try {
+          const range = document.createRange();
+          const startOffset = Math.min(
+            blogState.savedBookmark.start.offset,
+            startNode.nodeType === 3 ? startNode.textContent.length : startNode.childNodes.length
+          );
+          const endOffset = Math.min(
+            blogState.savedBookmark.end.offset,
+            endNode.nodeType === 3 ? endNode.textContent.length : endNode.childNodes.length
+          );
+          range.setStart(startNode, startOffset);
+          range.setEnd(endNode, endOffset);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          blogState.savedRange = range.cloneRange();
+          return true;
+        } catch (_) {
+          /* fall through */
+        }
+      }
+    }
+
+    if (blogState.savedRange) {
+      try {
+        sel.removeAllRanges();
+        sel.addRange(blogState.savedRange);
+        return true;
+      } catch (_) {
+        /* fall through */
+      }
+    }
+
+    const fallback = editor.lastElementChild || editor;
+    placeCaretInside(fallback, false);
+    return false;
+  }
+
+  function placeCaretAtEnd(el) {
+    placeCaretInside(el, false);
+  }
+
+  function placeCaretInside(el, atStart) {
+    if (!el) return;
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(!!atStart);
     const sel = window.getSelection();
     if (!sel) return;
     sel.removeAllRanges();
-    if (blogState.savedRange) {
-      sel.addRange(blogState.savedRange);
+    sel.addRange(range);
+    blogState.savedRange = range.cloneRange();
+    const editor = $('#blogContentEditor');
+    if (editor) {
+      const mark = pathFromNode(editor, range.startContainer, range.startOffset);
+      if (mark) blogState.savedBookmark = { start: mark, end: mark };
     }
+  }
+
+  function ensureEditorParagraph(editor) {
+    if (!editor) return null;
+    const html = editor.innerHTML.trim();
+    if (!html || html === '<br>') {
+      editor.innerHTML = '<p><br></p>';
+      return editor.firstElementChild;
+    }
+    if (!editor.querySelector('p,h1,h2,h3,h4,h5,h6,div,li,blockquote,pre,ul,ol')) {
+      const p = document.createElement('p');
+      while (editor.firstChild) p.appendChild(editor.firstChild);
+      if (!p.innerHTML.trim()) p.innerHTML = '<br>';
+      editor.appendChild(p);
+      return p;
+    }
+    return null;
+  }
+
+  function nodeInsideEditor(node, editor) {
+    if (!node || !editor) return false;
+    const el = node.nodeType === 1 ? node : node.parentElement;
+    return !!(el && (el === editor || editor.contains(el)));
+  }
+
+  function getClosestBlock(node, editor) {
+    let el = node && node.nodeType === 1 ? node : node && node.parentElement;
+    while (el && el !== editor) {
+      if (BLOCK_TAGS.has(el.tagName)) return el;
+      el = el.parentElement;
+    }
+    return null;
+  }
+
+  function getCurrentBlock() {
+    const editor = $('#blogContentEditor');
+    if (!editor || blogState.htmlMode) return null;
+
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount && nodeInsideEditor(sel.anchorNode, editor)) {
+      return getClosestBlock(sel.anchorNode, editor);
+    }
+
+    if (blogState.savedBookmark) {
+      const node = nodeFromPath(editor, blogState.savedBookmark.start.path);
+      if (node) return getClosestBlock(node, editor);
+    }
+
+    if (blogState.savedRange && nodeInsideEditor(blogState.savedRange.commonAncestorContainer, editor)) {
+      return getClosestBlock(blogState.savedRange.commonAncestorContainer, editor);
+    }
+    return null;
+  }
+
+  function blockTagFromElement(block) {
+    if (!block) return 'P';
+    if (HEADING_TAGS.has(block.tagName)) return block.tagName;
+    return 'P';
+  }
+
+  function syncBlockStyleSelect() {
+    if (blogState.htmlMode || blogState.blockMenuOpen) return;
+    const tag = blockTagFromElement(getCurrentBlock());
+    const label = $('#blogBlockLabel');
+    const option = BLOCK_STYLE_OPTIONS.find((item) => item.tag === tag) || BLOCK_STYLE_OPTIONS[0];
+    if (label) label.textContent = option.label;
+    $$('#blogBlockList [data-block]').forEach((btn) => {
+      btn.classList.toggle('is-active', btn.getAttribute('data-block') === tag);
+    });
+  }
+
+  function closeBlockMenu() {
+    blogState.blockMenuOpen = false;
+    const list = $('#blogBlockList');
+    const toggle = $('#blogBlockToggle');
+    if (list) list.hidden = true;
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function openBlockMenu() {
+    saveEditorSelection();
+    // Sync active option before locking sync (menu-open skips live caret sync).
+    blogState.blockMenuOpen = false;
+    syncBlockStyleSelect();
+    blogState.blockMenuOpen = true;
+    const list = $('#blogBlockList');
+    const toggle = $('#blogBlockToggle');
+    if (list) list.hidden = false;
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function renameBlockElement(block, tagName) {
+    if (!block || !tagName || !block.parentNode) return null;
+    const nextTag = String(tagName).toUpperCase();
+    if (nextTag === 'DIV') return renameBlockElement(block, 'P');
+    if (block.tagName === nextTag) return block;
+    const replacement = document.createElement(nextTag.toLowerCase());
+    while (block.firstChild) replacement.appendChild(block.firstChild);
+    if (!replacement.innerHTML.replace(/<br\s*\/?>/gi, '').trim()) {
+      replacement.innerHTML = '<br>';
+    }
+    block.parentNode.replaceChild(replacement, block);
+    return replacement;
+  }
+
+  function applyBlockFormat(tagName) {
+    const editor = $('#blogContentEditor');
+    if (!editor || blogState.htmlMode) return false;
+    const tag = String(tagName || 'P').toUpperCase();
+
+    ensureEditorParagraph(editor);
+    editor.focus();
+    restoreEditorSelection();
+
+    let block = getCurrentBlock();
+    if (!block || block === editor) {
+      ensureEditorParagraph(editor);
+      block = editor.lastElementChild || editor.firstElementChild;
+      if (block) placeCaretInside(block, false);
+    }
+    if (!block || block === editor) return false;
+
+    if (block.tagName === 'LI') {
+      const formats = ['<' + tag + '>', tag, tag.toLowerCase()];
+      for (const format of formats) {
+        try {
+          if (document.execCommand('formatBlock', false, format)) break;
+        } catch (_) {
+          /* continue */
+        }
+      }
+      saveEditorSelection();
+      syncBlockStyleSelect();
+      return true;
+    }
+
+    const renamed = renameBlockElement(block, tag);
+    if (!renamed) return false;
+    placeCaretInside(renamed, false);
+    saveEditorSelection();
+    syncBlockStyleSelect();
+    return true;
+  }
+
+  function breakOutOfHeadingOnEnter(e) {
+    if (e.key !== 'Enter' || e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return false;
+    if (blogState.htmlMode) return false;
+    const editor = $('#blogContentEditor');
+    if (!editor) return false;
+    const block = getCurrentBlock();
+    if (!block || (!HEADING_TAGS.has(block.tagName) && block.tagName !== 'BLOCKQUOTE')) return false;
+
+    e.preventDefault();
+
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return true;
+    const range = sel.getRangeAt(0);
+
+    const after = range.cloneRange();
+    after.selectNodeContents(block);
+    after.setStart(range.endContainer, range.endOffset);
+    const trailing = after.extractContents();
+
+    const p = document.createElement('p');
+    if (trailing && String(trailing.textContent || '').trim()) {
+      p.appendChild(trailing);
+    } else {
+      p.innerHTML = '<br>';
+    }
+
+    if (block.nextSibling) block.parentNode.insertBefore(p, block.nextSibling);
+    else block.parentNode.appendChild(p);
+
+    if (!String(block.textContent || '').trim()) {
+      block.innerHTML = '<br>';
+    }
+
+    placeCaretInside(p, true);
+    syncBlockStyleSelect();
+    saveEditorSelection();
+    return true;
+  }
+
+  function normalizeDivBlocks(editor) {
+    if (!editor) return;
+    Array.from(editor.children).forEach((child) => {
+      if (child.tagName === 'DIV') renameBlockElement(child, 'P');
+    });
   }
 
   function insertHtmlAtCursor(html) {
@@ -468,6 +776,7 @@
     if (!ok) {
       editor.insertAdjacentHTML('beforeend', html);
     }
+    saveEditorSelection();
   }
 
   function resetBlogForm() {
@@ -484,9 +793,10 @@
     if ($('#blogFormHeading')) $('#blogFormHeading').textContent = 'Create New Blog';
     if ($('#blogSubmitBtn')) $('#blogSubmitBtn').textContent = 'Save';
     if ($('#blogImageUrl')) $('#blogImageUrl').required = true;
-    if ($('#blogBlockStyle')) $('#blogBlockStyle').value = 'P';
+    closeBlockMenu();
     setHtmlMode(false);
     setEditorHtml('');
+    syncBlockStyleSelect();
     const preview = $('#blogCoverPreview');
     if (preview) preview.hidden = true;
     setMsg($('#blogMsg'), '', true);
@@ -868,22 +1178,92 @@
   }
 
   if ($('#blogContentEditor')) {
-    $('#blogContentEditor').addEventListener('mouseup', saveEditorSelection);
-    $('#blogContentEditor').addEventListener('keyup', saveEditorSelection);
-  }
-
-  if ($('#blogBlockStyle')) {
-    $('#blogBlockStyle').addEventListener('mousedown', saveEditorSelection);
-    $('#blogBlockStyle').addEventListener('change', (e) => {
-      const tag = e.target.value || 'P';
-      if (blogState.htmlMode) return;
-      const editor = $('#blogContentEditor');
-      if (!editor) return;
-      editor.focus();
-      restoreEditorSelection();
-      document.execCommand('formatBlock', false, '<' + tag + '>');
+    const editorEl = $('#blogContentEditor');
+    try {
+      document.execCommand('defaultParagraphSeparator', false, 'p');
+    } catch (_) {
+      /* unsupported in some browsers */
+    }
+    editorEl.addEventListener('focus', () => {
+      ensureEditorParagraph(editorEl);
+      saveEditorSelection();
+      syncBlockStyleSelect();
+    });
+    editorEl.addEventListener('mouseup', () => {
+      saveEditorSelection();
+      syncBlockStyleSelect();
+    });
+    editorEl.addEventListener('keyup', () => {
+      normalizeDivBlocks(editorEl);
+      saveEditorSelection();
+      syncBlockStyleSelect();
+    });
+    editorEl.addEventListener('keydown', (e) => {
+      if (breakOutOfHeadingOnEnter(e)) return;
+      if (e.key === 'Enter' && !e.shiftKey) {
+        // After browser inserts the new block, normalize div→p and sync style.
+        requestAnimationFrame(() => {
+          normalizeDivBlocks(editorEl);
+          saveEditorSelection();
+          syncBlockStyleSelect();
+        });
+      }
+    });
+    editorEl.addEventListener('input', () => {
+      saveEditorSelection();
+    });
+    document.addEventListener('selectionchange', () => {
+      if (blogState.view !== 'editor' || blogState.htmlMode || blogState.blockMenuOpen) return;
+      const sel = window.getSelection();
+      if (!sel || !sel.rangeCount) return;
+      if (!editorEl.contains(sel.anchorNode)) return;
+      saveEditorSelection();
+      syncBlockStyleSelect();
     });
   }
+
+  if ($('#blogBlockToggle')) {
+    $('#blogBlockToggle').addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      saveEditorSelection();
+    });
+    $('#blogBlockToggle').addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (blogState.htmlMode) {
+        setMsg($('#blogMsg'), 'Switch off HTML mode to use formatting tools.', false);
+        return;
+      }
+      if (blogState.blockMenuOpen) closeBlockMenu();
+      else openBlockMenu();
+    });
+  }
+
+  if ($('#blogBlockList')) {
+    $('#blogBlockList').addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      saveEditorSelection();
+    });
+    $('#blogBlockList').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-block]');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const tag = btn.getAttribute('data-block') || 'P';
+      closeBlockMenu();
+      applyBlockFormat(tag);
+    });
+  }
+
+  document.addEventListener('mousedown', (e) => {
+    if (!blogState.blockMenuOpen) return;
+    const menu = $('#blogBlockMenu');
+    if (menu && !menu.contains(e.target)) closeBlockMenu();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && blogState.blockMenuOpen) closeBlockMenu();
+  });
 
   function openBlogImageModal() {
     const modal = $('#blogImageModal');
@@ -933,7 +1313,7 @@
         return;
       }
       if (cmd === 'blockquote') {
-        document.execCommand('formatBlock', false, 'BLOCKQUOTE');
+        applyBlockFormat('BLOCKQUOTE');
         return;
       }
       if (cmd === 'checklist') {
