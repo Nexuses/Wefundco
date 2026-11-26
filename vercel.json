@@ -33,11 +33,11 @@
     { "source": "/package-lock.json", "destination": "/", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/resources/blogs/:slug", "destination": "/resources/blog.html" },
+    { "source": "/resources/blogs/:slug", "destination": "/resources/blog" },
     { "source": "/favicon.ico", "destination": "/Assets/WeFundCo%20favicon.png" },
-    { "source": "/admin", "destination": "/admin/index.html" },
-    { "source": "/admin/login", "destination": "/admin/login.html" },
-    { "source": "/admin/signup", "destination": "/admin/signup.html" },
-    { "source": "/onboarding", "destination": "/onboarding.html" }
+    { "source": "/admin", "destination": "/admin" },
+    { "source": "/admin/login", "destination": "/admin/login" },
+    { "source": "/admin/signup", "destination": "/admin/signup" },
+    { "source": "/onboarding", "destination": "/onboarding" }
   ]
 }
