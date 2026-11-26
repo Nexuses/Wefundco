@@ -95,11 +95,51 @@
       Articles and guides on investment readiness, governance, and professional collaboration across the ecosystem.
     </p>
 
-    <div class="ev-upcoming__preview reveal" data-delay="160">
-      <div class="blog-block res-upcoming__cards" id="resourcesBlogGrid" role="list">
-        <p class="res-upcoming__empty" id="resourcesBlogStatus">Loading articles…</p>
+    <div class="ev-upcoming__preview reveal" id="resourcesPreview" data-delay="160">
+      <div class="blog-block res-upcoming__cards" id="resourcesBlogGrid" aria-hidden="true">
+        <article class="blog-card">
+          <figure class="blog-card__media">
+            <img src="Assets/demo-images/compressed/www.beatsnoop.com-3000-DYtTr2O6za.jpg" alt="" width="800" height="500" loading="lazy" decoding="async" />
+          </figure>
+          <div class="blog-card__body">
+            <p class="blog-card__meta"><time datetime="2025-11-25">November 25, 2025</time><span class="blog-card__author">Ava Thompson</span></p>
+            <h2 class="blog-card__title">Resolving Business Disputes: When to Litigate and When to Settle</h2>
+          </div>
+        </article>
+        <article class="blog-card">
+          <figure class="blog-card__media">
+            <img src="Assets/demo-images/compressed/Introductions that begin with context, not a cold ask.jpg" alt="" width="800" height="500" loading="lazy" decoding="async" />
+          </figure>
+          <div class="blog-card__body">
+            <p class="blog-card__meta"><time datetime="2025-11-18">November 18, 2025</time><span class="blog-card__author">Navneet Momi</span></p>
+            <h2 class="blog-card__title">Governance Documentation Before the First Investor Call</h2>
+          </div>
+        </article>
+        <article class="blog-card">
+          <figure class="blog-card__media">
+            <img src="Assets/demo-images/compressed/Five-level verification on every startup.jpg" alt="" width="800" height="500" loading="lazy" decoding="async" />
+          </figure>
+          <div class="blog-card__body">
+            <p class="blog-card__meta"><time datetime="2025-11-10">November 10, 2025</time><span class="blog-card__author">WeFundCo Editorial</span></p>
+            <h2 class="blog-card__title">Why Verification Is a Baseline — Not an Endorsement</h2>
+          </div>
+        </article>
+        <article class="blog-card">
+          <figure class="blog-card__media">
+            <img src="Assets/demo-images/compressed/Structured profiles before the first call.jpg" alt="" width="800" height="500" loading="lazy" decoding="async" />
+          </figure>
+          <div class="blog-card__body">
+            <p class="blog-card__meta"><time datetime="2025-10-28">October 28, 2025</time><span class="blog-card__author">WeFundCo Editorial</span></p>
+            <h2 class="blog-card__title">Structuring Cap Tables for Early-Stage Diligence</h2>
+          </div>
+        </article>
+      </div>
+      <div class="ev-upcoming__veil" id="resourcesVeil" aria-hidden="true"></div>
+      <div class="ev-upcoming__gate res-upcoming__gate" id="resourcesGate">
+        <h2 class="display display--lg res-upcoming__soon">Coming soon</h2>
       </div>
     </div>
+    <p class="visually-hidden" id="resourcesComingSoonHint">WeFundCo resources are not yet published. Check back soon for articles and guides.</p>
   </div>
 </section>
 </main>

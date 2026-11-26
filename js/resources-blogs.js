@@ -1,8 +1,13 @@
 (function () {
   'use strict';
 
+  const preview = document.getElementById('resourcesPreview');
   const grid = document.getElementById('resourcesBlogGrid');
-  if (!grid) return;
+  if (!preview || !grid) return;
+
+  const veil = document.getElementById('resourcesVeil');
+  const gate = document.getElementById('resourcesGate');
+  const comingSoonHint = document.getElementById('resourcesComingSoonHint');
 
   function escapeHtml(value) {
     return String(value || '')
@@ -44,24 +49,27 @@
       </a>`;
   }
 
-  function setEmpty(message) {
-    grid.innerHTML = `<p class="res-upcoming__empty">${escapeHtml(message)}</p>`;
+  function revealLive(items) {
+    preview.classList.add('is-live');
+    grid.removeAttribute('aria-hidden');
+    grid.setAttribute('role', 'list');
+    if (veil) veil.remove();
+    if (gate) gate.remove();
+    if (comingSoonHint) comingSoonHint.remove();
+    grid.innerHTML = items
+      .map((item, i) => cardHtml(item, 80 + i * 20))
+      .join('');
   }
 
   fetch('/api/blogs?limit=50')
     .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
     .then(({ ok, data }) => {
-      if (!ok) throw new Error(data.error || 'Could not load blogs.');
+      if (!ok) return;
       const items = data.items || [];
-      if (!items.length) {
-        setEmpty('Articles will appear here once published from Admin.');
-        return;
-      }
-      grid.innerHTML = items
-        .map((item, i) => cardHtml(item, 80 + i * 20))
-        .join('');
+      if (!items.length) return;
+      revealLive(items);
     })
     .catch(() => {
-      setEmpty('Could not load articles right now. Please try again later.');
+      /* Keep Coming Soon + blur when the API is unavailable. */
     });
 })();
